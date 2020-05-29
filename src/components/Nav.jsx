@@ -1,6 +1,11 @@
 import React from "react";
 import { SearchBar } from "./Search";
-import { AiFillHome, AiFillHeart } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineHeart,
+  AiOutlineMessage,
+} from "react-icons/ai";
+import User from "./User";
 
 export default function Nav() {
   return (
@@ -15,8 +20,10 @@ export default function Nav() {
 function RightNav() {
   return (
     <section id="RightNav">
-      <AiFillHome />
-      <AiFillHeart />
+      <AiOutlineHome />
+      <AiOutlineHeart />
+      <AiOutlineMessage />
+      <User />
     </section>
   );
 }
