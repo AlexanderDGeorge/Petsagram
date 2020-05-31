@@ -30,13 +30,13 @@ function SignUp({ setSignIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit() {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .catch(function (error) {
-        console.log(error.code);
-        console.log(error.message);
-      });
+  async function handleSubmit() {
+    try {
+      const data = await auth.createUserWithEmailAndPassword(email, password);
+      console.log(data);
+    } catch (error) {
+      alert(error);
+    }
   }
 
   return (

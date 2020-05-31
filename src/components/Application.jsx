@@ -16,6 +16,8 @@ export default function Application() {
     auth.onAuthStateChanged((user) => setUser(user));
   }, []);
 
+  window.user = user;
+
   if (user) {
     return (
       <section id="Application">

@@ -16,8 +16,6 @@ export function User() {
 export function UserBubble() {
   const { user } = useContext(UserContext);
 
-  console.log(user);
-
   return (
     <Link to="/user" id="UserBubble">
       <img id="UserPhoto" src={user.photoURL} alt="" />
@@ -47,7 +45,11 @@ function UserHeader() {
         <span className="UHspan">bio</span>
       </div>
       {open ? (
-        <Modal open={open} setOpen={setOpen} content={<UserMenu />} />
+        <Modal
+          open={open}
+          setOpen={setOpen}
+          content={<UserMenu setOpen={setOpen} />}
+        />
       ) : null}
     </header>
   );
@@ -57,13 +59,13 @@ function UserContent() {
   return <section id="UserContent"></section>;
 }
 
-function UserMenu() {
+function UserMenu({ setOpen }) {
   return (
     <div id="UserMenu">
       <button>Edit Profile</button>
       <button>Change Password</button>
       <button onClick={signOut}>Log Out</button>
-      <button>Cancel</button>
+      <button onClick={() => setOpen(false)}>Cancel</button>
     </div>
   );
 }
