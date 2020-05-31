@@ -11,7 +11,7 @@ import { UserBubble } from "./User";
 export default function Nav() {
   return (
     <section id="Nav">
-      <h1>Petsagram</h1>
+      <h1>Pet Feed</h1>
       <SearchBar />
       <RightNav />
     </section>

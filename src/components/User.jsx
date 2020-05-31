@@ -33,7 +33,7 @@ function UserHeader() {
       <img className="UHimg" src={user.photoURL} alt="" />
       <div className="UHdiv">
         <span className="UHspan">
-          <p>name</p>
+          <p>{user.displayName}</p>
           <button>Edit Profile</button>
           <button onClick={() => setOpen(true)}>Settings</button>
         </span>
@@ -42,6 +42,7 @@ function UserHeader() {
           <p>followers</p>
           <p>following</p>
         </span>
+        <span className="UHspan">Full Name</span>
         <span className="UHspan">bio</span>
       </div>
       {open ? (

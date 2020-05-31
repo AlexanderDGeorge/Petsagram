@@ -1,20 +1,22 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyALWdiPzxfwAmk_gG-sZR60e5jcyWuOCiI",
-  authDomain: "petsagram-4e23d.firebaseapp.com",
-  databaseURL: "https://petsagram-4e23d.firebaseio.com",
-  projectId: "petsagram-4e23d",
-  storageBucket: "petsagram-4e23d.appspot.com",
-  messagingSenderId: "598311129752",
-  appId: "1:598311129752:web:a67f125fcb8195847236ed",
-  measurementId: "G-0JGXB599KX",
+  apiKey: "AIzaSyDQggriTOGo2d7Kqh4AnrrLIwjWiuQi8OI",
+  authDomain: "pet-feeds.firebaseapp.com",
+  databaseURL: "https://pet-feeds.firebaseio.com",
+  projectId: "pet-feeds",
+  storageBucket: "pet-feeds.appspot.com",
+  messagingSenderId: "257211157297",
+  appId: "1:257211157297:web:2fc9c0f27e138989bfbe10",
+  measurementId: "G-BMMEWNNK1S",
 };
 
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
+export const firestore = firebase.firestore();
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();

@@ -10,7 +10,7 @@ import { User } from "./User";
 export const UserContext = createContext(null);
 
 export default function Application() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(auth.currentUser);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => setUser(user));
@@ -18,10 +18,10 @@ export default function Application() {
 
   window.user = user;
 
-  if (user) {
+  if (auth.currentUser) {
     return (
       <section id="Application">
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user }}>
           <BrowserRouter>
             <Route path="/" component={Nav} />
             <Route path="/user" component={User} />
@@ -32,6 +32,10 @@ export default function Application() {
       </section>
     );
   } else {
-    return <Splash />;
+    return (
+      <UserContext.Provider value={{ user, setUser }}>
+        <Splash />
+      </UserContext.Provider>
+    );
   }
 }

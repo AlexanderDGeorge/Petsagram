@@ -13,16 +13,15 @@ function ModalContent({ content, setOpen }) {
 
   useEffect(() => {
     window.addEventListener("mousedown", handleClick);
+    function handleClick(e) {
+      if (!contentRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
     return () => {
       window.removeEventListener("mousedown", handleClick);
     };
-  }, [contentRef]);
-
-  function handleClick(e) {
-    if (!contentRef.current.contains(e.target)) {
-      setOpen(false);
-    }
-  }
+  }, [contentRef, setOpen]);
 
   return (
     <div ref={contentRef} className="ModalContent">

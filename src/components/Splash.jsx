@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   signInWithGoogle,
   signInWithFacebook,
@@ -30,19 +30,33 @@ function SignUp({ setSignIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleSubmit() {
-    try {
-      const data = await auth.createUserWithEmailAndPassword(email, password);
-      console.log(data);
-    } catch (error) {
-      alert(error);
+  useEffect(() => {
+    window.addEventListener("keypress", handleEnter);
+    function handleEnter(e) {
+      if (e.keyCode === 13) handleSubmit();
     }
+    return () => {
+      window.removeEventListener("keypress", handleEnter);
+    };
+  });
+
+  function handleSubmit() {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        auth.currentUser.updateProfile({
+          displayName: username,
+        });
+      })
+      .catch(function (error) {
+        alert(error);
+      });
   }
 
   return (
     <div>
-      <form className="AuthForm" onSubmit={handleSubmit}>
-        <h1>Petsagram</h1>
+      <div className="AuthForm" onSubmit={handleSubmit}>
+        <h1>Pet Feed</h1>
         <input
           type="text"
           value={email}
@@ -74,7 +88,7 @@ function SignUp({ setSignIn }) {
         <button className="AuthFormButton" type="submit" onClick={handleSubmit}>
           Sign Up
         </button>
-      </form>
+      </div>
       <div className="AuthAlt">
         Already have an account?{" "}
         <button onClick={() => setSignIn(true)}>Sign In</button>
@@ -87,17 +101,26 @@ function SignIn({ setSignIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    window.addEventListener("keypress", handleEnter);
+    function handleEnter(e) {
+      if (e.keyCode === 13) handleSubmit();
+    }
+    return () => {
+      window.removeEventListener("keypress", handleEnter);
+    };
+  });
+
   function handleSubmit() {
     auth.signInWithEmailAndPassword(email, password).catch(function (error) {
-      console.log(error.code);
-      console.log(error.message);
+      alert(error);
     });
   }
 
   return (
     <div>
-      <form className="AuthForm" onSubmit={handleSubmit}>
-        <h1>Petsagram</h1>
+      <div className="AuthForm">
+        <h1>Pet Feed</h1>
         <input
           type="text"
           value={email}
@@ -112,7 +135,7 @@ function SignIn({ setSignIn }) {
           placeholder="Password"
           required
         />
-        <button className="AuthFormButton" type="submit" onClick={handleSubmit}>
+        <button className="AuthFormButton" onClick={handleSubmit}>
           Log In
         </button>
         <div className="ordiv">
@@ -144,7 +167,7 @@ function SignIn({ setSignIn }) {
           <AiOutlineTwitter />
           <p style={{ width: 200 }}>Log in with Twitter</p>
         </button>
-      </form>
+      </div>
       <div className="AuthAlt">
         Don't have an account?{" "}
         <button onClick={() => setSignIn(false)}>Sign Up</button>
