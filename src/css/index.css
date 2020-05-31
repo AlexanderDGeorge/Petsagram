@@ -23,3 +23,16 @@
   background-color: var(--light);
   padding: 0 15%;
 }
+
+.Modal {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.2);
+  left: 0;
+  top: 0;
+}
+
+a {
+  color: black;
+}
