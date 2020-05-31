@@ -1,11 +1,9 @@
 #Nav {
-  position: absolute;
-  left: 0;
-  height: 5%;
-  min-height: 50px;
+  grid-area: nav;
+  height: 100%;
   width: 100vw;
   background-color: white;
-  border-bottom: 1px solid var(--mid);
+  border-bottom: 1px solid var(--accent);
   padding: 0 15%;
   display: flex;
   justify-content: space-between;
@@ -14,9 +12,9 @@
 
 #RightNav {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 #RightNav svg {

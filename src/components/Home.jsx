@@ -1,10 +1,5 @@
 import React from "react";
-import Nav from "./Nav";
 
 export default function Home() {
-  return (
-    <section id="Home">
-      <Nav />
-    </section>
-  );
+  return <section id="Home"></section>;
 }
