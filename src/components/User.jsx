@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./Application";
 
 export default function User() {
-  return <div id="User"></div>;
+  const { user } = useContext(UserContext);
+
+  console.log(user);
+
+  return <img id="User" src={user.photoURL} alt="" />;
 }

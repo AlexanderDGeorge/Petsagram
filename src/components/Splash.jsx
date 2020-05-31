@@ -3,6 +3,7 @@ import {
   signInWithGoogle,
   signInWithFacebook,
   signInWithTwitter,
+  auth,
 } from "../firebase";
 import {
   AiOutlineGoogle,
@@ -29,7 +30,14 @@ function SignUp({ setSignIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit() {}
+  function handleSubmit() {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        console.log(error.code);
+        console.log(error.message);
+      });
+  }
 
   return (
     <div>
@@ -79,7 +87,12 @@ function SignIn({ setSignIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit() {}
+  function handleSubmit() {
+    auth.signInWithEmailAndPassword(email, password).catch(function (error) {
+      console.log(error.code);
+      console.log(error.message);
+    });
+  }
 
   return (
     <div>
