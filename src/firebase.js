@@ -27,3 +27,45 @@ export const signInWithFacebook = () => auth.signInWithPopup(facebookProvider);
 export const signInWithTwitter = () => auth.signInWithPopup(twitterProvider);
 
 export const signOut = () => auth.signOut();
+
+export const createUserDoc = async (user, additionalData) => {
+  if (!user) return;
+
+  const userRef = firestore.doc(`users/${user.uid}`);
+
+  const snapshot = await userRef.get();
+
+  if (!snapshot.exists) {
+    let { displayName, email, photoURL } = user;
+    const { username, name } = additionalData;
+    const createdAt = new Date();
+    displayName = displayName ? displayName : name;
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        photoURL,
+        createdAt,
+        username,
+        followers: [],
+        following: [],
+        posts: [],
+        bio: "",
+      });
+    } catch (error) {
+      console.error("Error creating user", console.error);
+    }
+  }
+
+  return getUserDoc(user.uid);
+};
+
+export const getUserDoc = async (uid) => {
+  if (!uid) return null;
+  try {
+    const userDocument = await firestore.collection("users").doc(uid).get();
+    return { uid, ...userDocument.data() };
+  } catch (error) {
+    console.error("Error fetching user", error.message);
+  }
+};

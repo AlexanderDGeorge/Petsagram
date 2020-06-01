@@ -1,19 +1,23 @@
 import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, getUserDoc } from "../firebase";
 import Nav from "./Nav";
 import Splash from "./Splash";
 import Home from "./Home";
 import Messages from "./Messages";
-import { User } from "./User";
+import { User } from "./User/User";
+import UserSettings from "./User/UserSettings";
 
 export const UserContext = createContext(null);
 
 export default function Application() {
-  const [user, setUser] = useState(auth.currentUser);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => setUser(user));
+    auth.onAuthStateChanged(async (user) => {
+      const userDoc = await getUserDoc(user.uid);
+      setUser(userDoc);
+    });
   }, []);
 
   window.user = user;
@@ -26,6 +30,7 @@ export default function Application() {
             <Route path="/" component={Nav} />
             <Route path="/user" component={User} />
             <Route path="/messages" component={Messages} />
+            <Route path="/settings" component={UserSettings} />
             <Route exact path="/" component={Home} />
           </BrowserRouter>
         </UserContext.Provider>
@@ -33,7 +38,7 @@ export default function Application() {
     );
   } else {
     return (
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user }}>
         <Splash />
       </UserContext.Provider>
     );

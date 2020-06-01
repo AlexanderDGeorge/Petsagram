@@ -1,10 +1,17 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "./Application";
-import { Link } from "react-router-dom";
-import Modal from "./Modal";
-import { signOut } from "../firebase";
+import React, { useContext, useState, useEffect } from "react";
+import { UserContext } from "../Application";
+import { Link, useHistory } from "react-router-dom";
+import { IoIosCog } from "react-icons/io";
+import Modal from "../Modal";
+import { signOut } from "../../firebase";
 
 export function User() {
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    document.title = user.displayName;
+  }, [user]);
+
   return (
     <section id="User">
       <UserHeader />
@@ -33,16 +40,18 @@ function UserHeader() {
       <img className="UHimg" src={user.photoURL} alt="" />
       <div className="UHdiv">
         <span className="UHspan">
-          <p>{user.displayName}</p>
-          <button>Edit Profile</button>
-          <button onClick={() => setOpen(true)}>Settings</button>
+          <p style={{ fontSize: 20, fontWeight: 700 }}>{user.username}</p>
+          <Link to="/settings/edit">Edit Profile</Link>
+          <IoIosCog onClick={() => setOpen(true)} />
         </span>
         <span className="UHspan">
           <p>posts</p>
           <p>followers</p>
           <p>following</p>
         </span>
-        <span className="UHspan">Full Name</span>
+        <span className="UHspan" style={{ fontWeight: 700 }}>
+          {user.displayName}
+        </span>
         <span className="UHspan">bio</span>
       </div>
       {open ? (
@@ -61,10 +70,16 @@ function UserContent() {
 }
 
 function UserMenu({ setOpen }) {
+  const history = useHistory();
+
   return (
     <div id="UserMenu">
-      <button>Edit Profile</button>
-      <button>Change Password</button>
+      <button onClick={() => history.push("/settings/edit")}>
+        Edit Profile
+      </button>
+      <button onClick={() => history.push("/settings/password")}>
+        Change Password
+      </button>
       <button onClick={signOut}>Log Out</button>
       <button onClick={() => setOpen(false)}>Cancel</button>
     </div>

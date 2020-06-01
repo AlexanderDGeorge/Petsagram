@@ -42,8 +42,25 @@
 .UHspan {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+}
+
+.UHspan * {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.UHspan > svg {
+  height: 25px;
+  width: auto;
+  cursor: pointer;
+}
+
+.UHspan > a {
+  border: 1px solid var(--accent);
+  padding: 10px;
+  border-radius: 6px;
+  text-decoration: none;
 }
 
 #UserContent {
@@ -57,8 +74,45 @@
   align-items: center;
 }
 
-#UserMenu button {
+#UserMenu > * {
   height: 50px;
   width: 100%;
   border-bottom: 1px solid var(--accent);
+  font-size: 14px;
+  text-decoration: none;
+  text-align: center;
+}
+
+#UserSettings {
+  grid-area: content;
+  background-color: white;
+  margin: 30px 0;
+  border: 1px solid var(--accent);
+  display: flex;
+}
+
+#USNav {
+  height: 100%;
+  width: 25%;
+  border-right: 1px solid var(--accent);
+}
+
+.USNavItem {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 40px;
+  cursor: pointer;
+}
+
+.USNavItem:hover {
+  background-color: var(--light);
+  border-left: 2px solid var(--mid);
+}
+
+.USContent {
+  height: 100%;
+  width: 75%;
 }
