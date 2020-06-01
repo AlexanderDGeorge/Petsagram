@@ -1,18 +1,19 @@
 #AddPost {
   margin-top: 30px;
+  display: flex;
 }
 
-#APdiv {
+#APimage {
   position: relative;
-  height: 500px;
-  width: 100%;
+  height: 600px;
+  min-width: 600px;
   border: 1px solid var(--accent);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#APdiv > label {
+#APimage > label {
   height: 100%;
   width: 100%;
   display: flex;
@@ -22,17 +23,79 @@
   z-index: 1;
 }
 
-#APdiv > label:hover {
+#APimage > label:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-#APdiv > label > svg {
+#APimage > label > svg {
   height: 50px;
   width: auto;
 }
 
 #APpreview {
   position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#APcaption {
+  height: 600px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid var(--accent);
+  border-left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#APcaption > input {
+  width: 100%;
+  height: 100px;
+  padding: 5px;
+  font-size: 15px;
+}
+
+#APcaption > button {
+  width: 100%;
+  height: 50px;
+  background-color: var(--lmain);
+  color: white;
+}
+
+#APcaption > button:hover {
+  background-color: var(--mmain);
+}
+
+#PostTemplate {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 600px auto;
+  grid-template-rows: 100px 500px;
+  grid-template-areas:
+    "image caption"
+    "image comments";
+}
+
+#PostImage {
+  grid-area: image;
+  border: 1px solid var(--accent);
+}
+
+#PostCaption {
+  grid-area: caption;
+  border-top: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent);
+}
+
+#PostComments {
+  grid-area: comments;
+  border-bottom: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+}
+
+#PostTemplate div {
   height: 100%;
   width: 100%;
 }

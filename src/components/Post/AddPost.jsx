@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { MdAddAPhoto } from "react-icons/md";
+import { useHistory } from "react-router-dom";
+import { uploadImage } from "../../firebase";
+import { UserContext } from "../Application";
 
 export default function AddPost() {
   const [filename, setFilename] = useState("");
   const [image, setImage] = useState({});
   const [preview, setPreview] = useState("");
+  const [caption, setCaption] = useState("");
+  const history = useHistory();
+
+  const { user } = useContext(UserContext);
 
   window.image = image;
 
@@ -18,9 +25,16 @@ export default function AddPost() {
     }
   }
 
+  async function handlePost(e) {
+    e.preventDefault();
+    const uploadURL = await uploadImage(image, user);
+    console.log(uploadURL);
+    // history.push("/");
+  }
+
   return (
     <section id="AddPost" className="content">
-      <div id="APdiv">
+      <div id="APimage">
         <label htmlFor="file-upload">
           <MdAddAPhoto />
         </label>
@@ -33,6 +47,15 @@ export default function AddPost() {
           style={{ display: "none" }}
         />
         {filename ? <img src={preview} alt="" id="APpreview" /> : null}
+      </div>
+      <div id="APcaption">
+        <input
+          type="text"
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          placeholder="Write a caption..."
+        />
+        {filename ? <button onClick={handlePost}>Post!</button> : null}
       </div>
     </section>
   );
