@@ -6,6 +6,7 @@ import "./css/index.css";
 import "./css/messages.css";
 import "./css/modal.css";
 import "./css/nav.css";
+import "./css/post.css";
 import "./css/search.css";
 import "./css/splash.css";
 import "./css/user.css";

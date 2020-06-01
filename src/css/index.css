@@ -31,6 +31,10 @@
   overflow-y: scroll;
 }
 
+.content {
+  grid-area: content;
+}
+
 a {
   color: black;
 }

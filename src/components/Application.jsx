@@ -7,6 +7,7 @@ import Home from "./Home";
 import Messages from "./Messages";
 import { User } from "./User/User";
 import UserSettings from "./User/UserSettings";
+import AddPost from "./Post/AddPost";
 
 export const UserContext = createContext(null);
 
@@ -31,6 +32,7 @@ export default function Application() {
             <Route path="/user" component={User} />
             <Route path="/messages" component={Messages} />
             <Route path="/settings" component={UserSettings} />
+            <Route path="/post/add" component={AddPost} />
             <Route exact path="/" component={Home} />
           </BrowserRouter>
         </UserContext.Provider>

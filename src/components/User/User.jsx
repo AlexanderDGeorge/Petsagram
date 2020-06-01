@@ -44,15 +44,24 @@ function UserHeader() {
           <Link to="/settings/edit">Edit Profile</Link>
           <IoIosCog onClick={() => setOpen(true)} />
         </span>
+
         <span className="UHspan">
-          <p>posts</p>
-          <p>followers</p>
-          <p>following</p>
+          <span>
+            <p style={{ fontWeight: 700 }}>{user.posts.length}</p>posts
+          </span>
+          <span>
+            <p style={{ fontWeight: 700 }}>{user.followers.length}</p>followers
+          </span>
+          <span>
+            <p style={{ fontWeight: 700 }}>{user.following.length}</p>following
+          </span>
         </span>
+
         <span className="UHspan" style={{ fontWeight: 700 }}>
           {user.displayName}
         </span>
-        <span className="UHspan">bio</span>
+
+        <span className="UHspan">{user.bio}</span>
       </div>
       {open ? (
         <Modal

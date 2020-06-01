@@ -1,0 +1,38 @@
+#AddPost {
+  margin-top: 30px;
+}
+
+#APdiv {
+  position: relative;
+  height: 500px;
+  width: 100%;
+  border: 1px solid var(--accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#APdiv > label {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#APdiv > label:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#APdiv > label > svg {
+  height: 50px;
+  width: auto;
+}
+
+#APpreview {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}

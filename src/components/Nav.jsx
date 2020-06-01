@@ -15,10 +15,10 @@ export default function Nav() {
       <Link to="/" style={{ textDecoration: "none", fontSize: "1.5em" }}>
         Pet Feed
       </Link>
-      <Link to="/post">
+      <Link to="/post/add">
         <AiOutlinePlusCircle />
       </Link>
-      {/* <SearchBar /> */}
+      <SearchBar />
       <RightNav />
     </section>
   );

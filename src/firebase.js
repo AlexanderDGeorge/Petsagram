@@ -26,7 +26,10 @@ export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 export const signInWithFacebook = () => auth.signInWithPopup(facebookProvider);
 export const signInWithTwitter = () => auth.signInWithPopup(twitterProvider);
 
-export const signOut = () => auth.signOut();
+export const signOut = () => {
+  document.title = "Pet Feed";
+  auth.signOut();
+};
 
 export const createUserDoc = async (user, additionalData) => {
   if (!user) return;
@@ -69,3 +72,5 @@ export const getUserDoc = async (uid) => {
     console.error("Error fetching user", error.message);
   }
 };
+
+// export const storageRef = firebase.storage().ref();
