@@ -120,3 +120,13 @@ const addPost = async (url, user, caption) => {
       console.error(error);
     });
 };
+
+export const getUserPost = async (postId) => {
+  if (!postId) return;
+  try {
+    const userPost = await firestore.collection("user-posts").doc(postId).get();
+    return await userPost.data();
+  } catch (error) {
+    console.error(error);
+  }
+};

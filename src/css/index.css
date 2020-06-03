@@ -28,11 +28,13 @@
   grid-template-areas:
     "nav nav nav"
     ". content .";
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 .content {
   grid-area: content;
+  margin-top: 30px;
+  overflow-y: scroll;
 }
 
 a {

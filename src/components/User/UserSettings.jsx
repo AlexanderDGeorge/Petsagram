@@ -3,7 +3,7 @@ import { useLocation, useHistory, Switch, Route } from "react-router-dom";
 
 export default function UserSettings() {
   return (
-    <section id="UserSettings">
+    <section id="UserSettings" className="content">
       <UserSettingsNav />
       <Switch>
         <Route path="/settings/edit" component={EditProfile} />

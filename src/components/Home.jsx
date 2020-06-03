@@ -4,5 +4,6 @@ export default function Home() {
   useEffect(() => {
     document.title = "Pet Feed";
   }, []);
-  return <section id="Home"></section>;
+
+  return <section id="Home" className="content"></section>;
 }

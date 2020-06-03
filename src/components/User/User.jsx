@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
 import { signOut } from "../../firebase";
+import UserPosts from "./UserPosts";
 
 export function User() {
   const { user } = useContext(UserContext);
@@ -13,9 +14,9 @@ export function User() {
   }, [user]);
 
   return (
-    <section id="User">
+    <section id="User" className="content">
       <UserHeader />
-      <UserContent />
+      <UserPosts />
     </section>
   );
 }
@@ -72,10 +73,6 @@ function UserHeader() {
       ) : null}
     </header>
   );
-}
-
-function UserContent() {
-  return <section id="UserContent"></section>;
 }
 
 function UserMenu({ setOpen }) {
