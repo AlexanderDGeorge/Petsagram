@@ -10,7 +10,7 @@
 #UserPhoto {
   height: 25px;
   width: 25px;
-  border: 1px solid var(--dark);
+  border: 2px solid var(--dark);
   border-radius: 50%;
 }
 

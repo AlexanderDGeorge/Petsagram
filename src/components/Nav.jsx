@@ -15,10 +15,7 @@ export default function Nav() {
       <Link to="/" style={{ textDecoration: "none", fontSize: "1.5em" }}>
         Pet Feed
       </Link>
-      <Link to="/post/add">
-        <AiOutlinePlusCircle />
-      </Link>
-      <SearchBar />
+      {window.innerWidth > 500 ? <SearchBar /> : null}
       <RightNav />
     </section>
   );
@@ -27,16 +24,29 @@ export default function Nav() {
 function RightNav() {
   return (
     <section id="RightNav">
-      <Link to="/">
-        <AiOutlineHome />
-      </Link>
-      <button style={{ backgroundColor: "transparent" }}>
-        <AiOutlineHeart />
-      </button>
-      <Link to="/messages">
-        <AiOutlineMessage />
-      </Link>
-      <UserBubble />
+      <div className="NavItem">
+        <Link to="/">
+          <AiOutlineHome />
+        </Link>
+      </div>
+      <div className="NavItem">
+        <Link to="/post/add">
+          <AiOutlinePlusCircle />
+        </Link>
+      </div>
+      <div className="NavItem">
+        <button style={{ backgroundColor: "transparent" }}>
+          <AiOutlineHeart />
+        </button>
+      </div>
+      <div className="NavItem">
+        <Link to="/messages">
+          <AiOutlineMessage />
+        </Link>
+      </div>
+      <div className="NavItem">
+        <UserBubble />
+      </div>
     </section>
   );
 }
