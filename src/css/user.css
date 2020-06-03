@@ -85,6 +85,13 @@
 
 #UserPosts {
   border-top: 1px solid var(--accent);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#UserPost {
+  width: 32%;
 }
 
 #UserMenu {

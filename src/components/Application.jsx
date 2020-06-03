@@ -16,8 +16,10 @@ export default function Application() {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
-      const userDoc = await getUserDoc(user.uid);
-      setUser(userDoc);
+      if (user) {
+        const userDoc = await getUserDoc(user.uid);
+        setUser(userDoc);
+      }
     });
   }, []);
 

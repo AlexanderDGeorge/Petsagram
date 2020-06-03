@@ -7,14 +7,14 @@ export default function UserPosts() {
 
   return (
     <section id="UserPosts">
-      {/* {user.posts.map((post, i) => (
-        <UserPost post={post} key={i} />
-      ))} */}
+      {user.posts.map((post, i) => (
+        <UserPost post={post} index={i} key={i} />
+      ))}
     </section>
   );
 }
 
-function UserPost({ post }) {
+function UserPost({ post, index }) {
   const [userPost, setUserPost] = useState(null);
 
   useEffect(() => {
@@ -32,7 +32,11 @@ function UserPost({ post }) {
   }
 
   if (userPost) {
-    return <img id="UserPost" src={userPost.url} alt="" />;
+    const height = document.getElementById("User").clientWidth * 0.32;
+    const margin = index % 3 === 1 ? "0 2%" : "0";
+    return (
+      <img id="UserPost" src={userPost.url} alt="" style={{ height, margin }} />
+    );
   } else {
     return <BlankSquare />;
   }

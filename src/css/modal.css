@@ -11,8 +11,7 @@
 }
 
 .ModalContent {
-  min-height: 200px;
-  min-width: 350px;
+  min-width: 260px;
   border: 1px solid var(--mid);
   border-radius: 10px;
   background: var(--light);

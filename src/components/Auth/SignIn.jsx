@@ -26,15 +26,9 @@ export default function SignIn({ setSignIn }) {
   });
 
   function handleSubmit() {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      //   .then((user) => {
-      //     console.log(user);
-      //     setUser(getUserDoc(user.uid));
-      //   })
-      .catch(function (error) {
-        alert(error);
-      });
+    auth.signInWithEmailAndPassword(email, password).catch(function (error) {
+      alert(error);
+    });
   }
 
   return (
