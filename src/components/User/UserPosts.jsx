@@ -7,9 +7,9 @@ export default function UserPosts() {
 
   return (
     <section id="UserPosts">
-      {user.posts.map((post, i) => (
+      {/* {user.posts.map((post, i) => (
         <UserPost post={post} key={i} />
-      ))}
+      ))} */}
     </section>
   );
 }
@@ -36,8 +36,4 @@ function UserPost({ post }) {
   } else {
     return <BlankSquare />;
   }
-}
-
-function UserAddPost() {
-  return <div id="UserAddPost"></div>;
 }

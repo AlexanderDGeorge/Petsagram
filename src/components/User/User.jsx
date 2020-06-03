@@ -39,30 +39,33 @@ function UserHeader() {
   return (
     <header id="UserHeader">
       <img className="UHimg" src={user.photoURL} alt="" />
-      <div className="UHdiv">
-        <span className="UHspan">
-          <p style={{ fontSize: 20, fontWeight: 700 }}>{user.username}</p>
-          <Link to="/settings/edit">Edit Profile</Link>
-          <IoIosCog onClick={() => setOpen(true)} />
-        </span>
-
-        <span className="UHspan">
-          <span>
-            <p style={{ fontWeight: 700 }}>{user.posts.length}</p>posts
-          </span>
-          <span>
-            <p style={{ fontWeight: 700 }}>{user.followers.length}</p>followers
-          </span>
-          <span>
-            <p style={{ fontWeight: 700 }}>{user.following.length}</p>following
-          </span>
-        </span>
-
-        <span className="UHspan" style={{ fontWeight: 700 }}>
-          {user.displayName}
-        </span>
-
-        <span className="UHspan">{user.bio}</span>
+      <div className="UHname">
+        <p style={{ fontSize: "1.75em", fontWeight: 700 }}>{user.username}</p>
+        <IoIosCog
+          style={{ height: "1.5em", width: "auto" }}
+          onClick={() => setOpen(true)}
+        />
+      </div>
+      <div className="UHbuttons">
+        <Link to="/settings/edit">Edit Profile</Link>
+      </div>
+      <div className="UHbio">
+        {user.displayName}
+        {user.bio}
+      </div>
+      <div className="UHfollow">
+        <div>
+          <p style={{ fontWeight: 700 }}>{user.posts.length}&nbsp;</p>
+          posts
+        </div>
+        <div>
+          <p style={{ fontWeight: 700 }}>{user.followers.length}&nbsp;</p>
+          followers
+        </div>
+        <div>
+          <p style={{ fontWeight: 700 }}>{user.following.length}&nbsp;</p>
+          following
+        </div>
       </div>
       {open ? (
         <Modal
@@ -70,7 +73,7 @@ function UserHeader() {
           setOpen={setOpen}
           content={<UserMenu setOpen={setOpen} />}
         />
-      ) : null}
+      ) : null}{" "}
     </header>
   );
 }
