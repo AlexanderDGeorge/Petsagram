@@ -10,7 +10,7 @@ export function User() {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    document.title = user.displayName;
+    document.title = user.name;
   }, [user]);
 
   return (
@@ -50,7 +50,7 @@ function UserHeader() {
         <Link to="/settings/edit">Edit Profile</Link>
       </div>
       <div className="UHbio">
-        {user.displayName}
+        {user.name}
         {user.bio}
       </div>
       <div className="UHfollow">

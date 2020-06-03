@@ -19,6 +19,8 @@ export default function Application() {
       if (user) {
         const userDoc = await getUserDoc(user.uid);
         setUser(userDoc);
+      } else {
+        setUser(null);
       }
     });
   }, []);

@@ -25,7 +25,11 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const twitterProvider = new firebase.auth.TwitterAuthProvider();
 
-export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
+export const signInWithGoogle = async () => {
+  return auth.signInWithPopup(googleProvider).then(({ user }) => {
+    createUserDoc(user, { username: "", name: user.displayName });
+  });
+};
 export const signInWithFacebook = () => auth.signInWithPopup(facebookProvider);
 export const signInWithTwitter = () => auth.signInWithPopup(twitterProvider);
 
@@ -33,6 +37,8 @@ export const signOut = () => {
   document.title = "Pet Feed";
   auth.signOut();
 };
+
+window.signOut = signOut();
 
 export const createUserDoc = async (user, additionalData) => {
   if (!user) return;
@@ -42,13 +48,12 @@ export const createUserDoc = async (user, additionalData) => {
   const snapshot = await userRef.get();
 
   if (!snapshot.exists) {
-    let { displayName, email, photoURL } = user;
+    let { email, photoURL } = user;
     const { username, name } = additionalData;
     const createdAt = new Date();
-    displayName = displayName ? displayName : name;
     try {
       await userRef.set({
-        displayName,
+        name,
         email,
         photoURL,
         createdAt,
