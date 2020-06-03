@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDQggriTOGo2d7Kqh4AnrrLIwjWiuQi8OI",
@@ -18,6 +19,7 @@ firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
+export const storageRef = firebase.storage().ref();
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
@@ -74,49 +76,47 @@ export const getUserDoc = async (uid) => {
   }
 };
 
-export const storageRef = firebase.storage().ref();
-
-export const uploadImage = async (file, user) => {
+export const uploadImage = async (file, user, caption, setUser) => {
   if (!file) return;
-  const uploadTask = storageRef.child(`images/${file.name}`).put(file);
-
-  uploadTask.on(
-    firebase.storage.TaskEvent.STATE_CHANGED,
-    function (snapshot) {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
-      switch (snapshot.state) {
-        case firebase.storage.TaskState.PAUSED:
-          console.log("Upload is paused");
-          break;
-        case firebase.storage.TaskState.RUNNING:
-          console.log("Upload is running");
-          break;
-        default:
-          console.log("in default");
-      }
-    },
-    function (error) {
-      switch (error.code) {
-        case "storage/unauthorized":
-          console.log("upload unauthorized");
-          break;
-        case "storage/canceled":
-          console.log("upload canceled");
-          break;
-        case "storage/unknown":
-          console.log("upload unknown");
-          break;
-        default:
-          console.log("in default");
-      }
-    },
-    function () {
-      // Upload completed successfully, now we can get the download URL
-      uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-        console.log("File available at", downloadURL);
-        return downloadURL;
+  return storageRef
+    .child(`images/${file.name}`)
+    .put(file)
+    .then(async (snapshot) => {
+      await snapshot.ref.getDownloadURL().then(async function (downloadURL) {
+        await addPost(downloadURL, user, caption);
+        const userDoc = await getUserDoc(user.uid);
+        setUser(userDoc);
+        return userDoc;
       });
-    }
-  );
+    });
+};
+
+const addPost = async (url, user, caption) => {
+  const createdAt = new Date();
+  const userRef = firestore.collection("users").doc(user.uid);
+  await firestore
+    .collection("user-posts")
+    .add({
+      url,
+      caption,
+      comments: [],
+      likes: [],
+      reactions: [],
+      createdAt,
+    })
+    .then(async function (postRef) {
+      await userRef
+        .update({
+          posts: firebase.firestore.FieldValue.arrayUnion(postRef.id),
+        })
+        .then(function () {
+          console.log("Document updated");
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
 };

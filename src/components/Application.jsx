@@ -26,7 +26,7 @@ export default function Application() {
   if (auth.currentUser) {
     return (
       <section id="Application">
-        <UserContext.Provider value={{ user }}>
+        <UserContext.Provider value={{ user, setUser }}>
           <BrowserRouter>
             <Route path="/" component={Nav} />
             <Route path="/user" component={User} />
