@@ -1,35 +1,46 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../Application";
 import { followUser, unfollowUser, getUserDoc } from "../../firebase";
 
-export function UserResult({ result }) {
-  const { user, setUser } = useContext(UserContext);
+export function UserBubble() {
+  const { user } = useContext(UserContext);
 
+  return (
+    <Link to="/user" id="UserBubble">
+      <img id="UserPhoto" src={user.photoURL} alt="" />
+    </Link>
+  );
+}
+
+export function UserResult({ result }) {
   return (
     <div id="UserResult">
       <div>
         <img src={result.photoURL} alt="" />
-        {result.username}
+        <p>{result.username}</p>
       </div>
-      <UserFollow user={user} setUser={setUser} result={result} />
+      <UserFollow result={result} />
     </div>
   );
 }
 
-export function UserFollow({ user, setUser, result }) {
+export function UserFollow({ result }) {
+  const { user, setUser } = useContext(UserContext);
+
   useEffect(() => {}, [user]);
 
   function isFollowing() {
-    user.following.includes(result.uid);
+    return user.following.includes(result.uid);
   }
 
   async function handleClick() {
-    if (isFollowing) {
-      await followUser(user, result);
+    if (isFollowing()) {
+      await unfollowUser(user, result);
       const userDoc = await getUserDoc(user.uid);
       setUser(userDoc);
     } else {
-      await unfollowUser(user, result);
+      await followUser(user, result);
       const userDoc = await getUserDoc(user.uid);
       setUser(userDoc);
     }

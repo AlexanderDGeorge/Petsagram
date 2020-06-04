@@ -156,10 +156,13 @@ export const findExactUser = async (params) => {
 export const followUser = async (curUser, otherUser) => {
   if (!curUser || !otherUser) return;
   try {
-    console.log(otherUser.uid);
-    const userRef = firestore.collection("users").doc(curUser.uid);
-    userRef.update({
+    const curUserRef = firestore.collection("users").doc(curUser.uid);
+    const otherUserRef = firestore.collection("users").doc(otherUser.uid);
+    await curUserRef.update({
       following: firebase.firestore.FieldValue.arrayUnion(otherUser.uid),
+    });
+    await otherUserRef.update({
+      followers: firebase.firestore.FieldValue.arrayUnion(curUser.uid),
     });
   } catch (error) {
     console.error(error);
@@ -169,9 +172,13 @@ export const followUser = async (curUser, otherUser) => {
 export const unfollowUser = async (curUser, otherUser) => {
   if (!curUser || !otherUser) return;
   try {
-    const userRef = firestore.collection("users").doc(curUser.uid);
-    userRef.update({
+    const curUserRef = firestore.collection("users").doc(curUser.uid);
+    const otherUserRef = firestore.collection("users").doc(otherUser.uid);
+    await curUserRef.update({
       following: firebase.firestore.FieldValue.arrayRemove(otherUser.uid),
+    });
+    await otherUserRef.update({
+      followers: firebase.firestore.FieldValue.arrayRemove(curUser.uid),
     });
   } catch (error) {
     console.error(error);

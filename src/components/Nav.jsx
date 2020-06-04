@@ -8,7 +8,7 @@ import {
   AiOutlineHeart,
   AiOutlineMessage,
 } from "react-icons/ai";
-import { UserBubble } from "./User/User";
+import { UserBubble } from "./User/UserExports";
 
 export default function Nav() {
   return (
