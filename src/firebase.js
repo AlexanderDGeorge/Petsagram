@@ -38,7 +38,7 @@ export const signOut = () => {
   auth.signOut();
 };
 
-window.signOut = signOut();
+window.auth = auth;
 
 export const createUserDoc = async (user, additionalData) => {
   if (!user) return;
@@ -130,7 +130,7 @@ export const getUserPost = async (postId) => {
   if (!postId) return;
   try {
     const userPost = await firestore.collection("user-posts").doc(postId).get();
-    return await userPost.data();
+    return userPost.data();
   } catch (error) {
     console.error(error);
   }

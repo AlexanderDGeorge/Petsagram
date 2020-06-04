@@ -31,9 +31,13 @@ export default function AddPost() {
     history.push("/");
   }
 
+  function height() {
+    return window.innerWidth < 500 ? window.innerWidth : 500;
+  }
+
   return (
     <section id="AddPost" className="content">
-      <div id="APimage">
+      <div id="APimage" style={{ height: height() }}>
         <label htmlFor="file-upload">
           <MdAddAPhoto />
         </label>

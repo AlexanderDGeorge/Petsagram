@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { SearchBar } from "./Search";
 import {
   AiOutlinePlusCircle,
+  AiOutlineSearch,
   AiOutlineHome,
   AiOutlineHeart,
   AiOutlineMessage,
@@ -16,19 +17,26 @@ export default function Nav() {
         Pet Feed
       </Link>
       {window.innerWidth > 500 ? <SearchBar /> : null}
-      <RightNav />
+      <NavItems />
     </section>
   );
 }
 
-function RightNav() {
+function NavItems() {
   return (
-    <section id="RightNav">
+    <section id="NavItems">
       <div className="NavItem">
         <Link to="/">
           <AiOutlineHome />
         </Link>
       </div>
+      {window.innerWidth <= 500 ? (
+        <div className="NavItem">
+          <button style={{ backgroundColor: "transparent" }}>
+            <AiOutlineSearch />
+          </button>
+        </div>
+      ) : null}
       <div className="NavItem">
         <Link to="/post/add">
           <AiOutlinePlusCircle />

@@ -68,11 +68,7 @@ function UserHeader() {
         </div>
       </div>
       {open ? (
-        <Modal
-          open={open}
-          setOpen={setOpen}
-          content={<UserMenu setOpen={setOpen} />}
-        />
+        <Modal setOpen={setOpen} content={<UserMenu setOpen={setOpen} />} />
       ) : null}{" "}
     </header>
   );

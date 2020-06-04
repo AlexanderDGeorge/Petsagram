@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-export default function Modal({ open, setOpen, content }) {
+export default function Modal({ setOpen, content }) {
   return (
     <div className="Modal">
       <ModalContent content={content} setOpen={setOpen} />

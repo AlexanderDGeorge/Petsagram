@@ -5,5 +5,9 @@ export default function Home() {
     document.title = "Pet Feed";
   }, []);
 
-  return <section id="Home" className="content"></section>;
+  return (
+    <section id="Home" className="content">
+      Home
+    </section>
+  );
 }

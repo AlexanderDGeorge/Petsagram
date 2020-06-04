@@ -25,12 +25,6 @@ function UserPost({ post, index }) {
     getPost();
   }, [post]);
 
-  console.log(userPost);
-
-  function BlankSquare() {
-    return <div className="Blank Square"></div>;
-  }
-
   if (userPost) {
     const height = document.getElementById("User").clientWidth * 0.32;
     const margin = index % 3 === 1 ? "0 2%" : "0";
@@ -38,6 +32,6 @@ function UserPost({ post, index }) {
       <img id="UserPost" src={userPost.url} alt="" style={{ height, margin }} />
     );
   } else {
-    return <BlankSquare />;
+    return null;
   }
 }
