@@ -123,7 +123,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 40px;
+  padding-left: 5%;
   cursor: pointer;
 }
 
@@ -144,6 +144,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--accent);
 }
 
 #UserResult img {
@@ -168,4 +169,37 @@
 
 .UserFollow:hover {
   background-color: var(--mmain);
+}
+
+#EditProfile {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2%;
+}
+
+.editarea {
+  display: grid;
+  grid-template-columns: 0.5fr 2% 1fr 2%;
+  grid-template-areas: "label . input .";
+  height: 60px;
+  margin-bottom: 2%;
+}
+
+.label {
+  grid-area: label;
+  justify-self: end;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.input {
+  grid-area: input;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-size: 16px;
 }
