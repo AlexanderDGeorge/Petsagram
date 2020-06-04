@@ -9,3 +9,7 @@
 #SearchBar::placeholder {
   text-align: center;
 }
+
+#SearchResults {
+  max-height: 500px;
+}

@@ -135,3 +135,45 @@ export const getUserPost = async (postId) => {
     console.error(error);
   }
 };
+
+export const findExactUser = async (params) => {
+  if (!params) return;
+  try {
+    const usersRef = await firestore
+      .collection("users")
+      .where("username", "==", params)
+      .get();
+    const userDocs = [];
+    usersRef.forEach((userRef) => {
+      userDocs.push({ uid: userRef.id, ...userRef.data() });
+    });
+    return userDocs;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const followUser = async (curUser, otherUser) => {
+  if (!curUser || !otherUser) return;
+  try {
+    console.log(otherUser.uid);
+    const userRef = firestore.collection("users").doc(curUser.uid);
+    userRef.update({
+      following: firebase.firestore.FieldValue.arrayUnion(otherUser.uid),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const unfollowUser = async (curUser, otherUser) => {
+  if (!curUser || !otherUser) return;
+  try {
+    const userRef = firestore.collection("users").doc(curUser.uid);
+    userRef.update({
+      following: firebase.firestore.FieldValue.arrayRemove(otherUser.uid),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};

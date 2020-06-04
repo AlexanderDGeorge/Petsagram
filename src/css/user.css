@@ -24,11 +24,6 @@
   }
 }
 
-#User {
-  height: 100%;
-  width: 100%;
-}
-
 #UserBubble {
   height: 25px;
 }
@@ -140,4 +135,37 @@
 .USContent {
   height: 100%;
   width: 75%;
+}
+
+#UserResult {
+  height: 50px;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#UserResult img {
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+}
+
+#UserResult div {
+  display: flex;
+  align-items: center;
+}
+
+.UserFollow {
+  padding: 10px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: white;
+  background-color: var(--lmain);
+}
+
+.UserFollow:hover {
+  background-color: var(--mmain);
 }

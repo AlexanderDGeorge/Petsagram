@@ -6,12 +6,7 @@
 
 #APimage {
   position: relative;
-  width: 100%;
-  max-width: 500px;
-  border: 1px solid var(--accent);
-}
-
-#APcaption {
+  height: auto;
   width: 100%;
   max-width: 500px;
   border: 1px solid var(--accent);
@@ -40,6 +35,9 @@
   position: absolute;
   height: 100%;
   width: 100%;
+}
+
+#APcaption {
 }
 
 #APcaption > input {

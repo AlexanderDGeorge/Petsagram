@@ -32,6 +32,8 @@
   grid-area: content;
   margin-top: 3%;
   overflow-y: scroll;
+  height: 92%;
+  width: 100%;
 }
 
 a {
