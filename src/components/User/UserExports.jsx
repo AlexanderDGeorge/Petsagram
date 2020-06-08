@@ -1,52 +1,50 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../Application";
 import { followUser, unfollowUser, getUserDoc } from "../../firebase";
 
 export function UserBubble() {
-  const { user } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
   return (
-    <Link to="/user" id="UserBubble">
-      <img id="UserPhoto" src={user.photoURL} alt="" />
+    <Link to={`/user/${currentUser.username}`} id="UserBubble">
+      <img id="UserPhoto" src={currentUser.photoURL} alt="" />
     </Link>
   );
 }
 
-export function UserResult({ result }) {
+export function UserResult({ user }) {
   return (
     <div id="UserResult">
-      <div>
-        <img src={result.photoURL} alt="" />
-        <p>{result.username}</p>
-      </div>
-      <UserFollow result={result} />
+      <Link to={`/user/${user.username}`}>
+        <img src={user.photoURL} alt="" />
+        <p>{user.username}</p>
+      </Link>
+      <UserFollow user={user} />
     </div>
   );
 }
 
-export function UserFollow({ result }) {
-  const { user, setUser } = useContext(UserContext);
-
-  useEffect(() => {}, [user]);
+export function UserFollow({ user }) {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   function isFollowing() {
-    return user.following.includes(result.uid);
+    return currentUser.following.includes(user.uid);
   }
 
   async function handleClick() {
     if (isFollowing()) {
-      await unfollowUser(user, result);
-      const userDoc = await getUserDoc(user.uid);
-      setUser(userDoc);
+      await unfollowUser(currentUser, user);
+      const userDoc = await getUserDoc(currentUser.uid);
+      setCurrentUser(userDoc);
     } else {
-      await followUser(user, result);
-      const userDoc = await getUserDoc(user.uid);
-      setUser(userDoc);
+      await followUser(currentUser, user);
+      const userDoc = await getUserDoc(currentUser.uid);
+      setCurrentUser(userDoc);
     }
   }
 
-  if (user !== result) {
+  if (currentUser !== user) {
     return (
       <button className="UserFollow" onClick={handleClick}>
         {isFollowing() ? "unfollow" : "follow"}

@@ -12,25 +12,25 @@ import AddPost from "./Post/AddPost";
 export const UserContext = createContext(null);
 
 export default function Application() {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         const userDoc = await getUserDoc(user.uid);
-        setUser(userDoc);
+        setCurrentUser(userDoc);
       } else {
-        setUser(null);
+        setCurrentUser(null);
       }
     });
   }, []);
 
-  window.user = user;
+  window.currentUser = currentUser;
 
   if (auth.currentUser) {
     return (
       <section id="Application">
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
           <BrowserRouter>
             <Route path="/" component={Nav} />
             <Route path="/user" component={User} />
@@ -44,7 +44,7 @@ export default function Application() {
     );
   } else {
     return (
-      <UserContext.Provider value={{ user }}>
+      <UserContext.Provider value={{ currentUser }}>
         <Splash />
       </UserContext.Provider>
     );

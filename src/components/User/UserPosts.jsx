@@ -1,10 +1,7 @@
-import React, { useEffect, useContext, useState } from "react";
-import { UserContext } from "../Application";
+import React, { useEffect, useState } from "react";
 import { getUserPost } from "../../firebase";
 
-export default function UserPosts() {
-  const { user } = useContext(UserContext);
-
+export default function UserPosts({ user }) {
   return (
     <section id="UserPosts">
       {user.posts.map((post, i) => (

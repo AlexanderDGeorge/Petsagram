@@ -81,6 +81,20 @@ export const getUserDoc = async (uid) => {
   }
 };
 
+export const updateUserDoc = async (uid, photoURL, name, username, bio) => {
+  try {
+    const userRef = firestore.collection("users").doc(uid);
+    await userRef.update({
+      photoURL,
+      name,
+      username,
+      bio,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const uploadImage = async (file, user, caption, setUser) => {
   if (!file) return;
   return storageRef

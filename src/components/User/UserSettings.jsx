@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useHistory, Switch, Route } from "react-router-dom";
 import { UserContext } from "../Application";
+import { updateUserDoc } from "../../firebase";
 
 export default function UserSettings() {
   return (
@@ -15,22 +16,34 @@ export default function UserSettings() {
 }
 
 function EditProfile() {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const [photoURL] = useState(user.photoURL);
   const [name, setName] = useState(user.name);
   const [username, setUsername] = useState(user.username);
   const [bio, setBio] = useState(user.bio);
+  const history = useHistory();
+
+  async function handleSave() {
+    await updateUserDoc(user.uid, photoURL, name, username, bio);
+    history.push("/user");
+  }
 
   return (
     <section id="EditProfile" className="USContent">
-      <div className="editarea">
+      <div className="editarea" style={{ height: 60 }}>
         <img
           className="label"
           src={user.photoURL}
           alt=""
-          style={{ borderRadius: "50%" }}
+          style={{ borderRadius: "50%", height: "100%" }}
         />
-        <div className="input">
-          <label htmlFor="file-upload">Change Profile Picture</label>
+        <div className="input" style={{ border: "none" }}>
+          <label
+            htmlFor="file-upload"
+            style={{ textDecoration: "underline", cursor: "pointer" }}
+          >
+            Change Profile Picture
+          </label>
           <input
             id="file-upload"
             type="file"
@@ -66,6 +79,9 @@ function EditProfile() {
           onChange={(e) => setBio(e.target.value)}
         />
       </div>
+      <button className="USSubmit" onClick={handleSave}>
+        Save Changes
+      </button>
     </section>
   );
 }

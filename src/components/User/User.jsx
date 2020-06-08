@@ -1,51 +1,65 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../Application";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
-import { signOut, getUserDoc } from "../../firebase";
+import { signOut, getUserDoc, findExactUser } from "../../firebase";
 import UserPosts from "./UserPosts";
-import { UserResult } from "./UserExports";
+import { UserResult, UserFollow } from "./UserExports";
 
 export function User() {
-  const { user } = useContext(UserContext);
+  const [user, setUser] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    document.title = user.name;
-  }, [user]);
+    async function getUser() {
+      const userDoc = await findExactUser(location.pathname.slice(6));
+      setUser(userDoc[0]);
+    }
+    getUser();
+  }, [location]);
 
-  return (
-    <section id="User" className="content">
-      <UserHeader />
-      <UserPosts />
-    </section>
-  );
+  if (user) {
+    return (
+      <section id="User" className="content">
+        <UserHeader user={user} />
+        <UserPosts user={user} />
+      </section>
+    );
+  } else {
+    return null;
+  }
 }
 
-function UserHeader() {
+function UserHeader({ user }) {
+  const { currentUser } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState(null);
-
-  const { user } = useContext(UserContext);
 
   return (
     <header id="UserHeader">
       <img className="UHimg" src={user.photoURL} alt="" />
       <div className="UHname">
         <p style={{ fontSize: "1.75em", fontWeight: 700 }}>{user.username}</p>
-        <IoIosCog
-          style={{ height: "1.5em", width: "auto" }}
-          onClick={() => {
-            setOpen(true);
-            setContent(<UserMenu setOpen={setOpen} />);
-          }}
-        />
+        {currentUser.uid === user.uid ? (
+          <IoIosCog
+            style={{ height: "1.5em", width: "auto" }}
+            onClick={() => {
+              setOpen(true);
+              setContent(<UserMenu setOpen={setOpen} />);
+            }}
+          />
+        ) : null}
       </div>
       <div className="UHbuttons">
-        <Link to="/settings/edit">Edit Profile</Link>
+        {currentUser.uid === user.uid ? (
+          <Link to="/settings/edit">Edit Profile</Link>
+        ) : (
+          <UserFollow user={user} />
+        )}
       </div>
       <div className="UHbio">
-        {user.name}
+        <div>{user.name}</div>
         {user.bio}
       </div>
       <div className="UHfollow">
@@ -57,7 +71,7 @@ function UserHeader() {
           style={{ cursor: "pointer" }}
           onClick={() => {
             setOpen(true);
-            setContent(<UserFollowers />);
+            setContent(<UserFollowers user={user} />);
           }}
         >
           <p style={{ fontWeight: 700 }}>{user.followers.length}&nbsp;</p>
@@ -67,7 +81,7 @@ function UserHeader() {
           style={{ cursor: "pointer" }}
           onClick={() => {
             setOpen(true);
-            setContent(<UserFollowing />);
+            setContent(<UserFollowing user={user} />);
           }}
         >
           <p style={{ fontWeight: 700 }}>{user.following.length}&nbsp;</p>
@@ -96,8 +110,7 @@ function UserMenu({ setOpen }) {
   );
 }
 
-function UserFollowing() {
-  const { user } = useContext(UserContext);
+function UserFollowing({ user }) {
   const [following, setFollowing] = useState([]);
 
   useEffect(() => {
@@ -106,19 +119,18 @@ function UserFollowing() {
         setFollowing((following) => [...following, res]);
       });
     });
-  }, [following, user]);
+  }, [user]);
 
   return (
     <div id="UserFollowing">
-      {user.following.map((followee, i) => {
-        return <UserResult result={followee} key={i} />;
+      {following.map((followee, i) => {
+        return <UserResult user={followee} key={i} />;
       })}
     </div>
   );
 }
 
-function UserFollowers() {
-  const { user } = useContext(UserContext);
+function UserFollowers({ user }) {
   const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
@@ -132,7 +144,7 @@ function UserFollowers() {
   return (
     <div id="UserFollowing">
       {followers.map((follower, i) => {
-        return <UserResult result={follower} key={i} />;
+        return <UserResult user={follower} key={i} />;
       })}
     </div>
   );
