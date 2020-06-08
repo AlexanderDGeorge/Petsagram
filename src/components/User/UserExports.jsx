@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../Application";
 import { followUser, unfollowUser, getUserDoc } from "../../firebase";
 
-export function UserBubble() {
-  const { currentUser } = useContext(UserContext);
-
+export function UserBubble({ user }) {
   return (
-    <Link to={`/user/${currentUser.username}`} id="UserBubble">
-      <img id="UserPhoto" src={currentUser.photoURL} alt="" />
+    <Link to={`/user/${user.username}`} id="UserBubble">
+      <img id="UserPhoto" src={user.photoURL} alt="" />
     </Link>
   );
 }

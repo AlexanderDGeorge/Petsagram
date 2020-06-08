@@ -35,9 +35,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
-}
-
-#APcaption {
+  top: 0;
 }
 
 #APcaption > input {
@@ -89,4 +87,42 @@
 #PostTemplate div {
   height: 100%;
   width: 100%;
+}
+
+.Post {
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+}
+
+.PostHeader {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 2%;
+}
+
+.PostHeader img {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  margin-right: 2%;
+}
+
+.PostImg {
+  min-width: 300px;
+  width: 60vw;
+  border: 1px solid var(--accent);
+}
+
+.PostInfo {
+}
+
+.PostCaption {
+  display: flex;
+}
+
+.AddComment {
+  display: flex;
 }

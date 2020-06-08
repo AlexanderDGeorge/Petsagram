@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SearchBar } from "./Search";
 import {
@@ -9,6 +9,7 @@ import {
   AiOutlineMessage,
 } from "react-icons/ai";
 import { UserBubble } from "./User/UserExports";
+import { UserContext } from "./Application";
 
 export default function Nav() {
   return (
@@ -23,6 +24,7 @@ export default function Nav() {
 }
 
 function NavItems() {
+  const { currentUser } = useContext(UserContext);
   return (
     <section id="NavItems">
       <div className="NavItem">
@@ -53,7 +55,7 @@ function NavItems() {
         </Link>
       </div>
       <div className="NavItem">
-        <UserBubble />
+        <UserBubble user={currentUser} />
       </div>
     </section>
   );

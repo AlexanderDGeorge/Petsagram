@@ -86,8 +86,13 @@
   width: 100%;
 }
 
-#UserPost {
+.UserPost {
   width: 32%;
+  cursor: pointer;
+}
+
+.UserPost > img {
+  width: 100%;
 }
 
 #UserMenu {

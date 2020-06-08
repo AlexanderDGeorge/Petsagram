@@ -11,7 +11,7 @@ export default function AddPost() {
   const [caption, setCaption] = useState("");
   const history = useHistory();
 
-  const { user, setUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   window.image = image;
 
@@ -27,7 +27,7 @@ export default function AddPost() {
 
   async function handlePost(e) {
     e.preventDefault();
-    await uploadImage(image, user, caption, setUser);
+    await uploadImage(image, currentUser, caption, setCurrentUser);
     history.push("/");
   }
 
