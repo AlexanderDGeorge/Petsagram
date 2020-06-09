@@ -11,11 +11,9 @@ export default function Post({ post, user }) {
   const { currentUser } = useContext(UserContext);
 
   async function handleLike() {
-    console.log("here");
     post.likes.includes(currentUser)
       ? await removeLike(currentUser, post)
       : await addLike(currentUser, post);
-    console.log("like made");
   }
 
   return (

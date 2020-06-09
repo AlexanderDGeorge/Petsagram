@@ -1,9 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import Application from "./components/Application";
-import "./css/home.css";
 import "./css/index.css";
-import "./css/messages.css";
 import "./css/modal.css";
 import "./css/nav.css";
 import "./css/post.css";

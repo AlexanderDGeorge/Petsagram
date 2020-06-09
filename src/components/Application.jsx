@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { auth, getUserDoc } from "../firebase";
 import Nav from "./Nav";
 import Splash from "./Splash";
+import Search from "./Search";
 import Home from "./Home";
 import Messages from "./Messages";
 import { User } from "./User/User";
@@ -34,6 +35,7 @@ export default function Application() {
           <BrowserRouter>
             <Route path="/" component={Nav} />
             <Route path="/user" component={User} />
+            <Route path="/search" component={Search} />
             <Route path="/messages" component={Messages} />
             <Route path="/settings" component={UserSettings} />
             <Route path="/post/add" component={AddPost} />

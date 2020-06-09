@@ -3,6 +3,10 @@ import Modal from "./Modal";
 import { findExactUser } from "../firebase";
 import { UserResult } from "./User/UserExports";
 
+export default function Search() {
+  return <section id="Search" className="content"></section>;
+}
+
 export function SearchBar() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
