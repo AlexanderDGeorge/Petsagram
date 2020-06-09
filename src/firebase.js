@@ -144,7 +144,7 @@ export const getUserPost = async (postId) => {
   if (!postId) return;
   try {
     const userPost = await firestore.collection("user-posts").doc(postId).get();
-    return userPost.data();
+    return { id: postId, ...userPost.data() };
   } catch (error) {
     console.error(error);
   }
@@ -193,6 +193,21 @@ export const unfollowUser = async (curUser, otherUser) => {
     });
     await otherUserRef.update({
       followers: firebase.firestore.FieldValue.arrayRemove(curUser.uid),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addComment = async (currentUser, post, comment) => {
+  if (!currentUser || !post || !comment) return;
+  try {
+    const postRef = firestore.collection("user-posts").doc(post.id);
+    await postRef.update({
+      comments: firebase.firestore.FieldValue.arrayUnion({
+        username: currentUser.username,
+        content: comment,
+      }),
     });
   } catch (error) {
     console.error(error);
