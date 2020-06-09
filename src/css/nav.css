@@ -28,3 +28,10 @@
 .NavItem {
   margin: 0.5em;
 }
+
+.NavItem img {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: 2px solid black;
+}

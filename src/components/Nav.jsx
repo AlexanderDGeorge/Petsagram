@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
+  AiFillPlusCircle,
   AiOutlinePlusCircle,
   AiOutlineSearch,
+  AiFillHome,
   AiOutlineHome,
+  AiFillMessage,
   AiOutlineMessage,
 } from "react-icons/ai";
-import { UserBubble } from "./User/UserExports";
 import { UserContext } from "./Application";
 
 export default function Nav() {
@@ -30,21 +32,28 @@ export default function Nav() {
 
 function NavItems() {
   const { currentUser } = useContext(UserContext);
+  const pathname = useLocation().pathname;
   return (
     <section id="NavItems">
       <div className="NavItem">
         <Link to="/">
-          <AiOutlineHome />
+          {pathname === "/" ? <AiFillHome /> : <AiOutlineHome />}
         </Link>
       </div>
       <div className="NavItem">
         <Link to="/search">
-          <AiOutlineSearch />
+          <AiOutlineSearch
+            style={pathname === "/search" ? { strokeWidth: 50 } : {}}
+          />
         </Link>
       </div>
       <div className="NavItem">
         <Link to="/post/add">
-          <AiOutlinePlusCircle />
+          {pathname === "/post/add" ? (
+            <AiFillPlusCircle />
+          ) : (
+            <AiOutlinePlusCircle />
+          )}
         </Link>
       </div>
       {/* <div className="NavItem">
@@ -54,11 +63,13 @@ function NavItems() {
       </div> */}
       <div className="NavItem">
         <Link to="/messages">
-          <AiOutlineMessage />
+          {pathname === "/messages" ? <AiFillMessage /> : <AiOutlineMessage />}
         </Link>
       </div>
       <div className="NavItem">
-        <UserBubble user={currentUser} />
+        <Link to={`/user/${currentUser.username}`}>
+          <img src={currentUser.photoURL} alt="" />
+        </Link>
       </div>
     </section>
   );

@@ -1,40 +1,47 @@
 import React, { useState, useEffect } from "react";
-import Modal from "./Modal";
-import { findExactUser } from "../firebase";
+import { getUsers } from "../firebase";
 import { UserResult } from "./User/UserExports";
 
 export default function Search() {
-  return <section id="Search" className="content"></section>;
-}
-
-export function SearchBar() {
-  const [search, setSearch] = useState("");
-  const [open, setOpen] = useState(false);
   const [results, setResults] = useState([]);
 
+  return (
+    <section id="Search" className="content">
+      <SearchBar setResults={setResults} />
+      <SearchResults results={results} />
+    </section>
+  );
+}
+
+export function SearchBar({ setResults }) {
+  const [search, setSearch] = useState("");
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    findExactUser(search).then((res) => setResults(res));
-  }, [search]);
+    (async function fetchUsers() {
+      setUsers(await getUsers());
+    })();
+  }, []);
+
+  function handleSearch(e) {
+    setSearch(e.target.value);
+    setResults(
+      users.filter(
+        (user) =>
+          user.username.toLowerCase().includes(search.toLowerCase()) ||
+          user.name.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }
 
   return (
-    <div>
-      <input
-        id="SearchBar"
-        type="text"
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setOpen(true);
-        }}
-        placeholder="Search"
-      />
-      {open ? (
-        <Modal
-          setOpen={setOpen}
-          content={<SearchResults results={results} />}
-        />
-      ) : null}
-    </div>
+    <input
+      id="SearchBar"
+      type="text"
+      value={search}
+      onChange={handleSearch}
+      placeholder="Search"
+    />
   );
 }
 
@@ -43,7 +50,7 @@ function SearchResults({ results }) {
     return (
       <div id="SearchResults">
         {results.map((result, i) => (
-          <UserResult result={result} key={i} />
+          <UserResult user={result} key={i} />
         ))}
       </div>
     );

@@ -167,6 +167,15 @@ export const findExactUser = async (params) => {
   }
 };
 
+export const getUsers = async () => {
+  try {
+    const users = await firestore.collection("users").get();
+    return users.docs.map((user) => user.data());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const followUser = async (curUser, otherUser) => {
   if (!curUser || !otherUser) return;
   try {
