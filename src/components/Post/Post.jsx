@@ -1,18 +1,35 @@
 import React, { useState, useContext, useEffect } from "react";
 import Modal from "../Modal";
 import { UserContext } from "../Application";
-import { addComment } from "../../firebase";
+import { addComment, addLike, removeLike } from "../../firebase";
+import { MdMoreHoriz } from "react-icons/md";
 
 export default function Post({ post, user }) {
   console.log(post);
   console.log(user);
+
+  const { currentUser } = useContext(UserContext);
+
+  async function handleLike() {
+    console.log("here");
+    post.likes.includes(currentUser)
+      ? await removeLike(currentUser, post)
+      : await addLike(currentUser, post);
+    console.log("like made");
+  }
+
   return (
     <section className="Post">
       <header className="PostHeader">
         <img src={user.photoURL} alt="" />
         <p style={{ fontWeight: 700 }}>{user.username}</p>
       </header>
-      <img className="PostImg" src={post.url} alt="" />
+      <img
+        className="PostImg"
+        src={post.url}
+        alt=""
+        onDoubleClick={handleLike}
+      />
       <div className="PostInfo">
         <PostLikes likes={post.likes} />
         <PostCaption caption={post.caption} username={user.username} />
@@ -38,12 +55,14 @@ function PostLikes({ likes }) {
 }
 
 function PostCaption({ caption, username }) {
-  return (
-    <div className="PostCaption">
-      <p style={{ fontWeight: 700, marginRight: 2 }}>{username}</p>
-      <p>{caption}</p>
-    </div>
-  );
+  if (caption) {
+    return (
+      <div className="PostCaption">
+        <p style={{ fontWeight: 700, marginRight: 2 }}>{username}</p>
+        <p>{caption}</p>
+      </div>
+    );
+  } else return null;
 }
 
 function PostComments({ comments, post }) {
@@ -70,6 +89,7 @@ function PostComments({ comments, post }) {
           <div className="PostComment" key={i}>
             <p style={{ fontWeight: 700 }}>{comment.username}</p>
             <p>{comment.content}</p>
+            <MdMoreHoriz />
           </div>
         );
       })}

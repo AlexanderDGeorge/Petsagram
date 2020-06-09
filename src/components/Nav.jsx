@@ -5,8 +5,6 @@ import {
   AiOutlinePlusCircle,
   AiOutlineSearch,
   AiOutlineHome,
-  AiOutlineHeart,
-  AiOutlineMessage,
 } from "react-icons/ai";
 import { UserBubble } from "./User/UserExports";
 import { UserContext } from "./Application";
@@ -44,7 +42,7 @@ function NavItems() {
           <AiOutlinePlusCircle />
         </Link>
       </div>
-      <div className="NavItem">
+      {/* <div className="NavItem">
         <button style={{ backgroundColor: "transparent" }}>
           <AiOutlineHeart />
         </button>
@@ -53,7 +51,7 @@ function NavItems() {
         <Link to="/messages">
           <AiOutlineMessage />
         </Link>
-      </div>
+      </div> */}
       <div className="NavItem">
         <UserBubble user={currentUser} />
       </div>

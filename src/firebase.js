@@ -213,3 +213,42 @@ export const addComment = async (currentUser, post, comment) => {
     console.error(error);
   }
 };
+
+export const removeComment = async (currentUser, post, comment) => {
+  if (!currentUser || !post || !comment) return;
+  try {
+    const postRef = firestore.collection("user-posts").doc(post.id);
+    await postRef.update({
+      comments: firebase.firestore.FieldValue.arrayRemove({
+        username: currentUser.username,
+        content: comment,
+      }),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addLike = async (currentUser, post) => {
+  if (!currentUser || !post) return;
+  try {
+    const postRef = firestore.collection("user-posts").doc(post.id);
+    await postRef.update({
+      likes: firebase.firestore.FieldValue.arrayUnion(currentUser.username),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const removeLike = async (currentUser, post) => {
+  if (!currentUser || !post) return;
+  try {
+    const postRef = firestore.collection("user-posts").doc(post.id);
+    await postRef.update({
+      likes: firebase.firestore.FieldValue.arrayRemove(currentUser.username),
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
