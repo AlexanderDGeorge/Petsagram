@@ -65,7 +65,7 @@ export default function SignIn({ setSignIn }) {
           <AiOutlineGoogle />
           <p style={{ width: 200 }}>Log in with Google</p>
         </button>
-        <button
+        {/* <button
           className="AuthButton"
           onClick={signInWithFacebook}
           style={{ backgroundColor: "#4267B2" }}
@@ -80,7 +80,7 @@ export default function SignIn({ setSignIn }) {
         >
           <AiOutlineTwitter />
           <p style={{ width: 200 }}>Log in with Twitter</p>
-        </button>
+        </button> */}
       </div>
       <div className="AuthAlt">
         Don't have an account?{" "}
