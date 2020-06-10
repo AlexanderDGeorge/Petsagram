@@ -31,13 +31,12 @@ export default function AddPost() {
     history.push("/");
   }
 
-  function height() {
-    return window.innerWidth < 500 ? window.innerWidth : 500;
-  }
-
   return (
     <section id="AddPost" className="content">
-      <div id="APimage" style={{ height: height() }}>
+      <div
+        id="APimage"
+        style={filename ? { backgroundImage: `url(${preview})` } : {}}
+      >
         <label htmlFor="file-upload">
           <MdAddAPhoto />
         </label>
@@ -49,17 +48,18 @@ export default function AddPost() {
           onChange={handleChange}
           style={{ display: "none" }}
         />
-        {filename ? <img src={preview} alt="" id="APpreview" /> : null}
       </div>
-      <div id="APcaption">
-        <input
-          type="text"
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-          placeholder="Write a caption..."
-        />
-        {filename ? <button onClick={handlePost}>Post!</button> : null}
-      </div>
+      {preview ? (
+        <div id="APcaption">
+          <input
+            type="text"
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            placeholder="Write a caption..."
+          />
+          <button onClick={handlePost}>Post!</button>
+        </div>
+      ) : null}
     </section>
   );
 }

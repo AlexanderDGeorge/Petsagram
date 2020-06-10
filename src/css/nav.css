@@ -10,6 +10,14 @@
   background-color: white;
   border-bottom: 1px solid var(--accent);
   display: flex;
+  justify-content: center;
+}
+
+#Nav > div {
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }

@@ -21,10 +21,12 @@ export default function Nav() {
   } else {
     return (
       <section id="Nav">
-        <Link to="/" style={{ textDecoration: "none", fontSize: "1.5em" }}>
-          Pet Feed
-        </Link>
-        <NavItems />
+        <div>
+          <Link to="/" style={{ textDecoration: "none", fontSize: "1.5em" }}>
+            Pet Feed
+          </Link>
+          <NavItems />
+        </div>
       </section>
     );
   }
@@ -56,11 +58,6 @@ function NavItems() {
           )}
         </Link>
       </div>
-      {/* <div className="NavItem">
-        <button style={{ backgroundColor: "transparent" }}>
-          <AiOutlineHeart />
-        </button>
-      </div> */}
       <div className="NavItem">
         <Link to="/messages">
           {pathname === "/messages" ? <AiFillMessage /> : <AiOutlineMessage />}
