@@ -20,6 +20,7 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const storageRef = firebase.storage().ref();
+const fieldValue = firebase.firestore.FieldValue;
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
@@ -37,8 +38,6 @@ export const signOut = () => {
   document.title = "Pet Feed";
   auth.signOut();
 };
-
-window.auth = auth;
 
 export const createUserDoc = async (user, additionalData) => {
   if (!user) return;
@@ -116,6 +115,7 @@ const addPost = async (url, user, caption) => {
   await firestore
     .collection("user-posts")
     .add({
+      user: user.uid,
       url,
       caption,
       comments: [],
@@ -126,7 +126,7 @@ const addPost = async (url, user, caption) => {
     .then(async function (postRef) {
       await userRef
         .update({
-          posts: firebase.firestore.FieldValue.arrayUnion(postRef.id),
+          posts: fieldValue.arrayUnion(postRef.id),
         })
         .then(function () {
           console.log("Document updated");
@@ -140,6 +140,20 @@ const addPost = async (url, user, caption) => {
     });
 };
 
+export const deletePost = async (post, user) => {
+  if (!post || !user) return;
+  try {
+    const postRef = firestore.collection("user-posts").doc(post.id);
+    const userRef = firestore.collection("users").doc(user.uid);
+    userRef.update({
+      posts: fieldValue.arrayRemove(post.id),
+    });
+    await postRef.delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getUserPost = async (postId) => {
   if (!postId) return;
   try {
@@ -150,7 +164,7 @@ export const getUserPost = async (postId) => {
   }
 };
 
-export const findExactUser = async (params) => {
+export const getExactUser = async (params) => {
   if (!params) return;
   try {
     const usersRef = await firestore
@@ -182,10 +196,10 @@ export const followUser = async (curUser, otherUser) => {
     const curUserRef = firestore.collection("users").doc(curUser.uid);
     const otherUserRef = firestore.collection("users").doc(otherUser.uid);
     await curUserRef.update({
-      following: firebase.firestore.FieldValue.arrayUnion(otherUser.uid),
+      following: fieldValue.arrayUnion(otherUser.uid),
     });
     await otherUserRef.update({
-      followers: firebase.firestore.FieldValue.arrayUnion(curUser.uid),
+      followers: fieldValue.arrayUnion(curUser.uid),
     });
   } catch (error) {
     console.error(error);
@@ -198,10 +212,10 @@ export const unfollowUser = async (curUser, otherUser) => {
     const curUserRef = firestore.collection("users").doc(curUser.uid);
     const otherUserRef = firestore.collection("users").doc(otherUser.uid);
     await curUserRef.update({
-      following: firebase.firestore.FieldValue.arrayRemove(otherUser.uid),
+      following: fieldValue.arrayRemove(otherUser.uid),
     });
     await otherUserRef.update({
-      followers: firebase.firestore.FieldValue.arrayRemove(curUser.uid),
+      followers: fieldValue.arrayRemove(curUser.uid),
     });
   } catch (error) {
     console.error(error);
@@ -213,7 +227,7 @@ export const addComment = async (currentUser, post, comment) => {
   try {
     const postRef = firestore.collection("user-posts").doc(post.id);
     await postRef.update({
-      comments: firebase.firestore.FieldValue.arrayUnion({
+      comments: fieldValue.arrayUnion({
         username: currentUser.username,
         content: comment,
       }),
@@ -228,7 +242,7 @@ export const removeComment = async (currentUser, post, comment) => {
   try {
     const postRef = firestore.collection("user-posts").doc(post.id);
     await postRef.update({
-      comments: firebase.firestore.FieldValue.arrayRemove({
+      comments: fieldValue.arrayRemove({
         username: currentUser.username,
         content: comment,
       }),
@@ -243,7 +257,7 @@ export const addLike = async (currentUser, post) => {
   try {
     const postRef = firestore.collection("user-posts").doc(post.id);
     await postRef.update({
-      likes: firebase.firestore.FieldValue.arrayUnion(currentUser.username),
+      likes: fieldValue.arrayUnion(currentUser.username),
     });
   } catch (error) {
     console.error(error);
@@ -255,7 +269,7 @@ export const removeLike = async (currentUser, post) => {
   try {
     const postRef = firestore.collection("user-posts").doc(post.id);
     await postRef.update({
-      likes: firebase.firestore.FieldValue.arrayRemove(currentUser.username),
+      likes: fieldValue.arrayRemove(currentUser.username),
     });
   } catch (error) {
     console.error(error);

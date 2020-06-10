@@ -17,8 +17,3 @@
   border-radius: 10px;
   background: var(--light);
 }
-
-.ModalContent > div {
-  height: 100%;
-  width: 100%;
-}

@@ -5,6 +5,10 @@ import { UserResult } from "./User/UserExports";
 export default function Search() {
   const [results, setResults] = useState([]);
 
+  useEffect(() => {
+    document.title = "Search";
+  });
+
   return (
     <section id="Search" className="content">
       <SearchBar setResults={setResults} />

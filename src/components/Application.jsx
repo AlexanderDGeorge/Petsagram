@@ -5,6 +5,7 @@ import Nav from "./Nav";
 import Splash from "./Splash";
 import Search from "./Search";
 import Home from "./Home";
+import Post from "./Post/Post";
 import Messages from "./Messages";
 import { User } from "./User/User";
 import UserSettings from "./User/UserSettings";
@@ -39,6 +40,7 @@ export default function Application() {
             <Route path="/messages" component={Messages} />
             <Route path="/settings" component={UserSettings} />
             <Route path="/post/add" component={AddPost} />
+            <Route path="/post/:id" component={Post} />
             <Route exact path="/" component={Home} />
           </BrowserRouter>
         </UserContext.Provider>

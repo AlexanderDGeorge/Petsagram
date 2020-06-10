@@ -37,7 +37,7 @@
 
 #UserHeader {
   width: 100%;
-  padding: 3%;
+  padding: 2%;
 }
 
 .UHimg {
@@ -88,11 +88,11 @@
 
 .UserPost {
   width: 32%;
+  height: 0;
   cursor: pointer;
-}
-
-.UserPost > img {
-  width: 100%;
+  padding-bottom: 32%;
+  background-size: cover;
+  background-position: 50%;
 }
 
 #UserMenu {

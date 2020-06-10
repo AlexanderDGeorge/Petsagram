@@ -45,6 +45,7 @@
   overflow-y: scroll;
   height: 92%;
   width: 100%;
+  align-self: center;
 }
 
 a {

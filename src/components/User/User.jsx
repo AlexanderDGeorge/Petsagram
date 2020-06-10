@@ -3,7 +3,7 @@ import { UserContext } from "../Application";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
-import { signOut, getUserDoc, findExactUser } from "../../firebase";
+import { signOut, getUserDoc, getExactUser } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserResult, UserFollow } from "./UserExports";
 
@@ -12,11 +12,11 @@ export function User() {
   const location = useLocation();
 
   useEffect(() => {
-    async function getUser() {
-      const userDoc = await findExactUser(location.pathname.slice(6));
+    (async function fetchUser() {
+      const userDoc = await getExactUser(location.pathname.slice(6));
       setUser(userDoc[0]);
-    }
-    getUser();
+      document.title = userDoc[0].name;
+    })();
   }, [location]);
 
   if (user) {

@@ -56,52 +56,29 @@
   background-color: var(--mmain);
 }
 
-#PostTemplate {
-  margin-top: 30px;
-  display: grid;
-  grid-template-columns: 600px auto;
-  grid-template-rows: 100px 500px;
-  grid-template-areas:
-    "image caption"
-    "image comments";
-}
-
-#PostImage {
-  grid-area: image;
-  border: 1px solid var(--accent);
-}
-
-#PostCaption {
-  grid-area: caption;
-  border-top: 1px solid var(--accent);
-  border-right: 1px solid var(--accent);
-  border-bottom: 1px solid var(--accent);
-}
-
-#PostComments {
-  grid-area: comments;
-  border-bottom: 1px solid var(--accent);
-  border-right: 1px solid var(--accent);
-}
-
-#PostTemplate div {
-  height: 100%;
-  width: 100%;
-}
-
 .Post {
   display: flex;
   flex-direction: column;
-  padding: 2%;
   min-width: 300px;
-  box-sizing: content-box;
+  width: 100%;
+  max-width: 600px;
 }
 
 .PostHeader {
   height: 50px;
   display: flex;
   align-items: center;
-  padding: 0 2%;
+  justify-content: space-between;
+}
+
+.PostHeader > div {
+  display: flex;
+  align-items: center;
+}
+
+.PostHeader svg {
+  height: 25px;
+  width: auto;
 }
 
 .PostHeader img {
@@ -112,10 +89,35 @@
   margin-right: 2%;
 }
 
+.PostOptions {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PostOptions > button {
+  background-color: var(--lmain);
+  color: white;
+  width: 80%;
+  height: 50px;
+  border-radius: 6px;
+}
+
+.PostOptions > button:hover {
+  background-color: var(--mmain);
+}
+
 .PostImg {
   min-width: 300px;
-  width: 60vw;
+  width: 100%;
+  max-width: 600px;
+  height: 0;
+  padding-bottom: 100%;
   border: 1px solid var(--accent);
+  background-size: cover;
+  background-position: 50%;
+  margin: 2% 0;
 }
 
 .PostInfo {
