@@ -12,18 +12,24 @@ import {
 } from "../../firebase";
 import { MdMoreHoriz } from "react-icons/md";
 
-export default function Post() {
+export default function Post(props) {
   const { currentUser } = useContext(UserContext);
   const [user, setUser] = useState(null);
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState(props.post);
   const pathname = useLocation().pathname.slice(6);
 
   useEffect(() => {
-    (async function fetchData() {
-      const postDoc = await getUserPost(pathname);
-      setPost(postDoc);
-      setUser(await getUserDoc(postDoc.user));
-    })();
+    if (!post) {
+      (async function fetchData() {
+        const postDoc = await getUserPost(pathname);
+        setPost(postDoc);
+        setUser(await getUserDoc(postDoc.user));
+      })();
+    } else {
+      (async function fetchUser() {
+        setUser(await getUserDoc(post.user));
+      })();
+    }
   }, [pathname]);
 
   async function handleLike() {
@@ -34,7 +40,7 @@ export default function Post() {
 
   if (user && post) {
     return (
-      <section className="Post content">
+      <section className={pathname ? "Post content" : "Post"}>
         <PostHeader user={user} post={post} />
         <div
           className="PostImg"

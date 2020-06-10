@@ -140,6 +140,30 @@ const addPost = async (url, user, caption) => {
     });
 };
 
+export const getUserPost = async (postId) => {
+  if (!postId) return;
+  try {
+    const userPost = await firestore.collection("user-posts").doc(postId).get();
+    return { id: postId, ...userPost.data() };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPostFeed = async (currentUser) => {
+  if (!currentUser) return;
+  try {
+    const postsRef = await firestore
+      .collection("user-posts")
+      .where("user", "in", [currentUser.uid, ...currentUser.following])
+      .orderBy("createdAt", "desc")
+      .get();
+    return postsRef.docs.map((post) => post.data());
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deletePost = async (post, user) => {
   if (!post || !user) return;
   try {
@@ -149,16 +173,6 @@ export const deletePost = async (post, user) => {
       posts: fieldValue.arrayRemove(post.id),
     });
     await postRef.delete();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getUserPost = async (postId) => {
-  if (!postId) return;
-  try {
-    const userPost = await firestore.collection("user-posts").doc(postId).get();
-    return { id: postId, ...userPost.data() };
   } catch (error) {
     console.error(error);
   }
