@@ -91,7 +91,6 @@ function PostHeader({ user, post }) {
 
 function PostLikes({ likes }) {
   const [open, setOpen] = useState(false);
-  console.log(likes);
 
   function Likes({ likes }) {
     return <div></div>;

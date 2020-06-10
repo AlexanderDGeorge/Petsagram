@@ -16,16 +16,16 @@ export default function UserSettings() {
 }
 
 function EditProfile() {
-  const { user } = useContext(UserContext);
-  const [photoURL] = useState(user.photoURL);
-  const [name, setName] = useState(user.name);
-  const [username, setUsername] = useState(user.username);
-  const [bio, setBio] = useState(user.bio);
+  const { currentUser } = useContext(UserContext);
+  const [photoURL] = useState(currentUser.photoURL);
+  const [name, setName] = useState(currentUser.name);
+  const [username, setUsername] = useState(currentUser.username);
+  const [bio, setBio] = useState(currentUser.bio);
   const history = useHistory();
 
   async function handleSave() {
-    await updateUserDoc(user.uid, photoURL, name, username, bio);
-    history.push("/user");
+    await updateUserDoc(currentUser.uid, photoURL, name, username, bio);
+    history.push(`/user/${currentUser.username}`);
   }
 
   return (
@@ -33,7 +33,7 @@ function EditProfile() {
       <div className="editarea" style={{ height: 60 }}>
         <img
           className="label"
-          src={user.photoURL}
+          src={currentUser.photoURL}
           alt=""
           style={{ borderRadius: "50%", height: "100%" }}
         />
