@@ -1,54 +1,77 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import { UserContext } from "../Application";
 import { followUser, unfollowUser, getUserDoc } from "../../firebase";
+import {
+    PlainLink,
+    HorizontalListItem,
+    ColorButton,
+} from "../StyledComponents";
 
-export function UserBubble({ user }) {
-  return (
-    <Link to={`/user/${user.username}`} id="UserBubble">
-      <img id="UserPhoto" src={user.photoURL} alt="" />
-    </Link>
-  );
+export function UserPhoto({ photo, size = "25px" }) {
+    const style = {
+        height: size,
+        minHeight: size,
+        width: size,
+        minWidth: size,
+        backgroundImage: `url(${photo})`,
+        backgroundPosition: "50%",
+        backgroundSize: "cover",
+        border: "1px solid var(--accent)",
+        borderRadius: "50%",
+        gridArea: "UserPhoto",
+    };
+
+    return <div style={style}></div>;
 }
 
-export function UserResult({ user }) {
-  return (
-    <div id="UserResult">
-      <Link to={`/user/${user.username}`}>
-        <img src={user.photoURL} alt="" />
-        <p>{user.username}</p>
-      </Link>
-      <UserFollow user={user} />
-    </div>
-  );
+export function UserName({ username }) {
+    return <PlainLink to={`/user/${username}`}>{username}</PlainLink>;
 }
 
-export function UserFollow({ user }) {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  function isFollowing() {
-    return currentUser.following.includes(user.uid);
-  }
-
-  async function handleClick() {
-    if (isFollowing()) {
-      await unfollowUser(currentUser, user);
-      const userDoc = await getUserDoc(currentUser.uid);
-      setCurrentUser(userDoc);
-    } else {
-      await followUser(currentUser, user);
-      const userDoc = await getUserDoc(currentUser.uid);
-      setCurrentUser(userDoc);
-    }
-  }
-
-  if (currentUser !== user) {
+export function UserLink({ user }) {
     return (
-      <button className="UserFollow" onClick={handleClick}>
-        {isFollowing() ? "unfollow" : "follow"}
-      </button>
+        <PlainLink to={`/user/${user.username}`}>
+            <UserPhoto photo={user.photoURL} />
+            <p style={{ marginLeft: 10 }}>{user.username}</p>
+        </PlainLink>
     );
-  } else {
-    return null;
-  }
+}
+
+export function UserListItem({ user }) {
+    return (
+        <HorizontalListItem>
+            <UserLink user={user} />
+            <UserFollowButton user={user} />
+        </HorizontalListItem>
+    );
+}
+
+export function UserFollowButton({ user }) {
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+
+    function canFollow() {
+        return currentUser.following.includes(user.uid);
+    }
+
+    async function handleClick() {
+        if (canFollow()) {
+            await unfollowUser(currentUser, user);
+            const userDoc = await getUserDoc(currentUser.uid);
+            setCurrentUser(userDoc);
+        } else {
+            await followUser(currentUser, user);
+            const userDoc = await getUserDoc(currentUser.uid);
+            setCurrentUser(userDoc);
+        }
+    }
+
+    if (currentUser.uid !== user.uid) {
+        return (
+            <ColorButton onClick={handleClick}>
+                {canFollow() ? "unfollow" : "follow"}
+            </ColorButton>
+        );
+    } else {
+        return null;
+    }
 }

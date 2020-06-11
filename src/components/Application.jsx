@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 import { auth, getUserDoc } from "../firebase";
 import Nav from "./Nav";
 import Splash from "./Splash";
@@ -14,43 +15,60 @@ import AddPost from "./Post/AddPost";
 export const UserContext = createContext(null);
 
 export default function Application() {
-  const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userDoc = await getUserDoc(user.uid);
-        setCurrentUser(userDoc);
-      } else {
-        setCurrentUser(null);
-      }
-    });
-  }, []);
+    const theme = {
+        dark: "#555555",
+        mid: "#aaaaaa",
+        accent: "#cccccc",
+        light: "#fafafa",
+        lightmain: "#f57a80",
+        main: "#f4676e",
+        darkmain: "#f2545c",
+        blue: "#0073bb",
+    };
 
-  window.currentUser = currentUser;
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const userDoc = await getUserDoc(user.uid);
+                setCurrentUser(userDoc);
+            } else {
+                setCurrentUser(null);
+            }
+        });
+    }, []);
 
-  if (auth.currentUser) {
-    return (
-      <section id="Application">
-        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-          <BrowserRouter>
-            <Route path="/" component={Nav} />
-            <Route path="/user" component={User} />
-            <Route path="/search" component={Search} />
-            <Route path="/messages" component={Messages} />
-            <Route path="/settings" component={UserSettings} />
-            <Route path="/post/add" component={AddPost} />
-            <Route path="/post/:id" component={Post} />
-            <Route exact path="/" component={Home} />
-          </BrowserRouter>
-        </UserContext.Provider>
-      </section>
-    );
-  } else {
-    return (
-      <UserContext.Provider value={{ currentUser }}>
-        <Splash />
-      </UserContext.Provider>
-    );
-  }
+    window.currentUser = currentUser;
+
+    if (auth.currentUser) {
+        return (
+            <section id="Application">
+                <ThemeProvider theme={theme}>
+                    <UserContext.Provider
+                        value={{ currentUser, setCurrentUser }}
+                    >
+                        <BrowserRouter>
+                            <Route path="/" component={Nav} />
+                            <Route path="/user" component={User} />
+                            <Route path="/search" component={Search} />
+                            <Route path="/messages" component={Messages} />
+                            <Route path="/settings" component={UserSettings} />
+                            <Route path="/post/add" component={AddPost} />
+                            <Route path="/post/:id" component={Post} />
+                            <Route exact path="/" component={Home} />
+                        </BrowserRouter>
+                    </UserContext.Provider>
+                </ThemeProvider>
+            </section>
+        );
+    } else {
+        return (
+            <ThemeProvider theme={theme}>
+                <UserContext.Provider value={{ currentUser }}>
+                    <Splash />
+                </UserContext.Provider>
+            </ThemeProvider>
+        );
+    }
 }

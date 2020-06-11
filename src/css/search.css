@@ -1,20 +1,12 @@
 #Search {
-  display: flex;
-  flex-direction: column;
-}
-
-#SearchBar {
-  background-color: var(--light);
-  padding: 5px 10px;
-  border: 1px solid #dddddd;
-  font-size: 14px;
-  border-radius: 6px;
+    display: flex;
+    flex-direction: column;
 }
 
 #SearchBar::placeholder {
-  text-align: center;
+    text-align: center;
 }
 
 #SearchResults {
-  max-height: 500px;
+    max-height: 500px;
 }

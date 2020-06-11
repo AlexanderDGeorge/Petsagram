@@ -1,73 +1,63 @@
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
-  AiFillPlusCircle,
-  AiOutlinePlusCircle,
-  AiOutlineSearch,
-  AiFillHome,
-  AiOutlineHome,
-  AiFillMessage,
-  AiOutlineMessage,
+    AiFillPlusCircle,
+    AiOutlinePlusCircle,
+    AiOutlineSearch,
+    AiFillHome,
+    AiOutlineHome,
+    AiFillMessage,
+    AiOutlineMessage,
 } from "react-icons/ai";
+import { Footer, NavItem, PlainLink, Header } from "./StyledComponents";
 import { UserContext } from "./Application";
+import { UserPhoto } from "./User/UserExports";
 
 export default function Nav() {
-  if (window.innerWidth <= 600) {
-    return (
-      <section id="Nav">
-        <NavItems />
-      </section>
-    );
-  } else {
-    return (
-      <section id="Nav">
-        <div>
-          <Link to="/" style={{ textDecoration: "none", fontSize: "1.5em" }}>
-            Pet Feed
-          </Link>
-          <NavItems />
-        </div>
-      </section>
-    );
-  }
+    if (window.innerWidth <= 600) {
+        return <NavItems />;
+    } else {
+        return (
+            <Header>
+                <div>
+                    <PlainLink to="/">Pet Feed</PlainLink>
+                    <NavItems />
+                </div>
+            </Header>
+        );
+    }
 }
 
 function NavItems() {
-  const { currentUser } = useContext(UserContext);
-  const pathname = useLocation().pathname;
-  return (
-    <section id="NavItems">
-      <div className="NavItem">
-        <Link to="/">
-          {pathname === "/" ? <AiFillHome /> : <AiOutlineHome />}
-        </Link>
-      </div>
-      <div className="NavItem">
-        <Link to="/search">
-          <AiOutlineSearch
-            style={pathname === "/search" ? { strokeWidth: 50 } : {}}
-          />
-        </Link>
-      </div>
-      <div className="NavItem">
-        <Link to="/post/add">
-          {pathname === "/post/add" ? (
-            <AiFillPlusCircle />
-          ) : (
-            <AiOutlinePlusCircle />
-          )}
-        </Link>
-      </div>
-      <div className="NavItem">
-        <Link to="/messages">
-          {pathname === "/messages" ? <AiFillMessage /> : <AiOutlineMessage />}
-        </Link>
-      </div>
-      <div className="NavItem">
-        <Link to={`/user/${currentUser.username}`}>
-          <img src={currentUser.photoURL} alt="" />
-        </Link>
-      </div>
-    </section>
-  );
+    const { currentUser } = useContext(UserContext);
+    const pathname = useLocation().pathname;
+    return (
+        <Footer>
+            <NavItem to="/">
+                {pathname === "/" ? <AiFillHome /> : <AiOutlineHome />}
+            </NavItem>
+            <NavItem to="/search">
+                <AiOutlineSearch
+                    style={pathname === "/search" ? { strokeWidth: 50 } : {}}
+                />
+            </NavItem>
+            <NavItem to="/post/add">
+                {pathname === "/post/add" ? (
+                    <AiFillPlusCircle />
+                ) : (
+                    <AiOutlinePlusCircle />
+                )}
+            </NavItem>
+            <NavItem to="/messages">
+                {pathname === "/messages" ? (
+                    <AiFillMessage />
+                ) : (
+                    <AiOutlineMessage />
+                )}
+            </NavItem>
+            <NavItem to={`/user/${currentUser.username}`}>
+                <UserPhoto photo={currentUser.photoURL} />
+            </NavItem>
+        </Footer>
+    );
 }

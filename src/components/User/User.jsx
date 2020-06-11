@@ -1,151 +1,214 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import styled from "styled-components";
 import { UserContext } from "../Application";
-import { Link, useHistory, useLocation } from "react-router-dom";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
 import { signOut, getUserDoc, getExactUser } from "../../firebase";
 import UserPosts from "./UserPosts";
-import { UserResult, UserFollow } from "./UserExports";
+import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
+import { PlainButton, rotate } from "../StyledComponents";
+
+const UserHeader = styled.div`
+    display: grid;
+    width: 100%;
+    padding: 2%;
+    @media screen and (max-width: 600px) {
+        grid-template-columns: 100px 10% auto;
+        grid-template-rows: 50px 50px 10px 50px 50px;
+        grid-template-areas:
+            "UserPhoto . UserName"
+            "UserPhoto . UserButtons"
+            ". . ."
+            "UserBio UserBio UserBio"
+            "UserStats UserStats UserStats";
+    }
+
+    @media screen and (min-width: 601px) {
+        grid-template-columns: 200px 10% auto;
+        grid-template-rows: 50px 50px 50px 50px;
+        grid-template-areas:
+            "UserPhoto . UserName"
+            "UserPhoto . UserButtons"
+            "UserPhoto . UserBio"
+            "UserPhoto . UserStats";
+    }
+`;
+
+const UserName = styled.div`
+    display: flex;
+    align-items: center;
+    grid-area: UserName;
+    > p {
+        font-size: 1.5em;
+    }
+    > svg {
+        height: 1.5em;
+        width: auto;
+        margin-left: 20px;
+        cursor: pointer;
+        &:hover {
+            animation: ${rotate} 2s linear infinite;
+        }
+    }
+`;
+
+const UserButtons = styled.div`
+    display: flex;
+    align-items: center;
+    grid-area: UserButtons;
+    > button {
+        margin-right: 20px;
+    }
+`;
+
+const UserBio = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    grid-area: UserBio;
+`;
+
+const UserStats = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-area: UserStats;
+    > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+`;
 
 export function User() {
-  const [user, setUser] = useState(null);
-  const location = useLocation();
+    const { currentUser } = useContext(UserContext);
+    const [user, setUser] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [content, setContent] = useState(null);
+    const location = useLocation();
 
-  useEffect(() => {
-    (async function fetchUser() {
-      const userDoc = await getExactUser(location.pathname.slice(6));
-      setUser(userDoc[0]);
-      document.title = userDoc[0].name;
-    })();
-  }, [location]);
+    useEffect(() => {
+        (async function fetchUser() {
+            const userDoc = await getExactUser(location.pathname.slice(6));
+            setUser(userDoc[0]);
+            document.title = userDoc[0].name;
+        })();
+    }, [location]);
 
-  if (user) {
-    return (
-      <section id="User" className="content">
-        <UserHeader user={user} />
-        <UserPosts user={user} />
-      </section>
-    );
-  } else {
-    return null;
-  }
-}
-
-function UserHeader({ user }) {
-  const { currentUser } = useContext(UserContext);
-  const [open, setOpen] = useState(false);
-  const [content, setContent] = useState(null);
-
-  return (
-    <header id="UserHeader">
-      <img className="UHimg" src={user.photoURL} alt="" />
-      <div className="UHname">
-        <p style={{ fontSize: "1.75em", fontWeight: 700 }}>{user.username}</p>
-        {currentUser.uid === user.uid ? (
-          <IoIosCog
-            style={{ height: "1.5em", width: "auto" }}
-            onClick={() => {
-              setOpen(true);
-              setContent(<UserMenu setOpen={setOpen} />);
-            }}
-          />
-        ) : null}
-      </div>
-      <div className="UHbuttons">
-        {currentUser.uid === user.uid ? (
-          <Link to="/settings/edit">Edit Profile</Link>
-        ) : (
-          <UserFollow user={user} />
-        )}
-      </div>
-      <div className="UHbio">
-        <div>{user.name}</div>
-        {user.bio}
-      </div>
-      <div className="UHfollow">
-        <div>
-          <p style={{ fontWeight: 700 }}>{user.posts.length}&nbsp;</p>
-          posts
-        </div>
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            setOpen(true);
-            setContent(<UserFollowers user={user} />);
-          }}
-        >
-          <p style={{ fontWeight: 700 }}>{user.followers.length}&nbsp;</p>
-          followers
-        </div>
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            setOpen(true);
-            setContent(<UserFollowing user={user} />);
-          }}
-        >
-          <p style={{ fontWeight: 700 }}>{user.following.length}&nbsp;</p>
-          following
-        </div>
-      </div>
-      {open ? <Modal setOpen={setOpen} content={content} /> : null}{" "}
-    </header>
-  );
+    if (user) {
+        return (
+            <section id="User" className="content">
+                <UserHeader>
+                    <UserPhoto photo={user.photoURL} size={"100%"} />
+                    <UserName>
+                        <p>{user.username}</p>
+                        <IoIosCog
+                            onClick={() => {
+                                setContent(<UserMenu />);
+                                setOpen(true);
+                            }}
+                        />
+                    </UserName>
+                    <UserButtons>
+                        <PlainButton>Message</PlainButton>
+                        {currentUser.uid === user.uid ? null : (
+                            <UserFollowButton user={user} />
+                        )}
+                    </UserButtons>
+                    <UserBio>
+                        <p>{user.name}</p>
+                        <p>{user.bio}</p>
+                    </UserBio>
+                    <UserStats>
+                        <div>
+                            <p>{user.posts.length}</p>
+                            <p>posts</p>
+                        </div>
+                        <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                                setContent(<UserFollowers user={user} />);
+                                setOpen(true);
+                            }}
+                        >
+                            <p>{user.followers.length}</p>
+                            <p>followers</p>
+                        </div>
+                        <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                                setContent(<UserFollowing user={user} />);
+                                setOpen(true);
+                            }}
+                        >
+                            <p>{user.following.length}</p>
+                            <p>following</p>
+                        </div>
+                    </UserStats>
+                </UserHeader>
+                <UserPosts user={user} />
+                {open ? <Modal setOpen={setOpen} content={content} /> : null}
+            </section>
+        );
+    } else {
+        return null;
+    }
 }
 
 function UserMenu({ setOpen }) {
-  const history = useHistory();
+    const history = useHistory();
 
-  return (
-    <div id="UserMenu">
-      <button onClick={() => history.push("/settings/edit")}>
-        Edit Profile
-      </button>
-      <button onClick={() => history.push("/settings/password")}>
-        Change Password
-      </button>
-      <button onClick={signOut}>Log Out</button>
-      <button onClick={() => setOpen(false)}>Cancel</button>
-    </div>
-  );
+    return (
+        <div id="UserMenu">
+            <button onClick={() => history.push("/settings/edit")}>
+                Edit Profile
+            </button>
+            <button onClick={() => history.push("/settings/password")}>
+                Change Password
+            </button>
+            <button onClick={signOut}>Log Out</button>
+            <button onClick={() => setOpen(false)}>Cancel</button>
+        </div>
+    );
 }
 
 function UserFollowing({ user }) {
-  const [following, setFollowing] = useState([]);
+    const [following, setFollowing] = useState([]);
 
-  useEffect(() => {
-    user.following.forEach((followee) => {
-      getUserDoc(followee).then((res) => {
-        setFollowing((following) => [...following, res]);
-      });
-    });
-  }, [user]);
+    useEffect(() => {
+        user.following.forEach((followee) => {
+            getUserDoc(followee).then((res) => {
+                setFollowing((following) => [...following, res]);
+            });
+        });
+    }, [user]);
 
-  return (
-    <div id="UserFollowing">
-      {following.map((followee, i) => {
-        return <UserResult user={followee} key={i} />;
-      })}
-    </div>
-  );
+    return (
+        <div id="UserFollowing">
+            {following.map((followee, i) => {
+                return <UserListItem user={followee} key={i} />;
+            })}
+        </div>
+    );
 }
 
 function UserFollowers({ user }) {
-  const [followers, setFollowers] = useState([]);
+    const [followers, setFollowers] = useState([]);
 
-  useEffect(() => {
-    user.followers.forEach((follower) => {
-      getUserDoc(follower).then((res) => {
-        setFollowers((followers) => [...followers, res]);
-      });
-    });
-  }, [user]);
+    useEffect(() => {
+        user.followers.forEach((follower) => {
+            getUserDoc(follower).then((res) => {
+                setFollowers((followers) => [...followers, res]);
+            });
+        });
+    }, [user]);
 
-  return (
-    <div id="UserFollowing">
-      {followers.map((follower, i) => {
-        return <UserResult user={follower} key={i} />;
-      })}
-    </div>
-  );
+    return (
+        <div id="UserFollowing">
+            {followers.map((follower, i) => {
+                return <UserListItem user={follower} key={i} />;
+            })}
+        </div>
+    );
 }

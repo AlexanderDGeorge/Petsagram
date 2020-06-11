@@ -5,61 +5,61 @@ import { uploadImage } from "../../firebase";
 import { UserContext } from "../Application";
 
 export default function AddPost() {
-  const [filename, setFilename] = useState("");
-  const [image, setImage] = useState({});
-  const [preview, setPreview] = useState("");
-  const [caption, setCaption] = useState("");
-  const history = useHistory();
+    const [filename, setFilename] = useState("");
+    const [image, setImage] = useState({});
+    const [preview, setPreview] = useState("");
+    const [caption, setCaption] = useState("");
+    const history = useHistory();
 
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
 
-  window.image = image;
+    window.image = image;
 
-  function handleChange(e) {
-    window.target = e.target;
-    e.preventDefault();
-    if (e.target.files.length) {
-      setImage(e.target.files[0]);
-      setPreview(window.URL.createObjectURL(e.target.files[0]));
-      setFilename(e.target.value);
+    function handleChange(e) {
+        window.target = e.target;
+        e.preventDefault();
+        if (e.target.files.length) {
+            setImage(e.target.files[0]);
+            setPreview(window.URL.createObjectURL(e.target.files[0]));
+            setFilename(e.target.value);
+        }
     }
-  }
 
-  async function handlePost(e) {
-    e.preventDefault();
-    await uploadImage(image, currentUser, caption, setCurrentUser);
-    history.push("/");
-  }
+    async function handlePost(e) {
+        e.preventDefault();
+        await uploadImage(image, currentUser, caption, setCurrentUser);
+        history.push("/");
+    }
 
-  return (
-    <section id="AddPost" className="content">
-      <div
-        id="APimage"
-        style={filename ? { backgroundImage: `url(${preview})` } : {}}
-      >
-        <label htmlFor="file-upload">
-          <MdAddAPhoto />
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          accept="image/*"
-          value={filename}
-          onChange={handleChange}
-          style={{ display: "none" }}
-        />
-      </div>
-      {preview ? (
-        <div id="APcaption">
-          <input
-            type="text"
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            placeholder="Write a caption..."
-          />
-          <button onClick={handlePost}>Post!</button>
-        </div>
-      ) : null}
-    </section>
-  );
+    return (
+        <section id="AddPost" className="content">
+            <div
+                id="APimage"
+                style={filename ? { backgroundImage: `url(${preview})` } : {}}
+            >
+                <label htmlFor="file-upload">
+                    <MdAddAPhoto />
+                </label>
+                <input
+                    id="file-upload"
+                    type="file"
+                    accept="image/*"
+                    value={filename}
+                    onChange={handleChange}
+                    style={{ display: "none" }}
+                />
+            </div>
+            {preview ? (
+                <div id="APcaption">
+                    <input
+                        type="text"
+                        value={caption}
+                        onChange={(e) => setCaption(e.target.value)}
+                        placeholder="Write a caption..."
+                    />
+                    <button onClick={handlePost}>Post!</button>
+                </div>
+            ) : null}
+        </section>
+    );
 }
