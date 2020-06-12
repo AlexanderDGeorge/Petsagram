@@ -16,7 +16,6 @@ export function UserPhoto({ photo, size = "25px" }) {
         backgroundImage: `url(${photo})`,
         backgroundPosition: "50%",
         backgroundSize: "cover",
-        border: "1px solid var(--accent)",
         borderRadius: "50%",
         gridArea: "UserPhoto",
     };

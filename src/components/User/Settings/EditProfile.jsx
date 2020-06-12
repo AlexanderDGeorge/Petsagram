@@ -1,68 +1,46 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { updateUserDoc } from "../../../firebase";
+import { updateUserDoc, uploadPhotoURL } from "../../../firebase";
 import { UserContext } from "../../Application";
 import { UserPhoto } from "../UserExports";
-import { InputBox, ColorButton } from "../../StyledComponents";
-
-const EditProfileWrapper = styled.section`
-    height: 100%;
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 2%;
-    position: relative;
-`;
-
-const EditArea = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 40px;
-    width: 100%;
-    margin-bottom: 2%;
-
-    > div:first-child {
-        margin-right: 2%;
-        text-align: end;
-    }
-
-    > input {
-        width: 70%;
-    }
-
-    > span {
-        width: 70%;
-        > label {
-            cursor: pointer;
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-`;
+import {
+    InputBox,
+    ColorButton,
+    UserSettingsWrapper,
+    EditArea,
+} from "../../StyledComponents";
 
 export default function EditProfile() {
     const { currentUser } = useContext(UserContext);
-    const [photoURL] = useState(currentUser.photoURL);
+    const [photoURL, setPhotoURL] = useState(currentUser.photoURL);
     const [name, setName] = useState(currentUser.name);
     const [username, setUsername] = useState(currentUser.username);
     const [bio, setBio] = useState(currentUser.bio);
+    const [email, setEmail] = useState(currentUser.email);
     const history = useHistory();
 
     async function handleSave() {
-        await updateUserDoc(currentUser.uid, photoURL, name, username, bio);
+        await updateUserDoc(
+            currentUser.uid,
+            photoURL,
+            name,
+            username,
+            bio,
+            email
+        );
         history.push(`/user/${currentUser.username}`);
     }
 
-    async function handleUpload(e) {}
+    async function handleUpload(e) {
+        if (e.target.files.length) {
+            setPhotoURL(await uploadPhotoURL(e.target.files[0], currentUser));
+        }
+    }
 
     return (
-        <EditProfileWrapper>
+        <UserSettingsWrapper>
             <EditArea>
-                <UserPhoto photo={currentUser.photoURL} size={"40px"} />
+                <UserPhoto photo={photoURL} size={"40px"} />
                 <span>
                     <label htmlFor="file-upload">Change Profile Picture</label>
                     <input
@@ -98,7 +76,15 @@ export default function EditProfile() {
                     onChange={(e) => setBio(e.target.value)}
                 />
             </EditArea>
+            <EditArea>
+                <div>Email</div>
+                <InputBox
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </EditArea>
             <ColorButton onClick={handleSave}>Save Changes</ColorButton>
-        </EditProfileWrapper>
+        </UserSettingsWrapper>
     );
 }

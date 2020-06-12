@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory, Switch, Route } from "react-router-dom";
 import { signOut } from "../../../firebase";
 import { Menu, MenuItem, Wrapper } from "../../StyledComponents";
 import EditProfile from "./EditProfile";
+import ChangePassword from "./ChangePassword";
 import UserSettingsNav from "./UserSettingsNav";
+import { DarkContext } from "../../Application";
 
 export default function UserSettings() {
     return (
@@ -19,6 +21,7 @@ export default function UserSettings() {
 
 export function UserMenu() {
     const history = useHistory();
+    const { darkMode, setDarkMode } = useContext(DarkContext);
 
     return (
         <Menu>
@@ -28,11 +31,10 @@ export function UserMenu() {
             <MenuItem onClick={() => history.push("/settings/password")}>
                 Change Password
             </MenuItem>
+            <MenuItem onClick={() => setDarkMode(!darkMode)}>
+                {darkMode ? "Light Mode" : "Dark Mode"}
+            </MenuItem>
             <MenuItem onClick={signOut}>Log Out</MenuItem>
         </Menu>
     );
-}
-
-function ChangePassword() {
-    return <section id="ChangePassword" className="USContent"></section>;
 }
