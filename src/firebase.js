@@ -35,11 +35,6 @@ export const signOut = () => {
     auth.signOut();
 };
 
-export const sendVerificationEmail = async () => {
-    await auth.currentUser.sendEmailVerification();
-    return true;
-};
-
 export const createUserDoc = async (user, additionalData) => {
     if (!user) return;
 
@@ -81,14 +76,7 @@ export const getUserDoc = async (uid) => {
     }
 };
 
-export const updateUserDoc = async (
-    uid,
-    photoURL,
-    name,
-    username,
-    bio,
-    email
-) => {
+export const updateUserDoc = async (uid, photoURL, name, username, bio) => {
     try {
         const userRef = firestore.collection("users").doc(uid);
         await userRef.update({
@@ -96,7 +84,6 @@ export const updateUserDoc = async (
             name,
             username,
             bio,
-            email,
         });
     } catch (error) {
         console.error(error);
@@ -111,6 +98,16 @@ export const updateUserPassword = async (newPassword) => {
     if (!newPassword) return;
     try {
         await auth.currentUser.updatePassword(newPassword);
+        return true;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const updateUserEmail = async (newEmail) => {
+    if (!newEmail) return;
+    try {
+        await auth.currentUser.updateEmail(newEmail);
         return true;
     } catch (error) {
         console.error(error);

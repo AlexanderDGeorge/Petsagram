@@ -4,8 +4,8 @@ import { useLocation, useHistory } from "react-router-dom";
 
 const UserSetNavWrapper = styled.div`
     height: 100%;
-    width: 25%;
-    border-right: 1px solid var(--accent);
+    width: 28%;
+    border-right: 1px solid ${(props) => props.theme.accent};
 `;
 
 export default function UserSettingsNav() {
@@ -13,6 +13,11 @@ export default function UserSettingsNav() {
         <UserSetNavWrapper>
             <UserSettingsNavItem name={"Edit Profile"} path={"/edit"} />
             <UserSettingsNavItem name={"Change Password"} path={"/password"} />
+            <UserSettingsNavItem
+                name={"Notifications"}
+                path={"/notifications"}
+            />
+            <UserSettingsNavItem name={"Manage Account"} path={"/account"} />
         </UserSetNavWrapper>
     );
 }
@@ -26,8 +31,8 @@ const UserSetNavItem = styled.div`
     padding-left: 5%;
     cursor: pointer;
     &:hover {
-        background-color: var(--light);
-        border-left: 2px solid var(--mid);
+        background-color: ${(props) => props.theme.light};
+        border-left: 2px solid ${(props) => props.theme.mid};
     }
 `;
 

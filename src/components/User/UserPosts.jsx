@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { getUserPost } from "../../firebase";
 
 const UserPostsWrapper = styled.section`
-    border-top: 1px solid var(--accent);
+    height: 100%auto;
+    width: 100%;
+    background-color: ${(props) => props.theme.light};
+    border-top: 1px solid ${(props) => props.theme.accent};
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
     padding-top: 2%;
 `;
 

@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { auth, getUserDoc } from "../firebase";
 import Nav from "./Nav";
 import Splash from "./Splash";
@@ -14,10 +14,22 @@ import AddPost from "./Post/AddPost";
 
 export const UserContext = createContext(null);
 export const DarkContext = createContext(null);
+export const GlobalStyle = createGlobalStyle`
+    * {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        outline: none;
+        color: ${(props) => props.theme.black};
+        transition: all 0.5s linear;
+    }   
+`;
 
 export default function Application() {
     const [currentUser, setCurrentUser] = useState(null);
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(null);
 
     const light = {
         dark: "#555555",
@@ -25,6 +37,7 @@ export default function Application() {
         accent: "#cccccc",
         light: "#fafafa",
         white: "white",
+        black: "black",
         lightmain: "#f57a80",
         main: "#f4676e",
         darkmain: "#f2545c",
@@ -36,7 +49,8 @@ export default function Application() {
         mid: "#aaaaaa",
         accent: "#999999",
         light: "#555555",
-        white: "#111111",
+        white: "#333333",
+        black: "#fafafa",
         lightmain: "#f2545c",
         main: "#f4676e",
         darkmain: "#f2545c",
@@ -54,10 +68,15 @@ export default function Application() {
                 setCurrentUser(null);
             }
         });
+        setDarkMode(localStorage.getItem("darkMode"));
     }, []);
 
+    function setMode() {
+        setDarkMode(!darkMode);
+        localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    }
+
     window.currentUser = currentUser;
-    window.auth = auth;
 
     if (auth.currentUser) {
         return (
@@ -66,7 +85,8 @@ export default function Application() {
                     <UserContext.Provider
                         value={{ currentUser, setCurrentUser }}
                     >
-                        <DarkContext.Provider value={{ darkMode, setDarkMode }}>
+                        <DarkContext.Provider value={{ darkMode, setMode }}>
+                            <GlobalStyle />
                             <BrowserRouter>
                                 <Route path="/" component={Nav} />
                                 <Route path="/user" component={User} />
@@ -90,6 +110,7 @@ export default function Application() {
             <ThemeProvider theme={theme}>
                 <UserContext.Provider value={{ currentUser }}>
                     <DarkContext.Provider value={{ darkMode }}>
+                        <GlobalStyle />
                         <Splash />
                     </DarkContext.Provider>
                 </UserContext.Provider>

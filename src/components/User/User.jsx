@@ -7,13 +7,14 @@ import Modal from "../Modal";
 import { getUserDoc, getExactUser } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
-import { PlainButton, rotate } from "../StyledComponents";
+import { PlainButton, rotate, VerticalWrapper } from "../StyledComponents";
 import { UserMenu } from "./Settings/UserSettings";
 
 const UserHeader = styled.div`
     display: grid;
     width: 100%;
     padding: 2%;
+    background-color: ${(props) => props.theme.light};
     @media screen and (max-width: 600px) {
         grid-template-columns: 100px 10% auto;
         grid-template-rows: 50px 50px 10px 50px 50px;
@@ -99,17 +100,19 @@ export function User() {
 
     if (user) {
         return (
-            <section id="User" className="content">
+            <VerticalWrapper>
                 <UserHeader>
                     <UserPhoto photo={user.photoURL} size={"100%"} />
                     <UserName>
                         <p>{user.username}</p>
-                        <IoIosCog
-                            onClick={() => {
-                                setContent(<UserMenu />);
-                                setOpen(true);
-                            }}
-                        />
+                        {currentUser.uid === user.uid ? (
+                            <IoIosCog
+                                onClick={() => {
+                                    setContent(<UserMenu />);
+                                    setOpen(true);
+                                }}
+                            />
+                        ) : null}
                     </UserName>
                     {currentUser.uid !== user.uid ? (
                         <UserButtons>
@@ -150,7 +153,7 @@ export function User() {
                 </UserHeader>
                 <UserPosts user={user} />
                 {open ? <Modal setOpen={setOpen} content={content} /> : null}
-            </section>
+            </VerticalWrapper>
         );
     } else return null;
 }

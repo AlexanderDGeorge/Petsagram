@@ -21,13 +21,31 @@ export const Menu = styled.div`
 export const MenuItem = styled.button`
     height: 50px;
     width: 100%;
-    border-bottom: 1px solid var(--accent);
+    border-bottom: 1px solid ${(props) => props.theme.accent};
     font-size: 14px;
     text-decoration: none;
     text-align: center;
 `;
 
-export const Wrapper = styled.div`
+export const VerticalWrapper = styled.div`
+    height: 92%;
+    width: 100%;
+    max-width: 700px;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    align-self: center;
+    background-color: ${(props) => props.theme.light};
+    @media screen and (max-width: 600px) {
+        box-sizing: border-box;
+    }
+    @media screen and (min-width: 601px) {
+        box-sizing: content-box;
+    }
+`;
+
+export const HorizontalWrapper = styled.div`
     height: 92%;
     width: 100%;
     max-width: 700px;
@@ -35,7 +53,22 @@ export const Wrapper = styled.div`
     display: flex;
     overflow-y: scroll;
     align-self: center;
-    grid-area: content;
+    background-color: ${(props) => props.theme.light};
+    @media screen and (max-width: 600px) {
+        box-sizing: border-box;
+    }
+    @media screen and (min-width: 601px) {
+        box-sizing: content-box;
+    }
+`;
+
+export const CenteredWrapper = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const HorizontalListItem = styled.div`
@@ -45,6 +78,7 @@ export const HorizontalListItem = styled.div`
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid ${(props) => props.theme.accent};
+    text-align: center;
 `;
 
 export const InputBox = styled.input`
@@ -54,6 +88,7 @@ export const InputBox = styled.input`
     font-size: 1.2em;
     border-radius: 6px;
     &:hover {
+        transition: all 0s linear;
         box-shadow: 0 0 5px 0;
     }
 `;
@@ -63,6 +98,7 @@ export const PlainLink = styled(Link)`
     display: flex;
     align-items: center;
     &:hover {
+        transition: all 0s linear;
         text-decoration: underline;
     }
 `;
@@ -73,6 +109,7 @@ export const PlainButton = styled.button`
     border: 1px solid ${(props) => props.theme.accent};
     border-radius: 6px;
     &:hover {
+        transition: all 0s linear;
         box-shadow: 0 0 5px 0;
     }
 `;
@@ -82,9 +119,10 @@ export const ColorButton = styled.button`
     padding: 10px;
     border: 1px solid ${(props) => props.theme.accent};
     background-color: ${(props) => props.theme.lightmain};
-    color: ${(props) => props.theme.white};
+    color: white;
     border-radius: 6px;
     &:hover {
+        transition: all 0s linear;
         background-color: ${(props) => props.theme.darkmain};
         box-shadow: 0 0 5px 0;
     }
@@ -92,7 +130,7 @@ export const ColorButton = styled.button`
 
 export const UserSettingsWrapper = styled.section`
     height: 100%;
-    width: 75%;
+    width: 72%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,16 +142,18 @@ export const EditArea = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 40px;
+    height: 50px;
     width: 100%;
     margin-bottom: 2%;
 
     > div:first-child {
+        width: 30%;
         margin-right: 2%;
         text-align: end;
     }
 
     > *:nth-child(2) {
+        height: 100%;
         width: 70%;
         font-size: 1.2em;
         > label {
@@ -122,5 +162,10 @@ export const EditArea = styled.div`
                 text-decoration: underline;
             }
         }
+    }
+
+    > span {
+        height: auto !important;
+        padding: 10px;
     }
 `;

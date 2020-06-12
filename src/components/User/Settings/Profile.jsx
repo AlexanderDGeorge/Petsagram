@@ -10,24 +10,16 @@ import {
     EditArea,
 } from "../../StyledComponents";
 
-export default function EditProfile() {
+export default function Profile() {
     const { currentUser } = useContext(UserContext);
     const [photoURL, setPhotoURL] = useState(currentUser.photoURL);
     const [name, setName] = useState(currentUser.name);
     const [username, setUsername] = useState(currentUser.username);
     const [bio, setBio] = useState(currentUser.bio);
-    const [email, setEmail] = useState(currentUser.email);
     const history = useHistory();
 
     async function handleSave() {
-        await updateUserDoc(
-            currentUser.uid,
-            photoURL,
-            name,
-            username,
-            bio,
-            email
-        );
+        await updateUserDoc(currentUser.uid, photoURL, name, username, bio);
         history.push(`/user/${currentUser.username}`);
     }
 
@@ -77,14 +69,9 @@ export default function EditProfile() {
                 />
             </EditArea>
             <EditArea>
-                <div>Email</div>
-                <InputBox
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                <div></div>
+                <ColorButton onClick={handleSave}>Save Changes</ColorButton>
             </EditArea>
-            <ColorButton onClick={handleSave}>Save Changes</ColorButton>
         </UserSettingsWrapper>
     );
 }

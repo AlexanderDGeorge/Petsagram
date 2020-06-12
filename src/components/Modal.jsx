@@ -24,9 +24,10 @@ export default function Modal({ setOpen, content }) {
 const ModalContentWrapper = styled.div`
     min-height: 60px;
     min-width: 260px;
-    border: 1px solid var(--mid);
+    border: 1px solid ${(props) => props.theme.mid};
     border-radius: 10px;
-    background: var(--light);
+    background: ${(props) => props.theme.light};
+    overflow: hidden;
 `;
 
 function ModalContent({ content, setOpen }) {

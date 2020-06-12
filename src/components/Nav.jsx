@@ -41,7 +41,6 @@ const Footer = styled.footer`
     align-items: center;
     justify-content: space-between;
     border-top: 1px solid ${(props) => props.theme.accent};
-    background-color: ${(props) => props.theme.white};
     svg {
         height: 25px;
         width: auto;
@@ -51,6 +50,7 @@ const Footer = styled.footer`
 export const NavItem = styled(Link)`
     height: 25px;
     margin: 2%;
+    background-color: transparent;
 `;
 
 export default function Nav() {

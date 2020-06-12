@@ -10,7 +10,7 @@ import {
     PlainButton,
 } from "../../StyledComponents";
 
-export default function ChangePassword() {
+export default function Password() {
     const { currentUser } = useContext(UserContext);
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -59,7 +59,10 @@ export default function ChangePassword() {
                 </PlainButton>
             </EditArea>
             {canSave() ? (
-                <ColorButton onClick={handleSave}>Save Changes</ColorButton>
+                <EditArea>
+                    <div></div>
+                    <ColorButton onClick={handleSave}>Save Changes</ColorButton>
+                </EditArea>
             ) : null}
         </UserSettingsWrapper>
     );
