@@ -31,7 +31,7 @@ export default function Post(props) {
                 setUser(await getUserDoc(post.user));
             })();
         }
-    }, [pathname]);
+    }, [pathname, post]);
 
     async function handleLike() {
         post.likes.includes(currentUser)

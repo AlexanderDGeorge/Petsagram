@@ -65,13 +65,9 @@ export function UserFollowButton({ user }) {
         }
     }
 
-    if (currentUser.uid !== user.uid) {
-        return (
-            <ColorButton onClick={handleClick}>
-                {canFollow() ? "unfollow" : "follow"}
-            </ColorButton>
-        );
-    } else {
-        return null;
-    }
+    return (
+        <ColorButton onClick={handleClick}>
+            {canFollow() ? "unfollow" : "follow"}
+        </ColorButton>
+    );
 }

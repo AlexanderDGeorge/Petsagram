@@ -1,13 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../Application";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
-import { signOut, getUserDoc, getExactUser } from "../../firebase";
+import { getUserDoc, getExactUser } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
 import { PlainButton, rotate } from "../StyledComponents";
+import { UserMenu } from "./Settings/UserSettings";
 
 const UserHeader = styled.div`
     display: grid;
@@ -110,12 +111,12 @@ export function User() {
                             }}
                         />
                     </UserName>
-                    <UserButtons>
-                        <PlainButton>Message</PlainButton>
-                        {currentUser.uid === user.uid ? null : (
+                    {currentUser.uid !== user.uid ? (
+                        <UserButtons>
+                            <PlainButton>Message</PlainButton>
                             <UserFollowButton user={user} />
-                        )}
-                    </UserButtons>
+                        </UserButtons>
+                    ) : null}
                     <UserBio>
                         <p>{user.name}</p>
                         <p>{user.bio}</p>
@@ -151,26 +152,7 @@ export function User() {
                 {open ? <Modal setOpen={setOpen} content={content} /> : null}
             </section>
         );
-    } else {
-        return null;
-    }
-}
-
-function UserMenu({ setOpen }) {
-    const history = useHistory();
-
-    return (
-        <div id="UserMenu">
-            <button onClick={() => history.push("/settings/edit")}>
-                Edit Profile
-            </button>
-            <button onClick={() => history.push("/settings/password")}>
-                Change Password
-            </button>
-            <button onClick={signOut}>Log Out</button>
-            <button onClick={() => setOpen(false)}>Cancel</button>
-        </div>
-    );
+    } else return null;
 }
 
 function UserFollowing({ user }) {

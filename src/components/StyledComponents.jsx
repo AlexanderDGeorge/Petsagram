@@ -11,11 +11,31 @@ export const rotate = keyframes`
     }
 `;
 
+export const Menu = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const MenuItem = styled.button`
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid var(--accent);
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+`;
+
 export const Wrapper = styled.div`
-    padding: 2%;
-    overflow-y: scroll;
+    height: 92%;
+    width: 100%;
     max-width: 700px;
+    padding: 2%;
+    display: flex;
+    overflow-y: scroll;
     align-self: center;
+    grid-area: content;
 `;
 
 export const Header = styled.header`

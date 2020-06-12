@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useHistory } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { signInWithGoogle, auth } from "../../firebase";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { InputBox } from "../StyledComponents";
@@ -6,7 +7,7 @@ import { InputBox } from "../StyledComponents";
 export default function SignIn({ setSignIn }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const history = useHistory;
+    const history = useHistory();
 
     useEffect(() => {
         window.addEventListener("keypress", handleEnter);

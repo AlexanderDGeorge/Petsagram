@@ -9,7 +9,7 @@ import Home from "./Home";
 import Post from "./Post/Post";
 import Messages from "./Messages";
 import { User } from "./User/User";
-import UserSettings from "./User/UserSettings";
+import UserSettings from "./User/Settings/UserSettings";
 import AddPost from "./Post/AddPost";
 
 export const UserContext = createContext(null);
