@@ -3,6 +3,7 @@ import { MdAddAPhoto } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import { uploadImage } from "../../firebase";
 import { UserContext } from "../Application";
+import { VerticalWrapper } from "../StyledComponents";
 
 export default function AddPost() {
     const [filename, setFilename] = useState("");
@@ -32,7 +33,7 @@ export default function AddPost() {
     }
 
     return (
-        <section id="AddPost" className="content">
+        <VerticalWrapper>
             <div
                 id="APimage"
                 style={filename ? { backgroundImage: `url(${preview})` } : {}}
@@ -60,6 +61,6 @@ export default function AddPost() {
                     <button onClick={handlePost}>Post!</button>
                 </div>
             ) : null}
-        </section>
+        </VerticalWrapper>
     );
 }

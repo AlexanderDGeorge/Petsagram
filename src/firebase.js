@@ -237,7 +237,7 @@ export const getExactUser = async (username) => {
 export const getUsers = async () => {
     try {
         const users = await firestore.collection("users").get();
-        return users.docs.map((user) => user.data());
+        return users.docs.map((user) => ({ uid: user.id, ...user.data() }));
     } catch (error) {
         console.error(error);
     }
