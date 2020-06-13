@@ -10,12 +10,6 @@ export const rotate = keyframes`
     }
 `;
 
-export const FullScreen = styled.section`
-    height: 100vh;
-    width: 100vw;
-    background-color: ${(props) => props.theme.light};
-`;
-
 export const Menu = styled.div`
     display: flex;
     flex-direction: column;

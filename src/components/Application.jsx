@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { auth, getUserDoc } from "../firebase";
 import Nav from "./Nav";
 import Splash from "./Splash";
@@ -11,6 +11,19 @@ import Messages from "./Messages";
 import { User } from "./User/User";
 import UserSettings from "./User/Settings/UserSettings";
 import AddPost from "./Post/AddPost";
+
+const ApplicationWrapper = styled.section`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: ${(props) => props.theme.light};
+    @media screen and (max-width: 600px) {
+        flex-direction: column-reverse;
+    }
+    @media screen and (min-width: 601px) {
+        flex-direction: column;
+    }
+`;
 
 export const UserContext = createContext(null);
 export const DarkContext = createContext(null);
@@ -80,8 +93,8 @@ export default function Application() {
 
     if (currentUser) {
         return (
-            <section id="Application">
-                <ThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
+                <ApplicationWrapper>
                     <UserContext.Provider
                         value={{ currentUser, setCurrentUser }}
                     >
@@ -102,8 +115,8 @@ export default function Application() {
                             </BrowserRouter>
                         </DarkContext.Provider>
                     </UserContext.Provider>
-                </ThemeProvider>
-            </section>
+                </ApplicationWrapper>
+            </ThemeProvider>
         );
     } else {
         return (

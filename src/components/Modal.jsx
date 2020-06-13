@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const ModalWrapper = styled.div`
     position: fixed;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background: rgba(0, 0, 0, 0.4);
     left: 0;
     top: 0;
