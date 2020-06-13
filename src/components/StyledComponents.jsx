@@ -5,10 +5,15 @@ export const rotate = keyframes`
     from {
         transform: rotate(0deg);
     }
-
     to {
         transform: rotate(360deg);
     }
+`;
+
+export const FullScreen = styled.section`
+    height: 100vh;
+    width: 100vw;
+    background-color: ${(props) => props.theme.light};
 `;
 
 export const Menu = styled.div`
@@ -37,12 +42,6 @@ export const VerticalWrapper = styled.div`
     overflow-y: scroll;
     align-self: center;
     background-color: ${(props) => props.theme.light};
-    @media screen and (max-width: 600px) {
-        box-sizing: border-box;
-    }
-    @media screen and (min-width: 601px) {
-        box-sizing: content-box;
-    }
 `;
 
 export const HorizontalWrapper = styled.div`
@@ -54,12 +53,6 @@ export const HorizontalWrapper = styled.div`
     overflow-y: scroll;
     align-self: center;
     background-color: ${(props) => props.theme.light};
-    @media screen and (max-width: 600px) {
-        box-sizing: border-box;
-    }
-    @media screen and (min-width: 601px) {
-        box-sizing: content-box;
-    }
 `;
 
 export const CenteredWrapper = styled.div`
@@ -69,6 +62,23 @@ export const CenteredWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: ${(props) => props.theme.light};
+`;
+
+export const AuthWrapper = styled.div`
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: ${(props) => props.theme.white};
+    padding: 5%;
+    border-radius: 6px;
+    > * {
+        width: 100%;
+        font-size: 1.1em;
+        margin: 5px 0;
+    }
 `;
 
 export const HorizontalListItem = styled.div`
@@ -85,7 +95,6 @@ export const InputBox = styled.input`
     background-color: ${(props) => props.theme.white};
     padding: 5px 10px;
     border: ${(props) => `1px solid ${props.theme.mid}`};
-    font-size: 1.2em;
     border-radius: 6px;
     &:hover {
         transition: all 0s linear;

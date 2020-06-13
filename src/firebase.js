@@ -35,35 +35,26 @@ export const signOut = () => {
     auth.signOut();
 };
 
-export const createUserDoc = async (user, additionalData) => {
+export const createUserDoc = async (user, username, fullname) => {
     if (!user) return;
 
-    const userRef = firestore.doc(`users/${user.uid}`);
-
-    const snapshot = await userRef.get();
-
-    if (!snapshot.exists) {
-        let { email, photoURL } = user;
-        const { username, name } = additionalData;
-        const createdAt = new Date();
-        try {
-            await userRef.set({
-                name,
-                email,
-                photoURL,
-                createdAt,
-                username,
-                followers: [],
-                following: [],
-                posts: [],
-                bio: "",
-            });
-        } catch (error) {
-            console.error("Error creating user", console.error);
-        }
-    }
-
-    return getUserDoc(user.uid);
+    const createdAt = new Date();
+    const { photoURL } = user;
+    const userRef = firestore.collection("users").doc(user.uid);
+    await userRef.set({
+        username,
+        fullname,
+        photoURL: photoURL
+            ? photoURL
+            : "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/dog-face_1f436.png",
+        createdAt,
+        followers: [],
+        following: [],
+        posts: [],
+        bio: "",
+    });
+    const newUser = await userRef.get();
+    return { uid: user.uid, ...newUser.data() };
 };
 
 export const getUserDoc = async (uid) => {
@@ -85,6 +76,17 @@ export const updateUserDoc = async (uid, photoURL, name, username, bio) => {
             username,
             bio,
         });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const deleteUser = async () => {
+    try {
+        const user = auth.currentUser;
+        const userRef = firestore.collection("users").doc(user.uid);
+        userRef.delete();
+        user.delete();
     } catch (error) {
         console.error(error);
     }
@@ -215,12 +217,12 @@ export const deletePost = async (post, user) => {
     }
 };
 
-export const getExactUser = async (params) => {
-    if (!params) return;
+export const getExactUser = async (username) => {
+    if (!username) return;
     try {
         const usersRef = await firestore
             .collection("users")
-            .where("username", "==", params)
+            .where("username", "==", username)
             .get();
         const userDocs = [];
         usersRef.forEach((userRef) => {

@@ -62,13 +62,12 @@ export default function Application() {
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                const userDoc = await getUserDoc(user.uid);
-                setCurrentUser(userDoc);
+                setCurrentUser(await getUserDoc(user.uid));
             } else {
                 setCurrentUser(null);
             }
         });
-        setDarkMode(localStorage.getItem("darkMode"));
+        setDarkMode(JSON.parse(localStorage.getItem("darkMode")));
     }, []);
 
     function setMode() {
@@ -77,8 +76,9 @@ export default function Application() {
     }
 
     window.currentUser = currentUser;
+    window.auth = auth;
 
-    if (auth.currentUser) {
+    if (currentUser) {
         return (
             <section id="Application">
                 <ThemeProvider theme={theme}>

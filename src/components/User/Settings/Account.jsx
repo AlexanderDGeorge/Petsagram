@@ -11,12 +11,19 @@ import {
     InputBox,
     HorizontalListItem,
 } from "../../StyledComponents";
-import { auth } from "../../../firebase";
+import { auth, deleteUser } from "../../../firebase";
+import { useHistory } from "react-router-dom";
 
 export default function Account() {
     const { currentUser } = useContext(UserContext);
     const [open, setOpen] = useState(false);
     const [email, setEmail] = useState(currentUser.email);
+    const history = useHistory();
+
+    function handleDelete() {
+        deleteUser();
+        history.push("/");
+    }
 
     return (
         <UserSettingsWrapper>
@@ -48,9 +55,7 @@ export default function Account() {
                 <Modal
                     setOpen={setOpen}
                     content={
-                        <ConfirmDelete
-                            handleDelete={auth.currentUser.delete()}
-                        />
+                        <ConfirmDelete handleDelete={() => handleDelete()} />
                     }
                 />
             ) : null}
@@ -64,7 +69,7 @@ function ConfirmDelete({ handleDelete }) {
             <HorizontalListItem>
                 Are you sure you want to delete your account?
             </HorizontalListItem>
-            <ColorButton onClick={() => handleDelete}>Delete</ColorButton>
+            <ColorButton onClick={handleDelete}>Delete</ColorButton>
         </CenteredWrapper>
     );
 }

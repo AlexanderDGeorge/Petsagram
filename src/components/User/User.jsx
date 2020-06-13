@@ -94,7 +94,7 @@ export function User() {
         (async function fetchUser() {
             const userDoc = await getExactUser(location.pathname.slice(6));
             setUser(userDoc[0]);
-            document.title = userDoc[0].name;
+            document.title = userDoc[0].fullname;
         })();
     }, [location]);
 
@@ -121,7 +121,7 @@ export function User() {
                         </UserButtons>
                     ) : null}
                     <UserBio>
-                        <p>{user.name}</p>
+                        <p>{user.fullname}</p>
                         <p>{user.bio}</p>
                     </UserBio>
                     <UserStats>

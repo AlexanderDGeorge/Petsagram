@@ -66,14 +66,6 @@
     background-color: var(--mmain);
 }
 
-.Post {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-    width: 100%;
-    max-width: 700px;
-}
-
 .PostHeader {
     height: 50px;
     display: flex;

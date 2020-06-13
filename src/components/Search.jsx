@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { InputBox } from "./StyledComponents";
+import { InputBox, VerticalWrapper } from "./StyledComponents";
 import { getUsers } from "../firebase";
 import { UserListItem } from "./User/UserExports";
 
@@ -11,10 +11,10 @@ export default function Search() {
     });
 
     return (
-        <section id="Search" className="content">
+        <VerticalWrapper>
             <SearchBar setResults={setResults} />
             <SearchResults results={results} />
-        </section>
+        </VerticalWrapper>
     );
 }
 
@@ -38,7 +38,7 @@ export function SearchBar({ setResults }) {
                     user.username
                         .toLowerCase()
                         .includes(search.toLowerCase()) ||
-                    user.name.toLowerCase().includes(search.toLowerCase())
+                    user.fullname.toLowerCase().includes(search.toLowerCase())
             )
         );
     }
@@ -56,7 +56,7 @@ export function SearchBar({ setResults }) {
 function SearchResults({ results }) {
     if (results) {
         return (
-            <div id="SearchResults">
+            <div style={{ maxHeight: 500 }}>
                 {results.map((result, i) => (
                     <UserListItem user={result} key={i} />
                 ))}

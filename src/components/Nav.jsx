@@ -23,15 +23,16 @@ const Header = styled.header`
     justify-content: center;
     font-size: 1.5em;
     div {
+        max-width: 700px;
+        width: 100%;
+        padding: 2%;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        max-width: 700px;
-        width: 100%;
     }
     footer {
         border: none;
-        width: 20%;
+        width: 30%;
     }
 `;
 
@@ -41,6 +42,7 @@ const Footer = styled.footer`
     align-items: center;
     justify-content: space-between;
     border-top: 1px solid ${(props) => props.theme.accent};
+    background-color: ${(props) => props.theme.white};
     svg {
         height: 25px;
         width: auto;

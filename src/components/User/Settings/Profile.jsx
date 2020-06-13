@@ -13,7 +13,7 @@ import {
 export default function Profile() {
     const { currentUser } = useContext(UserContext);
     const [photoURL, setPhotoURL] = useState(currentUser.photoURL);
-    const [name, setName] = useState(currentUser.name);
+    const [name, setName] = useState(currentUser.fullname);
     const [username, setUsername] = useState(currentUser.username);
     const [bio, setBio] = useState(currentUser.bio);
     const history = useHistory();

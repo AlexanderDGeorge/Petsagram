@@ -30,6 +30,11 @@ export function UserMenu() {
     const history = useHistory();
     const { darkMode, setMode } = useContext(DarkContext);
 
+    function handleSignOut() {
+        history.replace("/");
+        signOut();
+    }
+
     return (
         <Menu>
             <MenuItem onClick={() => history.push("/settings/edit")}>
@@ -41,7 +46,7 @@ export function UserMenu() {
             <MenuItem onClick={setMode}>
                 {darkMode ? "Light Mode" : "Dark Mode"}
             </MenuItem>
-            <MenuItem onClick={signOut}>Log Out</MenuItem>
+            <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
         </Menu>
     );
 }

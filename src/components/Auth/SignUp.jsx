@@ -4,7 +4,7 @@ import { InputBox } from "../StyledComponents";
 
 export default function SignUp({ setSignIn }) {
     const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
+    const [fullname, setFullname] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -18,14 +18,13 @@ export default function SignUp({ setSignIn }) {
         };
     });
 
-    function handleSubmit() {
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(({ user }) => {
-                createUserDoc(user, { name, username });
-            })
-            .catch(function (error) {
-                alert(error);
-            });
+    async function handleSubmit() {
+        const { user } = await auth.createUserWithEmailAndPassword(
+            email,
+            password
+        );
+        console.log(user);
+        createUserDoc(user, fullname, username);
     }
 
     return (
@@ -41,8 +40,8 @@ export default function SignUp({ setSignIn }) {
                 />
                 <InputBox
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
                     placeholder="Full Name"
                     required
                 />
