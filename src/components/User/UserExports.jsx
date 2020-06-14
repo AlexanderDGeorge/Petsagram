@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../Application";
 import { followUser, unfollowUser, getUserDoc } from "../../firebase";
 import {
@@ -36,13 +36,26 @@ export function UserLink({ user }) {
     );
 }
 
-export function UserListItem({ user }) {
-    return (
-        <HorizontalListItem>
-            <UserLink user={user} />
-            <UserFollowButton user={user} />
-        </HorizontalListItem>
-    );
+export function UserListItem(props) {
+    const [user, setUser] = useState(props.user);
+    console.log(user);
+
+    useEffect(() => {
+        (async function getUser() {
+            if (!user) {
+                setUser(await getUserDoc(props.uid));
+            }
+        })();
+    }, [props.uid, user]);
+
+    if (user) {
+        return (
+            <HorizontalListItem>
+                <UserLink user={user} />
+                <UserFollowButton user={user} />
+            </HorizontalListItem>
+        );
+    } else return null;
 }
 
 export function UserFollowButton({ user }) {

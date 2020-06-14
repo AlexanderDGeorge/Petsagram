@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { getUserPost } from "../../firebase";
 
 const UserPostsWrapper = styled.section`
-    height: 100%auto;
     width: 100%;
     background-color: ${(props) => props.theme.light};
     border-top: 1px solid ${(props) => props.theme.accent};
@@ -30,6 +29,7 @@ const UserPostWrapper = styled(Link)`
     padding-bottom: 32%;
     background-size: cover;
     background-position: 50%;
+    margin-bottom: 2%;
     &:hover {
         box-shadow: 0 0 3px 1px;
     }
@@ -47,7 +47,7 @@ function UserPost({ post, index }) {
     }, [post]);
 
     if (userPost) {
-        const margin = index % 3 === 1 ? "0 2%" : "0";
+        const margin = index % 3 === 1 ? "0 2% 2% 2%" : "";
         return (
             <UserPostWrapper
                 to={`/post/${userPost.id}`}

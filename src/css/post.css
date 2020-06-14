@@ -66,70 +66,11 @@
     background-color: var(--mmain);
 }
 
-.PostHeader {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.PostHeader > div {
-    display: flex;
-    align-items: center;
-}
-
-.PostHeader svg {
-    height: 25px;
-    width: auto;
-}
-
-.PostHeader img {
-    height: 45px;
-    width: 45px;
-    border-radius: 50%;
-    border: 1px solid var(--accent);
-    margin-right: 2%;
-}
-
-.PostOptions {
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.PostOptions > button {
-    background-color: var(--lmain);
-    color: white;
-    width: 80%;
-    height: 50px;
-    border-radius: 6px;
-}
-
-.PostOptions > button:hover {
-    background-color: var(--mmain);
-}
-
 .PostImg {
     min-width: 300px;
     width: 100%;
     max-width: 700px;
-    height: 0;
     padding-bottom: 100%;
-    border: 1px solid var(--accent);
     background-size: cover;
     background-position: 50%;
-    margin: 2% 0;
-}
-
-.PostCaption {
-    display: flex;
-}
-
-.PostComment {
-    display: flex;
-}
-
-.AddComment {
-    display: flex;
 }

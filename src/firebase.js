@@ -197,7 +197,7 @@ export const getPostFeed = async (currentUser) => {
             .where("user", "in", [currentUser.uid, ...currentUser.following])
             .orderBy("createdAt", "desc")
             .get();
-        return postsRef.docs.map((post) => post.data());
+        return postsRef.docs.map((post) => ({ id: post.id, ...post.data() }));
     } catch (error) {
         console.error(error);
     }
@@ -310,7 +310,7 @@ export const addLike = async (currentUser, post) => {
     try {
         const postRef = firestore.collection("user-posts").doc(post.id);
         await postRef.update({
-            likes: fieldValue.arrayUnion(currentUser.username),
+            likes: fieldValue.arrayUnion(currentUser.uid),
         });
     } catch (error) {
         console.error(error);
@@ -322,7 +322,7 @@ export const removeLike = async (currentUser, post) => {
     try {
         const postRef = firestore.collection("user-posts").doc(post.id);
         await postRef.update({
-            likes: fieldValue.arrayRemove(currentUser.username),
+            likes: fieldValue.arrayRemove(currentUser.uid),
         });
     } catch (error) {
         console.error(error);

@@ -56,7 +56,7 @@ export function SearchBar({ setResults }) {
 function SearchResults({ results }) {
     if (results) {
         return (
-            <div style={{ maxHeight: 500 }}>
+            <div style={{ maxHeight: 500, width: "100%" }}>
                 {results.map((result, i) => (
                     <UserListItem user={result} key={i} />
                 ))}

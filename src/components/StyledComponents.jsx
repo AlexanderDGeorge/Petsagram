@@ -27,7 +27,7 @@ export const MenuItem = styled.button`
 `;
 
 export const VerticalWrapper = styled.div`
-    height: 92%;
+    height: 100%;
     width: 100%;
     max-width: 700px;
     padding: 2%;
@@ -35,11 +35,12 @@ export const VerticalWrapper = styled.div`
     flex-direction: column;
     overflow-y: scroll;
     align-self: center;
+    align-items: center;
     background-color: ${(props) => props.theme.light};
 `;
 
 export const HorizontalWrapper = styled.div`
-    height: 92%;
+    height: 100%;
     width: 100%;
     max-width: 700px;
     padding: 2%;
@@ -171,4 +172,12 @@ export const EditArea = styled.div`
         height: auto !important;
         padding: 10px;
     }
+`;
+
+export const PostInfoWrapper = styled.div`
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2%;
 `;

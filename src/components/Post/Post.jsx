@@ -4,8 +4,7 @@ import { useLocation } from "react-router-dom";
 import { UserContext } from "../Application";
 import { addLike, removeLike, getUserPost, getUserDoc } from "../../firebase";
 import PostHeader from "./PostHeader";
-import PostLikes from "./PostLikes";
-import PostComments, { PostCaption } from "./PostComments";
+import PostFooter from "./PostFooter";
 
 const PostWrapper = styled.section`
     display: flex;
@@ -13,6 +12,11 @@ const PostWrapper = styled.section`
     min-width: 300px;
     width: 100%;
     max-width: 700px;
+    height: fit-content;
+    background-color: ${(props) => props.theme.white};
+    margin: 2%;
+    border: 1px solid ${(props) => props.theme.accent};
+    font-size: 1.3em;
 `;
 
 export default function Post(props) {
@@ -50,14 +54,8 @@ export default function Post(props) {
                     onDoubleClick={handleLike}
                     style={{ backgroundImage: `url(${post.url})` }}
                 />
-                <div className="PostInfo">
-                    <PostLikes likes={post.likes} />
-                    <PostCaption
-                        caption={post.caption}
-                        username={user.username}
-                    />
-                    <PostComments post={post} comments={post.comments} />
-                </div>
+
+                <PostFooter post={post} />
             </PostWrapper>
         );
     } else return null;

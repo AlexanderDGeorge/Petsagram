@@ -25,6 +25,10 @@ export default function SignIn({ setSignIn }) {
         });
     }
 
+    function handleDemo() {
+        auth.signInWithEmailAndPassword("dog@dog.com", "password");
+    }
+
     return (
         <div>
             <div className="AuthForm">
@@ -45,6 +49,9 @@ export default function SignIn({ setSignIn }) {
                 />
                 <button className="AuthFormButton" onClick={handleSubmit}>
                     Log In
+                </button>
+                <button className="AuthFormButton" onClick={handleDemo}>
+                    DEMO
                 </button>
                 <div className="ordiv">
                     <span />

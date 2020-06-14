@@ -5,6 +5,7 @@ import { UserContext } from "../Application";
 import { deletePost } from "../../firebase";
 import { MdMoreHoriz } from "react-icons/md";
 import { UserLink } from "../User/UserExports";
+import { Menu, MenuItem, PostInfoWrapper } from "../StyledComponents";
 
 export default function PostHeader({ user, post }) {
     const { currentUser } = useContext(UserContext);
@@ -18,14 +19,14 @@ export default function PostHeader({ user, post }) {
 
     function PostOptions() {
         return (
-            <div className="PostOptions">
-                <button onClick={handleDelete}>Delete Post</button>
-            </div>
+            <Menu>
+                <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
+            </Menu>
         );
     }
 
     return (
-        <header className="PostHeader">
+        <PostInfoWrapper>
             <UserLink user={user} />
             {currentUser.uid === user.uid ? (
                 <MdMoreHoriz
@@ -36,6 +37,6 @@ export default function PostHeader({ user, post }) {
             {open ? (
                 <Modal setOpen={setOpen} content={<PostOptions />} />
             ) : null}
-        </header>
+        </PostInfoWrapper>
     );
 }
