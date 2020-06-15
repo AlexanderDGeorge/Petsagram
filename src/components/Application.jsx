@@ -80,12 +80,12 @@ export default function Application() {
                 setCurrentUser(null);
             }
         });
-        setDarkMode(JSON.parse(localStorage.getItem("darkMode")));
+        setDarkMode(localStorage.getItem("darkMode"));
     }, []);
 
     function setMode() {
         setDarkMode(!darkMode);
-        localStorage.setItem("darkMode", JSON.stringify(darkMode));
+        localStorage.setItem("darkMode", darkMode);
     }
 
     window.currentUser = currentUser;

@@ -21,7 +21,7 @@ export const MenuItem = styled.button`
     height: 50px;
     width: 100%;
     border-bottom: 1px solid ${(props) => props.theme.accent};
-    font-size: 14px;
+    font-size: 1em;
     text-decoration: none;
     text-align: center;
 `;
@@ -94,6 +94,14 @@ export const InputBox = styled.input`
     &:hover {
         transition: all 0s linear;
         box-shadow: 0 0 5px 0;
+    }
+`;
+
+export const InputLite = styled.input`
+    background: transparent;
+    font-size: 1em;
+    ::placeholder {
+        color: ${(props) => props.theme.accent};
     }
 `;
 
@@ -180,4 +188,22 @@ export const PostInfoWrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0 2%;
+`;
+
+export const PostReactionDiv = styled.div`
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 32px;
+    min-width: 50px;
+    border: 1px solid ${(props) => props.theme.accent};
+    border-radius: 40px;
+    font-size: 0.8em;
+    padding: 2%;
+    margin-right: 5px;
+    background-color: ${(props) => props.theme.accent};
+    &:hover {
+        background-color: ${(props) => props.theme.accent};
+    }
 `;

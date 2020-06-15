@@ -15,6 +15,8 @@ export default function Home() {
         })();
     }, [currentUser]);
 
+    console.log(feed);
+
     if (feed) {
         return (
             <VerticalWrapper>
@@ -23,5 +25,5 @@ export default function Home() {
                 ))}
             </VerticalWrapper>
         );
-    } else return null;
+    } else return <VerticalWrapper>No posts!</VerticalWrapper>;
 }

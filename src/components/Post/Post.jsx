@@ -6,7 +6,7 @@ import { addLike, removeLike, getUserPost, getUserDoc } from "../../firebase";
 import PostHeader from "./PostHeader";
 import PostFooter from "./PostFooter";
 
-const PostWrapper = styled.section`
+const PostSection = styled.section`
     display: flex;
     flex-direction: column;
     min-width: 300px;
@@ -47,7 +47,7 @@ export default function Post(props) {
 
     if (user && post) {
         return (
-            <PostWrapper>
+            <PostSection>
                 <PostHeader user={user} post={post} />
                 <div
                     className="PostImg"
@@ -58,7 +58,7 @@ export default function Post(props) {
                 />
 
                 <PostFooter post={post} />
-            </PostWrapper>
+            </PostSection>
         );
     } else return null;
 }

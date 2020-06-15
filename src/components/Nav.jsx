@@ -46,6 +46,7 @@ const Footer = styled.footer`
     svg {
         height: 25px;
         width: auto;
+        transition: all 0s linear;
     }
 `;
 

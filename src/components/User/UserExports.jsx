@@ -24,7 +24,11 @@ export function UserPhoto({ photo, size = "25px" }) {
 }
 
 export function UserName({ username }) {
-    return <PlainLink to={`/user/${username}`}>{username}</PlainLink>;
+    return (
+        <PlainLink to={`/user/${username}`} style={{ marginRight: 10 }}>
+            {username}
+        </PlainLink>
+    );
 }
 
 export function UserLink({ user }) {
