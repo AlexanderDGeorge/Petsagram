@@ -62,7 +62,7 @@ export default function Nav() {
         return (
             <Header>
                 <div>
-                    <PlainLink to="/">Pet Feed</PlainLink>
+                    <PlainLink to="/">Petsagram</PlainLink>
                     <NavItems />
                 </div>
             </Header>

@@ -9,7 +9,7 @@ export default function Home() {
     const [feed, setFeed] = useState(null);
 
     useEffect(() => {
-        document.title = "Pet Feed";
+        document.title = "Petsagram";
         (async function getFeed() {
             setFeed(await getPostFeed(currentUser));
         })();

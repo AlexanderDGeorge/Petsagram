@@ -31,7 +31,7 @@ export const signInWithGoogle = async () => {
 };
 
 export const signOut = () => {
-    document.title = "Pet Feed";
+    document.title = "Petsagram";
     auth.signOut();
 };
 

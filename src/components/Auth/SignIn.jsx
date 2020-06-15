@@ -32,7 +32,7 @@ export default function SignIn({ setSignIn }) {
     return (
         <div>
             <div className="AuthForm">
-                <h1>Pet Feed</h1>
+                <h1>Petsagram</h1>
                 <InputBox
                     type="text"
                     value={email}

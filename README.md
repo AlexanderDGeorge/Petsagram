@@ -1,4 +1,4 @@
-# Pet-Feed
+# Petsagram
 
 ## Technologies
 
@@ -10,7 +10,7 @@
 
 ## Summary
 
-Pet-Feed is a social networking application built around pets and inspired by Instagram. Pet-Feed currently has prebuilt user profiles mimicking what a user profile would look like. The application focuses on user posts and the interaction of users through posts (likes, reactions, comments) and messaging.
+Petsagram is a social networking application built around pets and inspired by Instagram. Petsagram currently has prebuilt user profiles mimicking what a user profile would look like. The application focuses on user posts and the interaction of users through posts (likes, reactions, comments) and messaging.
 
 ## Features
 
