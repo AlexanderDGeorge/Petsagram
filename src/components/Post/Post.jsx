@@ -12,7 +12,7 @@ const PostWrapper = styled.section`
     min-width: 300px;
     width: 100%;
     max-width: 700px;
-    height: fit-content;
+    height: max-content;
     background-color: ${(props) => props.theme.white};
     margin: 2%;
     border: 1px solid ${(props) => props.theme.accent};
@@ -52,7 +52,9 @@ export default function Post(props) {
                 <div
                     className="PostImg"
                     onDoubleClick={handleLike}
-                    style={{ backgroundImage: `url(${post.url})` }}
+                    style={{
+                        backgroundImage: `url(${post.url})`,
+                    }}
                 />
 
                 <PostFooter post={post} />
