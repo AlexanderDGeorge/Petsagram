@@ -74,8 +74,8 @@ function Comments({ post }) {
 
     return (
         <CommentMenu>
-            {post.comments.map((comment) => (
-                <CommentMenuItem>
+            {post.comments.map((comment, i) => (
+                <CommentMenuItem key={i}>
                     <UserName username={comment.username} />
                     {comment.content}
                 </CommentMenuItem>

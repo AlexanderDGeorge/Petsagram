@@ -1,8 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
+import styled from "styled-components";
 import { firestore } from "../firebase";
 import { UserContext } from "./Application";
 import Post from "./Post/Post";
-import { VerticalWrapper } from "./StyledComponents";
+
+const HomeSection = styled.section`
+    height: 100%;
+    width: 100%;
+    max-width: 700px;
+    padding: 2%;
+    overflow-y: scroll;
+    align-self: center;
+    background-color: ${(props) => props.theme.light};
+`;
 
 export default function Home() {
     const { currentUser } = useContext(UserContext);
@@ -83,11 +93,11 @@ export default function Home() {
     }
 
     return (
-        <VerticalWrapper id="PostFeed">
+        <HomeSection id="PostFeed">
             {data.map((post, i) => (
                 <Post post={post} key={i} />
             ))}
             END OF FEED!
-        </VerticalWrapper>
+        </HomeSection>
     );
 }

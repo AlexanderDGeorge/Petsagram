@@ -7,16 +7,26 @@ import PostHeader from "./PostHeader";
 import PostFooter from "./PostFooter";
 
 const PostSection = styled.section`
-    display: flex;
-    flex-direction: column;
     min-width: 300px;
     width: 100%;
     max-width: 700px;
-    height: max-content;
     background-color: ${(props) => props.theme.white};
-    margin: 2%;
+    margin: 2% 0;
     border: 1px solid ${(props) => props.theme.accent};
     font-size: 1.3em;
+`;
+
+const PostImg = styled.div`
+    min-width: 300px;
+    width: 100%;
+    max-width: 700px;
+    padding-bottom: 100%;
+    background-size: cover;
+    background-position: 50%;
+    box-sizing: content-box;
+    &:after {
+        content: "";
+    }
 `;
 
 export default function Post(props) {
@@ -49,14 +59,12 @@ export default function Post(props) {
         return (
             <PostSection>
                 <PostHeader user={user} post={post} />
-                <div
-                    className="PostImg"
+                <PostImg
                     onDoubleClick={handleLike}
                     style={{
                         backgroundImage: `url(${post.url})`,
                     }}
-                />
-
+                ></PostImg>
                 <PostFooter post={post} />
             </PostSection>
         );
