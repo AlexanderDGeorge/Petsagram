@@ -9,8 +9,6 @@ export default function PostLikes({ post }) {
     const [liked, setLiked] = useState(post.likes.includes(currentUser.uid));
     const [likes, setLikes] = useState(post.likes.length);
 
-    console.log(liked);
-
     useEffect(() => {
         return () => {
             liked ? addLike(currentUser, post) : removeLike(currentUser, post);
