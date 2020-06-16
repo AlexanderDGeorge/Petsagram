@@ -50,6 +50,7 @@ export const createUserDoc = async (user, username, fullname) => {
         createdAt,
         followers: [],
         following: [],
+        messaging: [],
         posts: [],
         bio: "",
     });
@@ -324,6 +325,27 @@ export const removeLike = async (currentUser, post) => {
         await postRef.update({
             likes: fieldValue.arrayRemove(currentUser.uid),
         });
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const createMessageGroup = async (currentUser, user) => {
+    if (!currentUser || !user) return;
+    try {
+        const curUserRef = firestore.collection("users").doc(currentUser.uid);
+        const userRef = firestore.collection("users").doc(user.uid);
+        const groupRef = await firestore.collection("user-messages").add({
+            users: [currentUser.uid, user.uid],
+            messages: [],
+        });
+        curUserRef.update({
+            messages: fieldValue.arrayUnion(groupRef.id),
+        });
+        userRef.update({
+            messages: fieldValue.arrayUnion(groupRef.id),
+        });
+        return { id: groupRef.id, ...groupRef.data() };
     } catch (error) {
         console.error(error);
     }

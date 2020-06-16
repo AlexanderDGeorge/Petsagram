@@ -91,8 +91,8 @@ function NavItems() {
                     <AiOutlinePlusCircle />
                 )}
             </NavItem>
-            <NavItem to="/messages">
-                {pathname === "/messages" ? (
+            <NavItem to="/messaging">
+                {pathname === "/messaging" ? (
                     <AiFillMessage />
                 ) : (
                     <AiOutlineMessage />

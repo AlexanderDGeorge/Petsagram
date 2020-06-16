@@ -3,7 +3,7 @@ import { UserPhoto } from "../UserExports";
 import { UserContext } from "../../Application";
 import { updateUserPassword, sendResetPassword } from "../../../firebase";
 import {
-    UserSettingsWrapper,
+    FullNavContent,
     EditArea,
     InputBox,
     ColorButton,
@@ -29,7 +29,7 @@ export default function Password() {
     }
 
     return (
-        <UserSettingsWrapper>
+        <FullNavContent>
             <EditArea>
                 <UserPhoto photo={currentUser.photoURL} size={"40px"} />
                 <span>{currentUser.username}</span>
@@ -64,6 +64,6 @@ export default function Password() {
                     <ColorButton onClick={handleSave}>Save Changes</ColorButton>
                 </EditArea>
             ) : null}
-        </UserSettingsWrapper>
+        </FullNavContent>
     );
 }

@@ -140,16 +140,6 @@ export const ColorButton = styled.button`
     }
 `;
 
-export const UserSettingsWrapper = styled.section`
-    height: 100%;
-    width: 72%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 2%;
-    position: relative;
-`;
-
 export const EditArea = styled.div`
     display: flex;
     align-items: center;
@@ -191,6 +181,7 @@ export const PostInfoWrapper = styled.div`
 `;
 
 export const PostReactionDiv = styled.div`
+    position: relative;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -206,4 +197,38 @@ export const PostReactionDiv = styled.div`
     &:hover {
         background-color: ${(props) => props.theme.accent};
     }
+`;
+
+export const FullNavDiv = styled.div`
+    height: 100%;
+    width: 28%;
+    border-right: 1px solid ${(props) => props.theme.accent};
+`;
+
+export const FullNavDivItem = styled(Link)`
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 5%;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        background-color: ${(props) => props.theme.light};
+        border-left: 2px solid ${(props) => props.theme.mid};
+    }
+    &:active {
+        border-left: 2px solid ${(props) => props.theme.dark};
+    }
+`;
+
+export const FullNavContent = styled.section`
+    height: 100%;
+    width: 72%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2%;
+    position: relative;
 `;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { signInWithGoogle, auth } from "../../firebase";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { InputBox } from "../StyledComponents";
 
 export default function SignIn({ setSignIn }) {
     const [email, setEmail] = useState("");
@@ -33,14 +32,14 @@ export default function SignIn({ setSignIn }) {
         <div>
             <div className="AuthForm">
                 <h1>Petsagram</h1>
-                <InputBox
+                <input
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
                     required
                 />
-                <InputBox
+                <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

@@ -7,7 +7,7 @@ import Splash from "./Splash";
 import Search from "./Search";
 import Home from "./Home";
 import Post from "./Post/Post";
-import Messages from "./Messages";
+import Messaging from "./Messaging/Messaging";
 import { User } from "./User/User";
 import UserSettings from "./User/Settings/UserSettings";
 import AddPost from "./Post/AddPost";
@@ -104,7 +104,10 @@ export default function Application() {
                                 <Route path="/" component={Nav} />
                                 <Route path="/user" component={User} />
                                 <Route path="/search" component={Search} />
-                                <Route path="/messages" component={Messages} />
+                                <Route
+                                    path="/messaging"
+                                    component={Messaging}
+                                />
                                 <Route
                                     path="/settings"
                                     component={UserSettings}
@@ -120,14 +123,9 @@ export default function Application() {
         );
     } else {
         return (
-            <ThemeProvider theme={theme}>
-                <UserContext.Provider value={{ currentUser }}>
-                    <DarkContext.Provider value={{ darkMode }}>
-                        <GlobalStyle />
-                        <Splash />
-                    </DarkContext.Provider>
-                </UserContext.Provider>
-            </ThemeProvider>
+            <UserContext.Provider value={{ currentUser }}>
+                <Splash />
+            </UserContext.Provider>
         );
     }
 }

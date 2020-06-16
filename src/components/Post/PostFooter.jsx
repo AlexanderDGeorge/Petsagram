@@ -20,7 +20,7 @@ export default function PostFooter({ post }) {
             <Div>
                 <PostLikes post={post} />
                 <PostComments post={post} />
-                <PostReactions post={post} />
+                {/* <PostReactions post={post} /> */}
             </Div>
         </PostInfoWrapper>
     );

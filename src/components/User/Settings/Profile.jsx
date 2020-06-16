@@ -6,7 +6,7 @@ import { UserPhoto } from "../UserExports";
 import {
     InputBox,
     ColorButton,
-    UserSettingsWrapper,
+    FullNavContent,
     EditArea,
 } from "../../StyledComponents";
 
@@ -30,7 +30,7 @@ export default function Profile() {
     }
 
     return (
-        <UserSettingsWrapper>
+        <FullNavContent>
             <EditArea>
                 <UserPhoto photo={photoURL} size={"40px"} />
                 <span>
@@ -72,6 +72,6 @@ export default function Profile() {
                 <div></div>
                 <ColorButton onClick={handleSave}>Save Changes</ColorButton>
             </EditArea>
-        </UserSettingsWrapper>
+        </FullNavContent>
     );
 }

@@ -3,7 +3,7 @@ import { UserPhoto } from "../UserExports";
 import { UserContext } from "../../Application";
 import Modal from "../../Modal";
 import {
-    UserSettingsWrapper,
+    FullNavContent,
     EditArea,
     ColorButton,
     PlainButton,
@@ -26,7 +26,7 @@ export default function Account() {
     }
 
     return (
-        <UserSettingsWrapper>
+        <FullNavContent>
             <EditArea>
                 <UserPhoto photo={currentUser.photoURL} size={"40px"} />
                 <span>{currentUser.username}</span>
@@ -59,7 +59,7 @@ export default function Account() {
                     }
                 />
             ) : null}
-        </UserSettingsWrapper>
+        </FullNavContent>
     );
 }
 

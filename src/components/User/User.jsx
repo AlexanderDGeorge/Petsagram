@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { UserContext } from "../Application";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
-import { getUserDoc, getExactUser } from "../../firebase";
+import { getUserDoc, getExactUser, createMessageGroup } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
 import { PlainButton, rotate, VerticalWrapper } from "../StyledComponents";
@@ -98,6 +98,8 @@ export function User() {
         })();
     }, [location]);
 
+    function handleMessage() {}
+
     if (user) {
         return (
             <VerticalWrapper>
@@ -116,7 +118,9 @@ export function User() {
                     </UserName>
                     {currentUser.uid !== user.uid ? (
                         <UserButtons>
-                            <PlainButton>Message</PlainButton>
+                            <PlainButton onClick={handleMessage}>
+                                Message
+                            </PlainButton>
                             <UserFollowButton user={user} />
                         </UserButtons>
                     ) : null}

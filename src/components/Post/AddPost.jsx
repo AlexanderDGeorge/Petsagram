@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { MdAddAPhoto } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import { uploadImage } from "../../firebase";
@@ -11,10 +11,11 @@ export default function AddPost() {
     const [preview, setPreview] = useState("");
     const [caption, setCaption] = useState("");
     const history = useHistory();
-
     const { currentUser, setCurrentUser } = useContext(UserContext);
 
-    window.image = image;
+    useEffect(() => {
+        document.title = "New Post";
+    }, []);
 
     function handleChange(e) {
         window.target = e.target;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { auth, createUserDoc } from "../../firebase";
-import { InputBox } from "../StyledComponents";
 
 export default function SignUp({ setSignIn }) {
     const [email, setEmail] = useState("");
@@ -31,28 +30,28 @@ export default function SignUp({ setSignIn }) {
         <div>
             <div className="AuthForm" onSubmit={handleSubmit}>
                 <h1>Petsagram</h1>
-                <InputBox
+                <input
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
                     required
                 />
-                <InputBox
+                <input
                     type="text"
                     value={fullname}
                     onChange={(e) => setFullname(e.target.value)}
                     placeholder="Full Name"
                     required
                 />
-                <InputBox
+                <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Username"
                     required
                 />
-                <InputBox
+                <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
