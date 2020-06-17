@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import { AiOutlineDelete } from "react-icons/ai";
 import { PostReactionDiv, InputLite, ColorButton } from "../StyledComponents";
 import Emoji from "../Emoji";
 import Modal from "../Modal";
-import { addComment } from "../../firebase";
+import { firestore, fieldValue } from "../../firebase";
 import { UserContext } from "../Application";
-import { UserName } from "../User/UserExports";
+import { UserLink } from "../User/UserExports";
 
 const CommentMenu = styled.div`
     display: flex;
@@ -30,6 +31,18 @@ const CommentMenuItem = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.accent};
     display: flex;
     align-items: center;
+    > a {
+        margin-right: 5px;
+    }
+    > input {
+        width: 60%;
+    }
+    > svg {
+        margin-left: auto;
+        &:hover {
+            fill: ${(props) => props.theme.main};
+        }
+    }
 `;
 
 export default function PostComments({ post }) {
@@ -53,8 +66,6 @@ function Comments({ post }) {
     const [comment, setComment] = useState("");
     const { currentUser } = useContext(UserContext);
 
-    console.log(post.comments);
-
     useEffect(() => {
         window.addEventListener("keypress", handleEnter);
         return () => {
@@ -68,20 +79,47 @@ function Comments({ post }) {
         }
     }
 
-    function handleSubmit() {
-        addComment(currentUser, post, comment);
+    async function handleSubmit() {
+        try {
+            const postRef = firestore.collection("user-posts").doc(post.id);
+            await postRef.update({
+                comments: fieldValue.arrayUnion({
+                    user: currentUser.uid,
+                    content: comment,
+                }),
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function handleDelete() {
+        try {
+            const postRef = firestore.collection("user-posts").doc(post.id);
+            await postRef.update({
+                comments: fieldValue.arrayRemove({
+                    user: currentUser.uid,
+                    content: comment,
+                }),
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
         <CommentMenu>
             {post.comments.map((comment, i) => (
                 <CommentMenuItem key={i}>
-                    <UserName username={comment.username} />
+                    <UserLink uid={comment.user} />
                     {comment.content}
+                    {comment.user === currentUser.uid ? (
+                        <AiOutlineDelete onClick={handleDelete} />
+                    ) : null}
                 </CommentMenuItem>
             ))}
             <CommentMenuItem>
-                <UserName username={currentUser.username} />
+                <UserLink uid={currentUser.uid} />
                 <InputLite
                     type="text"
                     placeholder="Write a comment"

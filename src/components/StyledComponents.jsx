@@ -173,11 +173,14 @@ export const EditArea = styled.div`
 `;
 
 export const PostInfoWrapper = styled.div`
-    height: 50px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2%;
+    padding: 2%;
+    > svg {
+        cursor: pointer;
+    }
 `;
 
 export const PostReactionDiv = styled.div`

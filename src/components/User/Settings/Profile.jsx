@@ -11,16 +11,23 @@ import {
 } from "../../StyledComponents";
 
 export default function Profile() {
-    const { currentUser } = useContext(UserContext);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
     const [photoURL, setPhotoURL] = useState(currentUser.photoURL);
-    const [name, setName] = useState(currentUser.fullname);
+    const [fullname, setFullname] = useState(currentUser.fullname);
     const [username, setUsername] = useState(currentUser.username);
     const [bio, setBio] = useState(currentUser.bio);
     const history = useHistory();
 
     async function handleSave() {
-        await updateUserDoc(currentUser.uid, photoURL, name, username, bio);
-        history.push(`/user/${currentUser.username}`);
+        const updatedUser = await updateUserDoc(
+            currentUser.uid,
+            photoURL,
+            fullname,
+            username,
+            bio
+        );
+        setCurrentUser(updatedUser);
+        history.push(`/user/${username}`);
     }
 
     async function handleUpload(e) {
@@ -45,11 +52,11 @@ export default function Profile() {
                 </span>
             </EditArea>
             <EditArea>
-                <div>Name</div>
+                <div>Full Name</div>
                 <InputBox
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
                 />
             </EditArea>
             <EditArea>

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { firestore } from "../firebase";
 import { UserContext } from "./Application";
 import Post from "./Post/Post";
+import Loader from "./Loader";
 
 const HomeSection = styled.section`
     height: 100%;
@@ -19,6 +20,8 @@ export default function Home() {
     const [limit] = useState(3);
     const [data, setData] = useState([]);
     const [queues, setQueues] = useState(0);
+
+    console.log(data);
 
     useEffect(() => {
         fetchPosts();
@@ -97,7 +100,7 @@ export default function Home() {
             {data.map((post, i) => (
                 <Post post={post} key={i} />
             ))}
-            END OF FEED!
+            <Loader />
         </HomeSection>
     );
 }

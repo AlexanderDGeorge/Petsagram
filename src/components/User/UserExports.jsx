@@ -31,26 +31,37 @@ export function UserName({ username }) {
     );
 }
 
-export function UserLink({ user }) {
-    return (
-        <PlainLink to={`/user/${user.username}`}>
-            <UserPhoto photo={user.photoURL} />
-            <p style={{ marginLeft: 10 }}>{user.username}</p>
-        </PlainLink>
-    );
+export function UserLink(props) {
+    const [user, setUser] = useState(props.user);
+
+    useEffect(() => {
+        (async function getUser() {
+            if (!props.user) {
+                setUser(await getUserDoc(props.uid));
+            }
+        })();
+    }, [props]);
+
+    if (user) {
+        return (
+            <PlainLink to={`/user/${user.username}`}>
+                <UserPhoto photo={user.photoURL} />
+                <p style={{ marginLeft: 10 }}>{user.username}</p>
+            </PlainLink>
+        );
+    } else return null;
 }
 
 export function UserListItem(props) {
     const [user, setUser] = useState(props.user);
-    console.log(user);
 
     useEffect(() => {
         (async function getUser() {
-            if (!user) {
+            if (!props.user) {
                 setUser(await getUserDoc(props.uid));
             }
         })();
-    }, [props.uid, user]);
+    }, [props]);
 
     if (user) {
         return (

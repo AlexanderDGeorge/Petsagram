@@ -20,7 +20,7 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const storageRef = firebase.storage().ref();
-const fieldValue = firebase.firestore.FieldValue;
+export const fieldValue = firebase.firestore.FieldValue;
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
@@ -68,15 +68,17 @@ export const getUserDoc = async (uid) => {
     }
 };
 
-export const updateUserDoc = async (uid, photoURL, name, username, bio) => {
+export const updateUserDoc = async (uid, photoURL, fullname, username, bio) => {
     try {
         const userRef = firestore.collection("users").doc(uid);
         await userRef.update({
             photoURL,
-            name,
+            fullname,
             username,
             bio,
         });
+        const user = await userRef.get();
+        return { uid, ...user.data() };
     } catch (error) {
         console.error(error);
     }
@@ -270,36 +272,6 @@ export const unfollowUser = async (curUser, otherUser) => {
         });
         await otherUserRef.update({
             followers: fieldValue.arrayRemove(curUser.uid),
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-export const addComment = async (currentUser, post, comment) => {
-    if (!currentUser || !post || !comment) return;
-    try {
-        const postRef = firestore.collection("user-posts").doc(post.id);
-        await postRef.update({
-            comments: fieldValue.arrayUnion({
-                username: currentUser.username,
-                content: comment,
-            }),
-        });
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-export const removeComment = async (currentUser, post, comment) => {
-    if (!currentUser || !post || !comment) return;
-    try {
-        const postRef = firestore.collection("user-posts").doc(post.id);
-        await postRef.update({
-            comments: fieldValue.arrayRemove({
-                username: currentUser.username,
-                content: comment,
-            }),
         });
     } catch (error) {
         console.error(error);
