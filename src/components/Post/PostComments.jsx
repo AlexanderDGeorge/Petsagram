@@ -39,9 +39,6 @@ const CommentMenuItem = styled.div`
     }
     > svg {
         margin-left: auto;
-        &:hover {
-            fill: ${(props) => props.theme.main};
-        }
     }
 `;
 

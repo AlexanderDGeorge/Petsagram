@@ -24,6 +24,11 @@ button {
     cursor: pointer;
 }
 
+.loaderContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
 .loader {
     display: inline-block;
     position: relative;
@@ -38,8 +43,8 @@ button {
     height: 0;
     margin: 8px;
     box-sizing: border-box;
-    border: 32px solid #fff;
-    border-color: #fff transparent #fff transparent;
+    border: 32px solid var(--mid);
+    border-color: var(--mid) transparent var(--mid) transparent;
     animation: loader 1.2s infinite;
 }
 @keyframes loader {

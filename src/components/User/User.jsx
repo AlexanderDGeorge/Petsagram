@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { UserContext } from "../Application";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
-import { getUserDoc, getExactUser, createMessageGroup } from "../../firebase";
+import { getUserDoc, getExactUser } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
 import { PlainButton, rotate, VerticalWrapper } from "../StyledComponents";
@@ -125,7 +125,7 @@ export function User() {
                         </UserButtons>
                     ) : null}
                     <UserBio>
-                        <p>{user.fullname}</p>
+                        <p style={{ fontWeight: 600 }}>{user.fullname}</p>
                         <p>{user.bio}</p>
                     </UserBio>
                     <UserStats>

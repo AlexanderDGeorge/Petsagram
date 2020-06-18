@@ -4,11 +4,11 @@ export default function UserSettingsNav() {
     return (
         <FullNavDiv>
             <UserSettingsNavItem name={"Edit Profile"} path={"/edit"} />
-            <UserSettingsNavItem name={"Change Password"} path={"/password"} />
             <UserSettingsNavItem
                 name={"Notifications"}
                 path={"/notifications"}
             />
+            <UserSettingsNavItem name={"Change Password"} path={"/password"} />
             <UserSettingsNavItem name={"Manage Account"} path={"/account"} />
         </FullNavDiv>
     );

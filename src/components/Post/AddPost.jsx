@@ -3,9 +3,11 @@ import { MdAddAPhoto } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import { uploadImage } from "../../firebase";
 import { UserContext } from "../Application";
-import { VerticalWrapper } from "../StyledComponents";
+import { VerticalWrapper, InputLite, ColorButton } from "../StyledComponents";
+import Loader from "../Loader";
 
 export default function AddPost() {
+    const [loading, setLoading] = useState(false);
     const [filename, setFilename] = useState("");
     const [image, setImage] = useState({});
     const [preview, setPreview] = useState("");
@@ -29,39 +31,46 @@ export default function AddPost() {
 
     async function handlePost(e) {
         e.preventDefault();
+        setLoading(true);
         await uploadImage(image, currentUser, caption, setCurrentUser);
         history.push("/");
     }
 
-    return (
-        <VerticalWrapper>
-            <div
-                id="APimage"
-                style={filename ? { backgroundImage: `url(${preview})` } : {}}
-            >
-                <label htmlFor="file-upload">
-                    <MdAddAPhoto />
-                </label>
-                <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/*"
-                    value={filename}
-                    onChange={handleChange}
-                    style={{ display: "none" }}
-                />
-            </div>
-            {preview ? (
-                <div id="APcaption">
+    if (!loading) {
+        return (
+            <VerticalWrapper>
+                <div
+                    id="APimage"
+                    style={
+                        filename ? { backgroundImage: `url(${preview})` } : {}
+                    }
+                >
+                    <label htmlFor="file-upload">
+                        <MdAddAPhoto />
+                    </label>
                     <input
-                        type="text"
-                        value={caption}
-                        onChange={(e) => setCaption(e.target.value)}
-                        placeholder="Write a caption..."
+                        id="file-upload"
+                        type="file"
+                        accept="image/*"
+                        value={filename}
+                        onChange={handleChange}
+                        style={{ display: "none" }}
                     />
-                    <button onClick={handlePost}>Post!</button>
                 </div>
-            ) : null}
-        </VerticalWrapper>
-    );
+                {preview ? (
+                    <div id="APcaption">
+                        <InputLite
+                            type="text"
+                            value={caption}
+                            onChange={(e) => setCaption(e.target.value)}
+                            placeholder="Write a caption..."
+                        />
+                        <ColorButton onClick={handlePost}>Post!</ColorButton>
+                    </div>
+                ) : null}
+            </VerticalWrapper>
+        );
+    } else {
+        return <Loader />;
+    }
 }

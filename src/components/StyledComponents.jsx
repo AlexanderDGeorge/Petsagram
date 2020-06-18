@@ -93,7 +93,7 @@ export const InputBox = styled.input`
     border-radius: 6px;
     &:hover {
         transition: all 0s linear;
-        box-shadow: 0 0 5px 0;
+        box-shadow: 0 0 2px 0;
     }
 `;
 
@@ -122,7 +122,7 @@ export const PlainButton = styled.button`
     border-radius: 6px;
     &:hover {
         transition: all 0s linear;
-        box-shadow: 0 0 5px 0;
+        box-shadow: 0 0 2px 0;
     }
 `;
 
@@ -136,7 +136,7 @@ export const ColorButton = styled.button`
     &:hover {
         transition: all 0s linear;
         background-color: ${(props) => props.theme.darkmain};
-        box-shadow: 0 0 5px 0;
+        box-shadow: 0 0 2px 0;
     }
 `;
 

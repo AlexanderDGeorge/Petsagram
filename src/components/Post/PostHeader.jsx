@@ -14,7 +14,7 @@ export default function PostHeader({ user, post }) {
 
     async function handleDelete() {
         await deletePost(post, user);
-        history.replace(`/user/${user.username}`);
+        // history.replace(`/user/${user.username}`);
     }
 
     function PostOptions() {

@@ -11,18 +11,42 @@ import {
     InputBox,
     HorizontalListItem,
 } from "../../StyledComponents";
-import { auth, deleteUser } from "../../../firebase";
+import { auth, firestore } from "../../../firebase";
 import { useHistory } from "react-router-dom";
+import ReAuth from "../../Auth/ReAuth";
+import Notification from "../../Notification";
 
 export default function Account() {
     const { currentUser } = useContext(UserContext);
+    const [notify, setNotify] = useState(false);
+    const [message, setMessage] = useState("");
     const [open, setOpen] = useState(false);
-    const [email, setEmail] = useState(currentUser.email);
+    const [content, setContent] = useState(null);
+    const [email, setEmail] = useState(auth.currentUser.email);
     const history = useHistory();
 
     function handleDelete() {
-        deleteUser();
-        history.push("/");
+        try {
+            firestore.collection("users").doc(currentUser.uid).delete();
+            auth.currentUser.delete();
+            history.push("/");
+        } catch (error) {
+            setContent(<ReAuth setOpen={setOpen} />);
+            setOpen(true);
+            console.error(error.message);
+        }
+    }
+
+    async function handleEmail() {
+        try {
+            await auth.currentUser.updateEmail(email);
+            setMessage("Email updated!");
+            setNotify(true);
+        } catch (error) {
+            setContent(<ReAuth setOpen={setOpen} />);
+            setOpen(true);
+            console.error(error.message);
+        }
     }
 
     return (
@@ -40,6 +64,10 @@ export default function Account() {
                 />
             </EditArea>
             <EditArea>
+                <div></div>
+                <ColorButton onClick={handleEmail}>Save Changes</ColorButton>
+            </EditArea>
+            <EditArea>
                 <div>Verify Email</div>
                 <PlainButton
                     onClick={() => auth.currentUser.sendEmailVerification()}
@@ -49,15 +77,22 @@ export default function Account() {
             </EditArea>
             <EditArea>
                 <div>Delete Account</div>
-                <ColorButton onClick={() => setOpen(true)}>Delete</ColorButton>
+                <PlainButton
+                    onClick={() => {
+                        setContent(
+                            <ConfirmDelete
+                                handleDelete={() => handleDelete()}
+                            />
+                        );
+                        setOpen(true);
+                    }}
+                >
+                    Delete
+                </PlainButton>
             </EditArea>
-            {open ? (
-                <Modal
-                    setOpen={setOpen}
-                    content={
-                        <ConfirmDelete handleDelete={() => handleDelete()} />
-                    }
-                />
+            {open ? <Modal setOpen={setOpen} content={content} /> : null}
+            {notify ? (
+                <Notification setNotify={setNotify} message={message} />
             ) : null}
         </FullNavContent>
     );

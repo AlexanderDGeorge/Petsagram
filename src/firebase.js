@@ -21,12 +21,13 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 export const storageRef = firebase.storage().ref();
 export const fieldValue = firebase.firestore.FieldValue;
+export const authProvider = firebase.auth.EmailAuthProvider.credential;
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export const signInWithGoogle = async () => {
     return auth.signInWithPopup(googleProvider).then(({ user }) => {
-        createUserDoc(user, { username: "", name: user.displayName });
+        createUserDoc(user, user.displayName, user.displayName);
     });
 };
 
@@ -84,17 +85,6 @@ export const updateUserDoc = async (uid, photoURL, fullname, username, bio) => {
     }
 };
 
-export const deleteUser = async () => {
-    try {
-        const user = auth.currentUser;
-        const userRef = firestore.collection("users").doc(user.uid);
-        userRef.delete();
-        user.delete();
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 export const sendResetPassword = (email) => {
     auth.sendPasswordResetEmail(email);
 };
@@ -103,16 +93,6 @@ export const updateUserPassword = async (newPassword) => {
     if (!newPassword) return;
     try {
         await auth.currentUser.updatePassword(newPassword);
-        return true;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-export const updateUserEmail = async (newEmail) => {
-    if (!newEmail) return;
-    try {
-        await auth.currentUser.updateEmail(newEmail);
         return true;
     } catch (error) {
         console.error(error);
