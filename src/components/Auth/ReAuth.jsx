@@ -24,10 +24,14 @@ export default function ReAuth({ setOpen }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function handleClick() {
+    async function handleClick() {
         const credentials = authProvider(email, password);
-        auth.currentUser.reauthenticateWithCredential(credentials);
-        setOpen(false);
+        try {
+            await auth.currentUser.reauthenticateWithCredential(credentials);
+            setOpen(false);
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     return (

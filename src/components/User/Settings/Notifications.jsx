@@ -12,6 +12,10 @@ export default function Notifications() {
                 <UserPhoto photo={currentUser.photoURL} size={"40px"} />
                 <span>{currentUser.username}</span>
             </EditArea>
+            <EditArea>
+                <div>Coming Soon!</div>
+                <span></span>
+            </EditArea>
         </FullNavContent>
     );
 }

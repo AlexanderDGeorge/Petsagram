@@ -40,8 +40,14 @@ export function UserMenu() {
             <MenuItem onClick={() => history.push("/settings/edit")}>
                 Edit Profile
             </MenuItem>
+            <MenuItem onClick={() => history.push("/settings/notifications")}>
+                Notifications
+            </MenuItem>
             <MenuItem onClick={() => history.push("/settings/password")}>
                 Change Password
+            </MenuItem>
+            <MenuItem onClick={() => history.push("/settings/account")}>
+                Manage Account
             </MenuItem>
             <MenuItem onClick={setMode}>
                 {darkMode ? "Light Mode" : "Dark Mode"}

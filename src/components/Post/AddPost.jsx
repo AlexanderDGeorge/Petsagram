@@ -1,10 +1,57 @@
 import React, { useState, useContext, useEffect } from "react";
+import styled from "styled-components";
 import { MdAddAPhoto } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import { uploadImage } from "../../firebase";
 import { UserContext } from "../Application";
 import { VerticalWrapper, InputLite, ColorButton } from "../StyledComponents";
 import Loader from "../Loader";
+
+const AddPostImage = styled.div`
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    border: 1px solid ${(props) => props.theme.accent};
+    background-position: 50%;
+    background-size: cover;
+    > label {
+        position: absolute;
+        padding: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1;
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        > svg {
+            position: absolute;
+            height: 50px;
+            width: auto;
+        }
+    }
+`;
+
+const AddPostCaption = styled.div`
+    height: 50px;
+    width: 100%;
+    display: flex;
+    background-color: ${(props) => props.theme.dark};
+    > input {
+        width: 75%;
+        height: 100%;
+        padding: 5px;
+        font-size: 15px;
+        color: ${(props) => props.theme.white};
+    }
+    > button {
+        width: 25%;
+        height: 100%;
+        color: white;
+    }
+`;
 
 export default function AddPost() {
     const [loading, setLoading] = useState(false);
@@ -39,12 +86,7 @@ export default function AddPost() {
     if (!loading) {
         return (
             <VerticalWrapper>
-                <div
-                    id="APimage"
-                    style={
-                        filename ? { backgroundImage: `url(${preview})` } : {}
-                    }
-                >
+                <AddPostImage style={{ backgroundImage: `url(${preview})` }}>
                     <label htmlFor="file-upload">
                         <MdAddAPhoto />
                     </label>
@@ -56,9 +98,9 @@ export default function AddPost() {
                         onChange={handleChange}
                         style={{ display: "none" }}
                     />
-                </div>
+                </AddPostImage>
                 {preview ? (
-                    <div id="APcaption">
+                    <AddPostCaption>
                         <InputLite
                             type="text"
                             value={caption}
@@ -66,7 +108,7 @@ export default function AddPost() {
                             placeholder="Write a caption..."
                         />
                         <ColorButton onClick={handlePost}>Post!</ColorButton>
-                    </div>
+                    </AddPostCaption>
                 ) : null}
             </VerticalWrapper>
         );

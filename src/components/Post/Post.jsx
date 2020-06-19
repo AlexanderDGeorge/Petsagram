@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
 import { UserContext } from "../Application";
-import { addLike, removeLike, getUserPost, getUserDoc } from "../../firebase";
+import { addLike, removeLike, getUserDoc } from "../../firebase";
 import PostHeader from "./PostHeader";
 import PostFooter from "./PostFooter";
 
@@ -29,25 +28,17 @@ const PostImg = styled.div`
     }
 `;
 
-export default function Post(props) {
+export default function Post({ post }) {
     const { currentUser } = useContext(UserContext);
     const [user, setUser] = useState(null);
-    const [post, setPost] = useState(props.post);
-    const pathname = useLocation().pathname.slice(6);
 
     useEffect(() => {
-        if (!post) {
-            (async function fetchData() {
-                const postDoc = await getUserPost(pathname);
-                setPost(postDoc);
-                setUser(await getUserDoc(postDoc.user));
-            })();
-        } else {
+        if (post) {
             (async function fetchUser() {
                 setUser(await getUserDoc(post.user));
             })();
         }
-    }, [pathname, post]);
+    }, [post]);
 
     async function handleLike() {
         post.likes.includes(currentUser)

@@ -21,7 +21,7 @@ export const MenuItem = styled.button`
     height: 50px;
     width: 100%;
     border-bottom: 1px solid ${(props) => props.theme.accent};
-    font-size: 1em;
+    font-size: 16px;
     text-decoration: none;
     text-align: center;
 `;

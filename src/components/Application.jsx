@@ -91,7 +91,7 @@ export default function Application() {
     window.currentUser = currentUser;
     window.auth = auth;
 
-    if (currentUser) {
+    if (auth.currentUser) {
         return (
             <ThemeProvider theme={theme}>
                 <ApplicationWrapper>

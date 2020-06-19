@@ -89,16 +89,6 @@ export const sendResetPassword = (email) => {
     auth.sendPasswordResetEmail(email);
 };
 
-export const updateUserPassword = async (newPassword) => {
-    if (!newPassword) return;
-    try {
-        await auth.currentUser.updatePassword(newPassword);
-        return true;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 export const uploadPhotoURL = async (file, user) => {
     if (!file || !user) return;
     try {
@@ -167,34 +157,6 @@ export const getUserPost = async (postId) => {
             .doc(postId)
             .get();
         return { id: postId, ...userPost.data() };
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-export const getPostFeed = async (currentUser) => {
-    if (!currentUser) return;
-    try {
-        const postsRef = await firestore
-            .collection("user-posts")
-            .where("user", "in", [currentUser.uid, ...currentUser.following])
-            .orderBy("createdAt", "desc")
-            .get();
-        return postsRef.docs.map((post) => ({ id: post.id, ...post.data() }));
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-export const deletePost = async (post, user) => {
-    if (!post || !user) return;
-    try {
-        const postRef = firestore.collection("user-posts").doc(post.id);
-        const userRef = firestore.collection("users").doc(user.uid);
-        userRef.update({
-            posts: fieldValue.arrayRemove(post.id),
-        });
-        await postRef.delete();
     } catch (error) {
         console.error(error);
     }
@@ -300,5 +262,30 @@ export const createMessageGroup = async (currentUser, user) => {
         return { id: groupRef.id, ...groupRef.data() };
     } catch (error) {
         console.error(error);
+    }
+};
+
+export const createChat = async (currentUser, user) => {
+    if (!currentUser || !user) return;
+    try {
+        const chatRef = await firestore.collection("chats").add({
+            messages: [],
+            users: [currentUser.uid, user.uid],
+        });
+        firestore
+            .collection("users")
+            .doc(currentUser.uid)
+            .update({
+                chats: fieldValue.arrayUnion(chatRef.id),
+            });
+        firestore
+            .collection("users")
+            .doc(user.uid)
+            .update({
+                chats: fieldValue.arrayUnion(chatRef.id),
+            });
+        return chatRef.id;
+    } catch (error) {
+        console.error(error.message);
     }
 };

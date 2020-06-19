@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import Modal from "../Modal";
 import { useHistory } from "react-router-dom";
+import Modal from "../Modal";
 import { UserContext } from "../Application";
-import { deletePost } from "../../firebase";
+import { firestore, fieldValue, createChat } from "../../firebase";
 import { MdMoreHoriz, MdSend } from "react-icons/md";
 import { UserLink } from "../User/UserExports";
 import { Menu, MenuItem, PostInfoWrapper } from "../StyledComponents";
@@ -13,13 +13,41 @@ export default function PostHeader({ user, post }) {
     const history = useHistory();
 
     async function handleDelete() {
-        await deletePost(post, user);
-        // history.replace(`/user/${user.username}`);
+        try {
+            const postRef = firestore.collection("user-posts").doc(post.id);
+            const userRef = firestore.collection("users").doc(user.uid);
+            setOpen(false);
+            await userRef.update({
+                posts: fieldValue.arrayRemove(post.id),
+            });
+            await postRef.delete();
+            // need to delete image from storage
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    function handleMessaging() {
+        let commonChat;
+        currentUser.chats.forEach((chat) => {
+            if (user.chats.includes(chat)) {
+                commonChat = chat;
+            }
+        });
+        if (commonChat) {
+            history.push(`/messaging/${commonChat}`);
+        } else {
+            const chatId = createChat(currentUser, user);
+            history.push(`/messaging/${chatId}`);
+        }
     }
 
     function PostOptions() {
         return (
             <Menu>
+                <MenuItem>Edit Caption</MenuItem>
+                <MenuItem>Turn Off Comments</MenuItem>
+                <MenuItem>Turn Off Reactions</MenuItem>
                 <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
             </Menu>
         );
@@ -31,7 +59,7 @@ export default function PostHeader({ user, post }) {
             {currentUser.uid === user.uid ? (
                 <MdMoreHoriz onClick={() => setOpen(true)} />
             ) : (
-                <MdSend />
+                <MdSend onClick={handleMessaging} />
             )}
             {open ? (
                 <Modal setOpen={setOpen} content={<PostOptions />} />

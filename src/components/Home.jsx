@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import { firestore } from "../firebase";
 import { UserContext } from "./Application";
 import Post from "./Post/Post";
 import Loader from "./Loader";
+import { useReducer } from "react";
 
 const HomeSection = styled.section`
     height: 100%;
@@ -18,14 +19,16 @@ const HomeSection = styled.section`
 export default function Home() {
     const { currentUser } = useContext(UserContext);
     const [limit] = useState(3);
-    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [queues, setQueues] = useState(0);
+    const [posts, dispatch] = useReducer(reducer, []);
+    const unsubscribe = useRef(null);
 
     useEffect(() => {
         document.title = "Petsagram";
-        let unsubscribe = fetchPosts();
+        unsubscribe.current = fetchPosts();
         return () => {
-            unsubscribe();
+            unsubscribe.current();
         };
     }, []);
 
@@ -35,14 +38,44 @@ export default function Home() {
         return () => {
             postWindow.removeEventListener("scroll", handleScroll);
         };
-    }, [data, queues]);
+    }, [posts, queues]);
+
+    function reducer(posts, action) {
+        const newPost = action.doc;
+        switch (action.type) {
+            case "added":
+                let addedPosts = [
+                    ...posts,
+                    { id: newPost.id, ...newPost.data() },
+                ];
+                return addedPosts;
+            case "modified":
+                let modifiedPosts = posts.map((post) =>
+                    post.id === newPost.id
+                        ? {
+                              id: newPost.id,
+                              ...newPost.data(),
+                          }
+                        : post
+                );
+                return modifiedPosts;
+            case "removed":
+                console.log(newPost);
+                let removedPosts = posts.filter(
+                    (post) => post.id !== newPost.id
+                );
+                return removedPosts;
+            default:
+                throw new Error();
+        }
+    }
 
     function handleScroll(e) {
         const position = e.target.scrollTop;
         const height = e.target.scrollHeight - e.target.clientHeight;
-        if (position === height && data.length === limit * queues) {
+        if (position === height && posts.length === limit * queues) {
             setQueues((queues) => queues + 1);
-            fetchMorePosts();
+            unsubscribe.current = fetchMorePosts();
         }
     }
 
@@ -53,7 +86,14 @@ export default function Home() {
             .where("user", "in", [currentUser.uid, ...currentUser.following])
             .orderBy("createdAt", "desc")
             .limit(limit)
-            .onSnapshot(handleQuery);
+            .onSnapshot((snapshot) => {
+                if (snapshot.size) {
+                    setLoading(true);
+                    handleQuery(snapshot);
+                } else {
+                    setLoading(false);
+                }
+            });
     }
 
     function fetchMorePosts() {
@@ -61,45 +101,34 @@ export default function Home() {
             .collection("user-posts")
             .where("user", "in", [currentUser.uid, ...currentUser.following])
             .orderBy("createdAt", "desc")
-            .startAfter(data[data.length - 1].createdAt)
+            .startAfter(posts[posts.length - 1].createdAt)
             .limit(limit)
-            .onSnapshot(handleQuery);
+            .onSnapshot((snapshot) => {
+                if (snapshot.size) {
+                    setLoading(true);
+                    handleQuery(snapshot);
+                } else {
+                    setLoading(false);
+                }
+            });
     }
 
     function handleQuery(posts) {
         posts.docChanges().forEach((change) => {
-            if (change.type === "added") {
-                setData((data) => [
-                    ...data,
-                    { id: change.doc.id, ...change.doc.data() },
-                ]);
-            }
-            if (change.type === "modified") {
-                setData((data) =>
-                    data.map((post) =>
-                        post.id === change.doc.id
-                            ? {
-                                  id: change.doc.id,
-                                  ...change.doc.data(),
-                              }
-                            : post
-                    )
-                );
-            }
-            if (change.type === "removed") {
-                setData((data) =>
-                    data.filter((post) => post.id !== change.doc.id)
-                );
+            try {
+                dispatch(change);
+            } catch (error) {
+                console.error(error);
             }
         });
     }
 
     return (
         <HomeSection id="PostFeed">
-            {data.map((post, i) => (
+            {posts.map((post, i) => (
                 <Post post={post} key={i} />
             ))}
-            <Loader />
+            {loading ? <Loader /> : null}
         </HomeSection>
     );
 }
