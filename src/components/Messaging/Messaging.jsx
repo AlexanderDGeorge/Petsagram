@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { HorizontalWrapper } from "../StyledComponents";
 import MessagingNav from "./MessagingNav";
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import NewChat from "./NewChat";
+import Messages from "./Messages";
 
 export default function Messaging() {
     useEffect(() => {
@@ -10,7 +12,10 @@ export default function Messaging() {
     return (
         <HorizontalWrapper>
             <MessagingNav />
-            <Switch></Switch>
+            <Switch>
+                <Route path="/messaging/new" component={NewChat} />
+                <Route path="/messaging/:id" component={Messages} />
+            </Switch>
         </HorizontalWrapper>
     );
 }

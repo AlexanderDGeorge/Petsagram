@@ -216,6 +216,7 @@ export const FullNavDivItem = styled(Link)`
     align-items: center;
     padding-left: 5%;
     text-decoration: none;
+    overflow: hidden;
     cursor: pointer;
     &:hover {
         background-color: ${(props) => props.theme.light};

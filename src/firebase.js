@@ -53,6 +53,7 @@ export const createUserDoc = async (user, username, fullname) => {
         following: [],
         messaging: [],
         posts: [],
+        chats: [],
         bio: "",
     });
     const newUser = await userRef.get();
@@ -244,27 +245,6 @@ export const removeLike = async (currentUser, post) => {
     }
 };
 
-export const createMessageGroup = async (currentUser, user) => {
-    if (!currentUser || !user) return;
-    try {
-        const curUserRef = firestore.collection("users").doc(currentUser.uid);
-        const userRef = firestore.collection("users").doc(user.uid);
-        const groupRef = await firestore.collection("user-messages").add({
-            users: [currentUser.uid, user.uid],
-            messages: [],
-        });
-        curUserRef.update({
-            messages: fieldValue.arrayUnion(groupRef.id),
-        });
-        userRef.update({
-            messages: fieldValue.arrayUnion(groupRef.id),
-        });
-        return { id: groupRef.id, ...groupRef.data() };
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 export const createChat = async (currentUser, user) => {
     if (!currentUser || !user) return;
     try {
@@ -276,13 +256,19 @@ export const createChat = async (currentUser, user) => {
             .collection("users")
             .doc(currentUser.uid)
             .update({
-                chats: fieldValue.arrayUnion(chatRef.id),
+                chats: fieldValue.arrayUnion({
+                    id: chatRef.id,
+                    name: currentUser.username + " and " + user.username,
+                }),
             });
         firestore
             .collection("users")
             .doc(user.uid)
             .update({
-                chats: fieldValue.arrayUnion(chatRef.id),
+                chats: fieldValue.arrayUnion({
+                    id: chatRef.id,
+                    name: currentUser.username + " and " + user.username,
+                }),
             });
         return chatRef.id;
     } catch (error) {

@@ -1,10 +1,23 @@
 import React from "react";
 import { FullNavDiv, FullNavDivItem } from "../StyledComponents";
+import { useContext } from "react";
+import { UserContext } from "../Application";
 
 export default function MessagingNav() {
+    const { currentUser } = useContext(UserContext);
+
     return (
         <FullNavDiv>
-            <MessagingNavItem name={"New Message"} path={`/new`} />
+            <MessagingNavItem name={"New Chat"} path={`/new`} />
+            {currentUser.chats.map((chat, i) => {
+                return (
+                    <MessagingNavItem
+                        key={i}
+                        name={chat.name}
+                        path={`/${chat.id}`}
+                    />
+                );
+            })}
         </FullNavDiv>
     );
 }

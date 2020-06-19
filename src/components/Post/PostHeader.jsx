@@ -27,17 +27,19 @@ export default function PostHeader({ user, post }) {
         }
     }
 
-    function handleMessaging() {
+    async function handleMessaging() {
         let commonChat;
         currentUser.chats.forEach((chat) => {
-            if (user.chats.includes(chat)) {
-                commonChat = chat;
-            }
+            user.chats.forEach((userChat) => {
+                if (userChat.id === chat.id) {
+                    commonChat = chat.id;
+                }
+            });
         });
         if (commonChat) {
             history.push(`/messaging/${commonChat}`);
         } else {
-            const chatId = createChat(currentUser, user);
+            const chatId = await createChat(currentUser, user);
             history.push(`/messaging/${chatId}`);
         }
     }

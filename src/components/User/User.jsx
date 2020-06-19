@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../Application";
 import { IoIosCog } from "react-icons/io";
 import Modal from "../Modal";
-import { getUserDoc, getExactUser } from "../../firebase";
+import { getUserDoc, getExactUser, createChat } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
 import { PlainButton, rotate, VerticalWrapper } from "../StyledComponents";
@@ -89,6 +89,7 @@ export function User() {
     const [open, setOpen] = useState(false);
     const [content, setContent] = useState(null);
     const location = useLocation();
+    const history = useHistory();
 
     useEffect(() => {
         (async function fetchUser() {
@@ -98,7 +99,22 @@ export function User() {
         })();
     }, [location]);
 
-    function handleMessage() {}
+    async function handleMessaging() {
+        let commonChat;
+        currentUser.chats.forEach((chat) => {
+            user.chats.forEach((userChat) => {
+                if (userChat.id === chat.id) {
+                    commonChat = chat.id;
+                }
+            });
+        });
+        if (commonChat) {
+            history.push(`/messaging/${commonChat}`);
+        } else {
+            const chatId = await createChat(currentUser, user);
+            history.push(`/messaging/${chatId}`);
+        }
+    }
 
     if (user) {
         return (
@@ -118,7 +134,7 @@ export function User() {
                     </UserName>
                     {currentUser.uid !== user.uid ? (
                         <UserButtons>
-                            <PlainButton onClick={handleMessage}>
+                            <PlainButton onClick={handleMessaging}>
                                 Message
                             </PlainButton>
                             <UserFollowButton user={user} />
