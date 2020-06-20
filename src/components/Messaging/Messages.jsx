@@ -15,6 +15,7 @@ const SentMessageBubble = styled.div`
     align-self: flex-end;
     background-color: ${(props) => props.theme.blue};
     color: white;
+    margin: 2px;
 `;
 
 const ReceivedMessageBubble = styled.div`
@@ -25,6 +26,15 @@ const ReceivedMessageBubble = styled.div`
     align-self: flex-start;
     background-color: ${(props) => props.theme.dark};
     color: ${(props) => props.theme.white};
+    margin: 2px;
+`;
+
+const MessagesDiv = styled.div`
+    height: 92%;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
 `;
 
 export default function Messages() {
@@ -47,21 +57,23 @@ export default function Messages() {
     if (chat) {
         return (
             <FullNavContent>
-                {chat.messages.map((message, i) => {
-                    if (message.user === currentUser.uid) {
-                        return (
-                            <SentMessageBubble key={i}>
-                                {message.content}
-                            </SentMessageBubble>
-                        );
-                    } else {
-                        return (
-                            <ReceivedMessageBubble key={i}>
-                                {message.content}
-                            </ReceivedMessageBubble>
-                        );
-                    }
-                })}
+                <MessagesDiv>
+                    {chat.messages.map((message, i) => {
+                        if (message.user === currentUser.uid) {
+                            return (
+                                <SentMessageBubble key={i}>
+                                    {message.content}
+                                </SentMessageBubble>
+                            );
+                        } else {
+                            return (
+                                <ReceivedMessageBubble key={i}>
+                                    {message.content}
+                                </ReceivedMessageBubble>
+                            );
+                        }
+                    })}
+                </MessagesDiv>
                 <NewMessage chat={{ id: pathname, chat }} />
             </FullNavContent>
         );

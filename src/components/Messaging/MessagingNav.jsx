@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FullNavDiv, FullNavDivItem } from "../StyledComponents";
-import { useContext } from "react";
 import { UserContext } from "../Application";
 
 export default function MessagingNav() {

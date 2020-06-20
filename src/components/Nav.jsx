@@ -54,6 +54,9 @@ export const NavItem = styled(Link)`
     height: 25px;
     margin: 2%;
     background-color: transparent;
+    * {
+        transition: all 0s linear;
+    }
 `;
 
 export default function Nav() {

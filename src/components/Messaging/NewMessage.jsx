@@ -13,6 +13,8 @@ const MessageDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    background-color: ${(props) => props.theme.accent};
+
     > svg {
         width: 25px;
         height: auto;
@@ -30,6 +32,16 @@ const MessageInput = styled.input`
     color: black;
 `;
 
+const MessageSend = styled.div`
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid ${(props) => props.theme.accent};
+`;
+
 export default function NewMessage({ chat }) {
     const [message, setMessage] = useState("");
     const { currentUser } = useContext(UserContext);
@@ -44,7 +56,7 @@ export default function NewMessage({ chat }) {
         return () => {
             window.removeEventListener("keypress", handleKey);
         };
-    }, []);
+    });
 
     async function handleSend() {
         if (message.length) {
@@ -66,11 +78,14 @@ export default function NewMessage({ chat }) {
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                autoFocus
             />
-            <MdArrowUpward
+            <MessageSend
                 onClick={handleSend}
                 style={message ? { backgroundColor: "var(--mmain)" } : {}}
-            />
+            >
+                <MdArrowUpward />
+            </MessageSend>
         </MessageDiv>
     );
 }

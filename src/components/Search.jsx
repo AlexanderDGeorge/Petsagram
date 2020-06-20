@@ -31,14 +31,12 @@ export function SearchBar({ setResults }) {
     }, [setResults]);
 
     function handleSearch(e) {
-        setSearch(e.target.value);
+        setSearch(e.target.value.toLowerCase());
         setResults(
             users.filter(
                 (user) =>
-                    user.username
-                        .toLowerCase()
-                        .includes(search.toLowerCase()) ||
-                    user.fullname.toLowerCase().includes(search.toLowerCase())
+                    user.username.toLowerCase().includes(search) ||
+                    user.fullname.toLowerCase().includes(search)
             )
         );
     }

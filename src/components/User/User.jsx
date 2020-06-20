@@ -7,7 +7,12 @@ import Modal from "../Modal";
 import { getUserDoc, getExactUser, createChat } from "../../firebase";
 import UserPosts from "./UserPosts";
 import { UserListItem, UserFollowButton, UserPhoto } from "./UserExports";
-import { PlainButton, rotate, VerticalWrapper } from "../StyledComponents";
+import {
+    PlainButton,
+    rotate,
+    VerticalWrapper,
+    MenuItem,
+} from "../StyledComponents";
 import { UserMenu } from "./Settings/UserSettings";
 
 const UserHeader = styled.div`
@@ -190,7 +195,8 @@ function UserFollowing({ user }) {
     }, [user]);
 
     return (
-        <div id="UserFollowing">
+        <div>
+            <MenuItem>Following</MenuItem>
             {following.map((followee, i) => {
                 return <UserListItem user={followee} key={i} />;
             })}
@@ -210,7 +216,8 @@ function UserFollowers({ user }) {
     }, [user]);
 
     return (
-        <div id="UserFollowing">
+        <div>
+            <MenuItem>Followers</MenuItem>
             {followers.map((follower, i) => {
                 return <UserListItem user={follower} key={i} />;
             })}
