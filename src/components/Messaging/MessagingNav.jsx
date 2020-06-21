@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { FullNavDiv, FullNavDivItem } from "../StyledComponents";
 import { UserContext } from "../Application";
+import { useLocation } from "react-router-dom";
 
 export default function MessagingNav() {
     const { currentUser } = useContext(UserContext);
@@ -22,5 +23,18 @@ export default function MessagingNav() {
 }
 
 function MessagingNavItem({ name, path }) {
-    return <FullNavDivItem to={`/messaging${path}`}>{name}</FullNavDivItem>;
+    const pathname = useLocation().pathname.slice(10);
+
+    return (
+        <FullNavDivItem
+            style={
+                pathname === path
+                    ? { borderLeft: "2px solid var(--accent)" }
+                    : {}
+            }
+            to={`/messaging${path}`}
+        >
+            {name}
+        </FullNavDivItem>
+    );
 }

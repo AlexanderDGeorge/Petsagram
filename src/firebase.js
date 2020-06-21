@@ -86,10 +86,6 @@ export const updateUserDoc = async (uid, photoURL, fullname, username, bio) => {
     }
 };
 
-export const sendResetPassword = (email) => {
-    auth.sendPasswordResetEmail(email);
-};
-
 export const uploadPhotoURL = async (file, user) => {
     if (!file || !user) return;
     try {
@@ -129,8 +125,10 @@ const addPost = async (url, user, caption) => {
             url,
             caption,
             comments: [],
+            commentsOn: true,
             likes: [],
             reactions: [],
+            reactionsOn: true,
             createdAt,
         })
         .then(async function (postRef) {

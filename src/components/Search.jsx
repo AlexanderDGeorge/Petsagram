@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { InputBox, VerticalWrapper } from "./StyledComponents";
 import { getUsers } from "../firebase";
 import { UserListItem } from "./User/UserExports";
+import Loader from "./Loader";
+import { useRef } from "react";
 
 export default function Search() {
     const [results, setResults] = useState([]);
@@ -9,6 +11,8 @@ export default function Search() {
     useEffect(() => {
         document.title = "Search";
     });
+
+    console.log(results);
 
     return (
         <VerticalWrapper>
@@ -20,12 +24,12 @@ export default function Search() {
 
 export function SearchBar({ setResults }) {
     const [search, setSearch] = useState("");
-    const [users, setUsers] = useState([]);
+    const users = useRef(null);
 
     useEffect(() => {
         (async function fetchUsers() {
             const temp = await getUsers();
-            setUsers(temp);
+            users.current = temp;
             setResults(temp);
         })();
     }, [setResults]);
@@ -33,22 +37,27 @@ export function SearchBar({ setResults }) {
     function handleSearch(e) {
         setSearch(e.target.value.toLowerCase());
         setResults(
-            users.filter(
+            users.current.filter(
                 (user) =>
-                    user.username.toLowerCase().includes(search) ||
-                    user.fullname.toLowerCase().includes(search)
+                    user.username
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()) ||
+                    user.fullname
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
             )
         );
     }
-
-    return (
-        <InputBox
-            type="text"
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search"
-        />
-    );
+    if (users) {
+        return (
+            <InputBox
+                type="text"
+                value={search}
+                onChange={handleSearch}
+                placeholder="Search"
+            />
+        );
+    } else return <Loader />;
 }
 
 function SearchResults({ results }) {

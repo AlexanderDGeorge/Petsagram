@@ -17,9 +17,10 @@ const HomeSection = styled.section`
 
 export default function Home() {
     const { currentUser } = useContext(UserContext);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const queues = useRef(null);
+    const limit = 3;
 
     useEffect(() => {
         document.title = "Petsagram";
@@ -30,9 +31,10 @@ export default function Home() {
         async function handleScroll(e) {
             const position = e.target.scrollTop;
             const height = e.target.scrollHeight - e.target.clientHeight;
-            if (position === height && posts.length === 3 * queues.current) {
-                // debugger;
-                console.log("here");
+            if (
+                position === height &&
+                posts.length === limit * queues.current
+            ) {
                 queues.current++;
                 setLoading(true);
                 const postsRef = await firestore
@@ -43,7 +45,7 @@ export default function Home() {
                     ])
                     .orderBy("createdAt", "desc")
                     .startAfter(posts[posts.length - 1].createdAt)
-                    .limit(3)
+                    .limit(limit)
                     .get();
                 const incomingPosts = [
                     ...posts,
@@ -64,12 +66,13 @@ export default function Home() {
     }, [currentUser, posts, queues]);
 
     async function fetchPosts() {
+        setLoading(true);
         queues.current++;
         const postsRef = await firestore
             .collection("user-posts")
             .where("user", "in", [currentUser.uid, ...currentUser.following])
             .orderBy("createdAt", "desc")
-            .limit(3)
+            .limit(limit)
             .get();
         const incomingPosts = postsRef.docs.map((post) => ({
             id: post.id,
@@ -79,13 +82,23 @@ export default function Home() {
         setLoading(false);
     }
 
-    console.log(posts);
-
     return (
         <HomeSection id="PostFeed">
             {posts.map((post, i) => (
                 <Post postId={post.id} key={i} />
             ))}
+            {loading ? <Loader /> : null}
+            {posts.length % limit ? (
+                <div
+                    style={{
+                        textAlign: "center",
+                        fontSize: 12,
+                        color: "var(--accent)",
+                    }}
+                >
+                    End of Feed
+                </div>
+            ) : null}
         </HomeSection>
     );
 }

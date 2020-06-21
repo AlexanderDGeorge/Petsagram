@@ -1,5 +1,6 @@
 import React from "react";
 import { FullNavDiv, FullNavDivItem } from "../../StyledComponents";
+import { useLocation } from "react-router-dom";
 export default function UserSettingsNav() {
     return (
         <FullNavDiv>
@@ -15,5 +16,18 @@ export default function UserSettingsNav() {
 }
 
 function UserSettingsNavItem({ name, path }) {
-    return <FullNavDivItem to={`/settings${path}`}>{name}</FullNavDivItem>;
+    const pathname = useLocation().pathname.slice(9);
+
+    return (
+        <FullNavDivItem
+            style={
+                pathname === path
+                    ? { borderLeft: "2px solid var(--accent)" }
+                    : {}
+            }
+            to={`/settings${path}`}
+        >
+            {name}
+        </FullNavDivItem>
+    );
 }

@@ -13,14 +13,13 @@ const Div = styled.div`
 `;
 
 export default function PostFooter({ post }) {
-    window.post = post;
     return (
         <PostInfoWrapper>
             <PostCaption post={post} />
             <Div>
-                <PostLikes post={post} />
-                <PostComments post={post} />
-                {/* <PostReactions post={post} /> */}
+                {post.reactionsOn ? <PostLikes post={post} /> : null}
+                {post.commentsOn ? <PostComments post={post} /> : null}
+                {post.reactionsOn ? <PostReactions post={post} /> : null}
             </Div>
         </PostInfoWrapper>
     );

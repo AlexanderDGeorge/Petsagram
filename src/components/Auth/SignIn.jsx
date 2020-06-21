@@ -17,15 +17,19 @@ export default function SignIn({ setSignIn }) {
     });
 
     function handleSubmit() {
-        auth.signInWithEmailAndPassword(email, password).catch(function (
-            error
-        ) {
-            alert(error);
-        });
+        try {
+            auth.signInWithEmailAndPassword(email, password);
+        } catch (error) {
+            alert("Incorrect email and/or password");
+        }
     }
 
     function handleDemo() {
         auth.signInWithEmailAndPassword("dog@dog.com", "password");
+    }
+
+    function handleReset() {
+        auth.sendPasswordResetEmail(email);
     }
 
     return (
@@ -46,6 +50,10 @@ export default function SignIn({ setSignIn }) {
                     placeholder="Password"
                     required
                 />
+                <div className="ResetPassword">
+                    Forgot Password?{" "}
+                    <button onClick={handleReset}>Reset Password</button>
+                </div>
                 <button className="AuthFormButton" onClick={handleSubmit}>
                     Log In
                 </button>

@@ -1,7 +1,7 @@
 #Splash {
     height: 100%;
     width: 100%;
-    background-color: var(--light);
+    background-color: var(--mid);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,5 +106,19 @@
 }
 
 .AuthAlt button:hover {
+    text-decoration: underline;
+}
+
+.ResetPassword {
+    font-size: 12px;
+}
+
+.ResetPassword > button {
+    outline: none;
+    border: none;
+    color: var(--blue);
+}
+
+.ResetPassword > button:hover {
     text-decoration: underline;
 }

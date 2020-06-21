@@ -11,11 +11,11 @@ export default function PostHeader({ user, post }) {
     const { currentUser } = useContext(UserContext);
     const [open, setOpen] = useState(false);
     const history = useHistory();
+    const postRef = firestore.collection("user-posts").doc(post.id);
+    const userRef = firestore.collection("users").doc(user.uid);
 
     async function handleDelete() {
         try {
-            const postRef = firestore.collection("user-posts").doc(post.id);
-            const userRef = firestore.collection("users").doc(user.uid);
             setOpen(false);
             await userRef.update({
                 posts: fieldValue.arrayRemove(post.id),
@@ -25,6 +25,18 @@ export default function PostHeader({ user, post }) {
         } catch (error) {
             console.error(error.message);
         }
+    }
+
+    function handleComments() {
+        postRef.update({
+            commentsOn: !post.commentsOn,
+        });
+    }
+
+    function handleReactions() {
+        postRef.update({
+            reactionsOn: !post.reactionsOn,
+        });
     }
 
     async function handleMessaging() {
@@ -48,8 +60,14 @@ export default function PostHeader({ user, post }) {
         return (
             <Menu>
                 <MenuItem>Edit Caption</MenuItem>
-                <MenuItem>Turn Off Comments</MenuItem>
-                <MenuItem>Turn Off Reactions</MenuItem>
+                <MenuItem onClick={handleComments}>
+                    {post.commentsOn ? "Turn Comments Off" : "Turn Comments On"}
+                </MenuItem>
+                <MenuItem onClick={handleReactions}>
+                    {post.reactionsOn
+                        ? "Turn Reactions Off"
+                        : "Turn Reactions On"}
+                </MenuItem>
                 <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
             </Menu>
         );
