@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../Application";
-import { addLike, removeLike, getUserDoc } from "../../firebase";
+import { addLike, removeLike, getUserDoc, firestore } from "../../firebase";
 import PostHeader from "./PostHeader";
 import PostFooter from "./PostFooter";
+import { VerticalWrapper } from "../StyledComponents";
 
 const PostSection = styled.section`
     min-width: 300px;
@@ -28,9 +30,27 @@ const PostImg = styled.div`
     }
 `;
 
-export default function Post({ post }) {
+export default function Post(props) {
+    const postPath = useLocation().pathname.slice(6);
+    const postId = props.postId ? props.postId : postPath;
     const { currentUser } = useContext(UserContext);
+    const [post, setPost] = useState(null);
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // handle delete
+        const unsubscribe = firestore
+            .collection("user-posts")
+            .doc(postId)
+            .onSnapshot((snapshot) => {
+                if (snapshot.exists)
+                    setPost({ id: snapshot.id, ...snapshot.data() });
+                else setPost(null);
+            });
+        return () => {
+            unsubscribe();
+        };
+    }, [postId]);
 
     useEffect(() => {
         if (post) {
@@ -46,18 +66,28 @@ export default function Post({ post }) {
             : await addLike(currentUser, post);
     }
 
-    if (user && post) {
+    function Render() {
+        if (user && post) {
+            return (
+                <PostSection>
+                    <PostHeader user={user} post={post} />
+                    <PostImg
+                        onDoubleClick={handleLike}
+                        style={{
+                            backgroundImage: `url(${post.url})`,
+                        }}
+                    ></PostImg>
+                    <PostFooter post={post} />
+                </PostSection>
+            );
+        } else return null;
+    }
+
+    if (postPath)
         return (
-            <PostSection>
-                <PostHeader user={user} post={post} />
-                <PostImg
-                    onDoubleClick={handleLike}
-                    style={{
-                        backgroundImage: `url(${post.url})`,
-                    }}
-                ></PostImg>
-                <PostFooter post={post} />
-            </PostSection>
+            <VerticalWrapper>
+                <Render />
+            </VerticalWrapper>
         );
-    } else return null;
+    else return <Render />;
 }

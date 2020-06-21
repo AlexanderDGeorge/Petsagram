@@ -90,17 +90,14 @@ function Comments({ post }) {
         }
     }
 
-    async function handleDelete() {
+    async function handleDelete(comment) {
         try {
             const postRef = firestore.collection("user-posts").doc(post.id);
             await postRef.update({
-                comments: fieldValue.arrayRemove({
-                    user: currentUser.uid,
-                    content: comment,
-                }),
+                comments: fieldValue.arrayRemove(comment),
             });
         } catch (error) {
-            console.error(error);
+            console.error(error.message);
         }
     }
 
@@ -111,7 +108,9 @@ function Comments({ post }) {
                     <UserLink uid={comment.user} />
                     {comment.content}
                     {comment.user === currentUser.uid ? (
-                        <AiOutlineDelete onClick={handleDelete} />
+                        <AiOutlineDelete
+                            onClick={() => handleDelete(comment)}
+                        />
                     ) : null}
                 </CommentMenuItem>
             ))}

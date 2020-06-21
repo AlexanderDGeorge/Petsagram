@@ -112,7 +112,7 @@ export default function Application() {
                                     path="/settings"
                                     component={UserSettings}
                                 />
-                                <Route path="/post/add" component={AddPost} />
+                                <Route path="/newpost" component={AddPost} />
                                 <Route path="/post/:id" component={Post} />
                                 <Route exact path="/" component={Home} />
                             </BrowserRouter>
