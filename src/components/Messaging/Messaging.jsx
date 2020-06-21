@@ -10,7 +10,7 @@ export default function Messaging() {
         document.title = "Messaging";
     }, []);
     return (
-        <HorizontalWrapper style={{ padding: 0 }}>
+        <HorizontalWrapper style={{ padding: "0 0 0 2%" }}>
             <MessagingNav />
             <Switch>
                 <Route path="/messaging/new" component={NewMessage} />
