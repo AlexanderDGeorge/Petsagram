@@ -87,8 +87,8 @@ function NavItems() {
                     style={pathname === "/search" ? { strokeWidth: 50 } : {}}
                 />
             </NavItem>
-            <NavItem to="/post/add">
-                {pathname === "/post/add" ? (
+            <NavItem to="/newpost">
+                {pathname === "/newpost" ? (
                     <AiFillPlusCircle />
                 ) : (
                     <AiOutlinePlusCircle />
