@@ -88,17 +88,15 @@ export default function Home() {
                 <Post postId={post.id} key={i} />
             ))}
             {loading ? <Loader /> : null}
-            {posts.length % limit ? (
-                <div
-                    style={{
-                        textAlign: "center",
-                        fontSize: 12,
-                        color: "var(--accent)",
-                    }}
-                >
-                    End of Feed
-                </div>
-            ) : null}
+            <div
+                style={{
+                    textAlign: "center",
+                    fontSize: 12,
+                    color: "var(--accent)",
+                }}
+            >
+                End of Feed
+            </div>
         </HomeSection>
     );
 }

@@ -19,7 +19,7 @@ export default function PostFooter({ post }) {
             <Div>
                 {post.reactionsOn ? <PostLikes post={post} /> : null}
                 {post.commentsOn ? <PostComments post={post} /> : null}
-                {post.reactionsOn ? <PostReactions post={post} /> : null}
+                {/* {post.reactionsOn ? <PostReactions post={post} /> : null} */}
             </Div>
         </PostInfoWrapper>
     );
