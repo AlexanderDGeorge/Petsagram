@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { signInWithGoogle, auth } from "../../firebase";
+import { AuthDiv } from "../StyledComponents";
 import { AiOutlineGoogle } from "react-icons/ai";
 
-export default function SignIn({ setSignIn }) {
+export default function SignIn({ setFlipped }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -33,51 +34,33 @@ export default function SignIn({ setSignIn }) {
     }
 
     return (
-        <div>
-            <div className="AuthForm">
-                <h1>Petsagram</h1>
-                <input
-                    type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
-                    required
-                />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    required
-                />
-                <div className="ResetPassword">
-                    Forgot Password?{" "}
-                    <button onClick={handleReset}>Reset Password</button>
-                </div>
-                <button className="AuthFormButton" onClick={handleSubmit}>
-                    Log In
-                </button>
-                <button className="AuthFormButton" onClick={handleDemo}>
-                    DEMO
-                </button>
-                <div className="ordiv">
-                    <span />
-                    <p>OR</p>
-                    <span />
-                </div>
-                <button
-                    className="AuthButton"
-                    onClick={signInWithGoogle}
-                    style={{ backgroundColor: "#DB4437" }}
-                >
-                    <AiOutlineGoogle />
-                    <p style={{ width: 200 }}>Log in with Google</p>
-                </button>
+        <AuthDiv>
+            <h4>Sign In</h4>
+            <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+            />
+            <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+            />
+            <div>
+                Forgot your password again?{" "}
+                <button onClick={handleReset}>Reset password</button>
             </div>
-            <div className="AuthAlt">
+            <button onClick={handleSubmit}>Sign In</button>
+            <button onClick={handleDemo}>Demo</button>
+            <button onClick={signInWithGoogle}>
+                <AiOutlineGoogle /> Sign In Using Google
+            </button>
+            <div>
                 Don't have an account?{" "}
-                <button onClick={() => setSignIn(false)}>Sign Up</button>
+                <button onClick={() => setFlipped(false)}>Sign Up</button>
             </div>
-        </div>
+        </AuthDiv>
     );
 }

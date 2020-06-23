@@ -129,7 +129,6 @@ export const PlainButton = styled.button`
 export const ColorButton = styled.button`
     min-width: 75px;
     padding: 10px;
-    border: 1px solid ${(props) => props.theme.accent};
     background-color: ${(props) => props.theme.lightmain};
     color: white;
     border-radius: 6px;
@@ -218,12 +217,10 @@ export const FullNavDivItem = styled(Link)`
     text-decoration: none;
     overflow: hidden;
     cursor: pointer;
+    border-left: 2px solid transparent;
     &:hover {
         background-color: ${(props) => props.theme.light};
-        border-left: 2px solid ${(props) => props.theme.mid};
-    }
-    &:active {
-        border-left: 2px solid ${(props) => props.theme.dark};
+        border-color: ${(props) => props.theme.mid};
     }
 `;
 
@@ -235,4 +232,46 @@ export const FullNavContent = styled.section`
     align-items: center;
     padding-top: 2%;
     position: relative;
+`;
+
+export const AuthDiv = styled.div`
+    height: 100%;
+    width: 100%;
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 20px;
+    > input,
+    > button {
+        min-height: 40px;
+        width: 70%;
+        max-width: 300px;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 6px;
+        border: 1px solid ${(props) => props.theme.accent};
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        &:hover {
+            border: 1px solid ${(props) => props.theme.main};
+        }
+        &:focus {
+            border: 1px solid ${(props) => props.theme.main};
+        }
+    }
+    > div {
+        width: 70%;
+        max-width: 300px;
+        font-size: 14px;
+        > button {
+            color: ${(props) => props.theme.blue};
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 `;

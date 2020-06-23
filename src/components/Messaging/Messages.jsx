@@ -15,7 +15,7 @@ const SentMessageBubble = styled.div`
     align-self: flex-end;
     background-color: ${(props) => props.theme.blue};
     color: white;
-    margin: 2px;
+    margin: 10px;
 `;
 
 const ReceivedMessageBubble = styled.div`
@@ -26,7 +26,7 @@ const ReceivedMessageBubble = styled.div`
     align-self: flex-start;
     background-color: ${(props) => props.theme.dark};
     color: ${(props) => props.theme.white};
-    margin: 2px;
+    margin: 10px;
 `;
 
 const MessagesDiv = styled.div`

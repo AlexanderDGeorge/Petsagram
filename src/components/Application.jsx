@@ -36,7 +36,7 @@ export const GlobalStyle = createGlobalStyle`
         font-family: Arial, Helvetica, sans-serif;
         outline: none;
         color: ${(props) => props.theme.black};
-        transition: all 0.5s linear;
+        /* transition: all 0.5s linear; */
     }   
 `;
 
@@ -123,9 +123,12 @@ export default function Application() {
         );
     } else {
         return (
-            <UserContext.Provider value={{ currentUser }}>
-                <Splash />
-            </UserContext.Provider>
+            <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                <UserContext.Provider value={{ currentUser }}>
+                    <Splash />
+                </UserContext.Provider>
+            </ThemeProvider>
         );
     }
 }
