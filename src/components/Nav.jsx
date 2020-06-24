@@ -10,7 +10,7 @@ import {
     AiFillMessage,
     AiOutlineMessage,
 } from "react-icons/ai";
-import { PlainLink } from "./StyledComponents";
+import { PlainLink, Petsagram } from "./StyledComponents";
 import { UserContext } from "./Application";
 import { UserPhoto } from "./User/UserExports";
 
@@ -66,7 +66,9 @@ export default function Nav() {
         return (
             <Header>
                 <div>
-                    <PlainLink to="/">Petsagram</PlainLink>
+                    <PlainLink to="/">
+                        <Petsagram />
+                    </PlainLink>
                     <NavItems />
                 </div>
             </Header>

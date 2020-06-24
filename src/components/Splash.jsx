@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
-import { FaGithub, FaLinkedin, FaLaptopCode } from "react-icons/fa";
+import {
+    FaGithub,
+    FaLinkedin,
+    FaLaptopCode,
+    FaSun,
+    FaMoon,
+} from "react-icons/fa";
 import SignIn from "./Auth/SignIn";
 import SignUp from "./Auth/SignUp";
+import { Petsagram } from "./StyledComponents";
+import { DarkContext } from "./Application";
 
 export default function Splash() {
     const [flipped, setFlipped] = useState(true);
+    const { darkMode, setMode } = useContext(DarkContext);
 
     function Card({ children }) {
         const calc = (x, y) => [
@@ -23,7 +32,7 @@ export default function Splash() {
 
         const [props, set] = useSpring(() => ({
             xys: [0, 0, 1],
-            config: { mass: 1, tension: 20, friction: 10 },
+            config: { mass: 1, tension: 5, friction: 10 },
         }));
 
         return (
@@ -43,11 +52,17 @@ export default function Splash() {
         <SplashSection>
             <SplashHeader>
                 <div>
-                    <h2>Petsagram</h2>
+                    <Petsagram />
                     <IconDiv>
-                        <FaGithub />
-                        <FaLinkedin />
-                        <FaLaptopCode />
+                        <a href="https://github.com/AlexanderDGeorge/Petsagram">
+                            <FaGithub />
+                        </a>
+                        <a href="https://www.linkedin.com/in/alexander-george-410466151/">
+                            <FaLinkedin />
+                        </a>
+                        <a href="https://www.alexandergeorge.dev">
+                            <FaLaptopCode />
+                        </a>
                     </IconDiv>
                 </div>
             </SplashHeader>
@@ -58,6 +73,16 @@ export default function Splash() {
                     <SignUp setFlipped={setFlipped} />
                 )}
             </Card>
+            <SplashFooter>
+                <div
+                    onClick={() => setMode(!darkMode)}
+                    style={{
+                        cursor: "pointer",
+                    }}
+                >
+                    {darkMode ? <FaSun /> : <FaMoon />}
+                </div>
+            </SplashFooter>
         </SplashSection>
     );
 }
@@ -68,7 +93,7 @@ const IconDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    > svg {
+    svg {
         height: 30px;
         width: auto;
         fill: ${(props) => props.theme.dark};
@@ -85,19 +110,44 @@ const SplashHeader = styled.header`
     width: 100%;
     display: flex;
     justify-content: center;
-    box-shadow: 0 -1px 6px 0;
-    color: ${(props) => props.theme.accent};
+    box-shadow: 0 1px 6px 0;
+    color: ${(props) => props.theme.main};
+    transition: box-shadow 1s linear;
     &:hover {
-        box-shadow: 0 2px 6px 0;
-        color: ${(props) => props.theme.main};
+        box-shadow: 0 3px 6px 0;
+        transition: box-shadow 1s linear;
     }
     > div {
         min-width: 300px;
-        width: 50%;
+        max-width: 700px;
+        width: 80%;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+`;
+
+const SplashFooter = styled.footer`
+    position: absolute;
+    bottom: 0;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    > div {
+        min-width: 300px;
+        max-width: 700px;
+        width: 80%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    svg {
+        height: 30px;
+        width: auto;
+        fill: ${(props) => props.theme.dark};
     }
 `;
 
@@ -112,10 +162,11 @@ const SplashSection = styled.section`
     font-family: Arial, Helvetica, sans-serif;
     background-color: ${(props) => props.theme.white};
     > div {
-        height: 50%;
+        height: 70%;
         min-width: 300px;
-        width: 50%;
-        border-radius: 20px;
+        max-width: 700px;
+        width: 80%;
+        border-radius: 6px;
         color: ${(props) => props.theme.accent};
         background-color: ${(props) => props.theme.white};
         box-shadow: 0 0 6px 0;

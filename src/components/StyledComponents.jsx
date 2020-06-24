@@ -1,6 +1,14 @@
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
+export const Petsagram = styled.div`
+    font-family: "Quicksand";
+    font-size: 24px;
+    ::before {
+        content: "Petsagram";
+    }
+`;
+
 export const rotate = keyframes`
     from {
         transform: rotate(0deg);
@@ -243,6 +251,9 @@ export const AuthDiv = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     font-size: 20px;
+    h4 {
+        font-weight: 400;
+    }
     > input,
     > button {
         min-height: 40px;
@@ -256,6 +267,7 @@ export const AuthDiv = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-evenly;
+        transition: all 0s linear;
         &:hover {
             border: 1px solid ${(props) => props.theme.main};
         }
